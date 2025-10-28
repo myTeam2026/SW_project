@@ -1,1 +1,6 @@
-java\steps\AdminLoginSteps.class
+steps\AdminLoginSteps.class
+steps\AdminAddBookSteps.class
+runners\TestRunner.class
+steps\AdminSearchBookSteps.class
+steps\AdminLogoutSteps.class
+steps\ServiceSteps.class

@@ -1,3 +1,5 @@
 library\entities\admin.class
+library\entities\Book.class
+library\data\BookData.class
 com\mycompany\librarysoftware\Librarysoftware.class
 library\data\AdminData.class
