@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="runners.TestRunner" time="2.704" tests="3" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="runners.TestRunner" time="2.948" tests="7" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="C:\Users\hp\Documents\NetBeansProjects\librarysoftware\target\test-classes;C:\Users\hp\Documents\NetBeansProjects\librarysoftware\target\classes;C:\Users\hp\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\hp\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-java\7.14.0\cucumber-java-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-core\7.14.0\cucumber-core-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-gherkin\7.14.0\cucumber-gherkin-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-gherkin-messages\7.14.0\cucumber-gherkin-messages-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\gherkin\26.2.0\gherkin-26.2.0.jar;C:\Users\hp\.m2\repository\io\cucumber\messages\22.0.0\messages-22.0.0.jar;C:\Users\hp\.m2\repository\io\cucumber\tag-expressions\5.0.6\tag-expressions-5.0.6.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-expressions\16.1.2\cucumber-expressions-16.1.2.jar;C:\Users\hp\.m2\repository\io\cucumber\datatable\7.14.0\datatable-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-plugin\7.14.0\cucumber-plugin-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\docstring\7.14.0\docstring-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\html-formatter\20.4.0\html-formatter-20.4.0.jar;C:\Users\hp\.m2\repository\io\cucumber\junit-xml-formatter\0.2.0\junit-xml-formatter-0.2.0.jar;C:\Users\hp\.m2\repository\io\cucumber\ci-environment\9.2.0\ci-environment-9.2.0.jar;C:\Users\hp\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-junit\7.14.0\cucumber-junit-7.14.0.jar;C:\Users\hp\.m2\repository\org\mockito\mockito-core\5.5.0\mockito-core-5.5.0.jar;C:\Users\hp\.m2\repository\net\bytebuddy\byte-buddy\1.14.6\byte-buddy-1.14.6.jar;C:\Users\hp\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.6\byte-buddy-agent-1.14.6.jar;C:\Users\hp\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;"/>
+    <property name="java.class.path" value="C:\Users\hp\Documents\NetBeansProjects\librarysoftware\target\test-classes;C:\Users\hp\Documents\NetBeansProjects\librarysoftware\target\classes;C:\Users\hp\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\hp\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-java\7.14.0\cucumber-java-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-core\7.14.0\cucumber-core-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-gherkin\7.14.0\cucumber-gherkin-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-gherkin-messages\7.14.0\cucumber-gherkin-messages-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\gherkin\26.2.0\gherkin-26.2.0.jar;C:\Users\hp\.m2\repository\io\cucumber\messages\22.0.0\messages-22.0.0.jar;C:\Users\hp\.m2\repository\io\cucumber\tag-expressions\5.0.6\tag-expressions-5.0.6.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-expressions\16.1.2\cucumber-expressions-16.1.2.jar;C:\Users\hp\.m2\repository\io\cucumber\datatable\7.14.0\datatable-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-plugin\7.14.0\cucumber-plugin-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\docstring\7.14.0\docstring-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\html-formatter\20.4.0\html-formatter-20.4.0.jar;C:\Users\hp\.m2\repository\io\cucumber\junit-xml-formatter\0.2.0\junit-xml-formatter-0.2.0.jar;C:\Users\hp\.m2\repository\io\cucumber\ci-environment\9.2.0\ci-environment-9.2.0.jar;C:\Users\hp\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-junit\7.14.0\cucumber-junit-7.14.0.jar;C:\Users\hp\.m2\repository\org\mockito\mockito-core\5.5.0\mockito-core-5.5.0.jar;C:\Users\hp\.m2\repository\net\bytebuddy\byte-buddy\1.14.6\byte-buddy-1.14.6.jar;C:\Users\hp\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.6\byte-buddy-agent-1.14.6.jar;C:\Users\hp\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-picocontainer\7.12.0\cucumber-picocontainer-7.12.0.jar;C:\Users\hp\.m2\repository\org\picocontainer\picocontainer\2.15\picocontainer-2.15.jar;"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -15,10 +15,10 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-23\bin"/>
-    <property name="sun.java.command" value="C:\Users\hp\AppData\Local\Temp\surefire13233189213301617182\surefirebooter-20251028213919659_3.jar C:\Users\hp\AppData\Local\Temp\surefire13233189213301617182 2025-10-28T21-39-19_427-jvmRun1 surefire-20251028213919659_1tmp surefire_0-20251028213919659_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\hp\AppData\Local\Temp\surefire2896800109075858477\surefirebooter-20251029211923310_3.jar C:\Users\hp\AppData\Local\Temp\surefire2896800109075858477 2025-10-29T21-19-23_049-jvmRun1 surefire-20251029211923310_1tmp surefire_0-20251029211923310_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="test" value="runners.TestRunner"/>
-    <property name="surefire.test.class.path" value="C:\Users\hp\Documents\NetBeansProjects\librarysoftware\target\test-classes;C:\Users\hp\Documents\NetBeansProjects\librarysoftware\target\classes;C:\Users\hp\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\hp\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-java\7.14.0\cucumber-java-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-core\7.14.0\cucumber-core-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-gherkin\7.14.0\cucumber-gherkin-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-gherkin-messages\7.14.0\cucumber-gherkin-messages-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\gherkin\26.2.0\gherkin-26.2.0.jar;C:\Users\hp\.m2\repository\io\cucumber\messages\22.0.0\messages-22.0.0.jar;C:\Users\hp\.m2\repository\io\cucumber\tag-expressions\5.0.6\tag-expressions-5.0.6.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-expressions\16.1.2\cucumber-expressions-16.1.2.jar;C:\Users\hp\.m2\repository\io\cucumber\datatable\7.14.0\datatable-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-plugin\7.14.0\cucumber-plugin-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\docstring\7.14.0\docstring-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\html-formatter\20.4.0\html-formatter-20.4.0.jar;C:\Users\hp\.m2\repository\io\cucumber\junit-xml-formatter\0.2.0\junit-xml-formatter-0.2.0.jar;C:\Users\hp\.m2\repository\io\cucumber\ci-environment\9.2.0\ci-environment-9.2.0.jar;C:\Users\hp\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-junit\7.14.0\cucumber-junit-7.14.0.jar;C:\Users\hp\.m2\repository\org\mockito\mockito-core\5.5.0\mockito-core-5.5.0.jar;C:\Users\hp\.m2\repository\net\bytebuddy\byte-buddy\1.14.6\byte-buddy-1.14.6.jar;C:\Users\hp\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.6\byte-buddy-agent-1.14.6.jar;C:\Users\hp\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;"/>
+    <property name="surefire.test.class.path" value="C:\Users\hp\Documents\NetBeansProjects\librarysoftware\target\test-classes;C:\Users\hp\Documents\NetBeansProjects\librarysoftware\target\classes;C:\Users\hp\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\hp\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-java\7.14.0\cucumber-java-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-core\7.14.0\cucumber-core-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-gherkin\7.14.0\cucumber-gherkin-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-gherkin-messages\7.14.0\cucumber-gherkin-messages-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\gherkin\26.2.0\gherkin-26.2.0.jar;C:\Users\hp\.m2\repository\io\cucumber\messages\22.0.0\messages-22.0.0.jar;C:\Users\hp\.m2\repository\io\cucumber\tag-expressions\5.0.6\tag-expressions-5.0.6.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-expressions\16.1.2\cucumber-expressions-16.1.2.jar;C:\Users\hp\.m2\repository\io\cucumber\datatable\7.14.0\datatable-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-plugin\7.14.0\cucumber-plugin-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\docstring\7.14.0\docstring-7.14.0.jar;C:\Users\hp\.m2\repository\io\cucumber\html-formatter\20.4.0\html-formatter-20.4.0.jar;C:\Users\hp\.m2\repository\io\cucumber\junit-xml-formatter\0.2.0\junit-xml-formatter-0.2.0.jar;C:\Users\hp\.m2\repository\io\cucumber\ci-environment\9.2.0\ci-environment-9.2.0.jar;C:\Users\hp\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-junit\7.14.0\cucumber-junit-7.14.0.jar;C:\Users\hp\.m2\repository\org\mockito\mockito-core\5.5.0\mockito-core-5.5.0.jar;C:\Users\hp\.m2\repository\net\bytebuddy\byte-buddy\1.14.6\byte-buddy-1.14.6.jar;C:\Users\hp\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.6\byte-buddy-agent-1.14.6.jar;C:\Users\hp\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\hp\.m2\repository\io\cucumber\cucumber-picocontainer\7.12.0\cucumber-picocontainer-7.12.0.jar;C:\Users\hp\.m2\repository\org\picocontainer\picocontainer\2.15\picocontainer-2.15.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\hp"/>
     <property name="user.language" value="en"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\hp\AppData\Local\Temp\surefire13233189213301617182\surefirebooter-20251028213919659_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\hp\AppData\Local\Temp\surefire2896800109075858477\surefirebooter-20251029211923310_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="23.0.2+7-58"/>
@@ -60,7 +60,41 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="Search by title" classname="Search book" time="0.321">
+  <testcase name="Successful addition of a new book" classname="Add Book" time="0.284">
+    <system-out><![CDATA[
+Scenario: Successful addition of a new book                                                               # src/test/resources/features/add_book.feature:6
+  Given the admin is logged in with username "admin1" and password "pass123"                              # steps.ServiceSteps.adminIsLoggedIn(java.lang.String,java.lang.String)
+  When the admin adds a book with title "Clean Code", author "Robert C. Martin", and ISBN "9780132350884" # steps.AdminAddBookSteps.adminAddsBook(java.lang.String,java.lang.String,java.lang.String)
+  Then the book should be added successfully                                                              # steps.AdminAddBookSteps.bookShouldBeAdded()
+  And the book should be searchable by title                                                              # steps.AdminAddBookSteps.bookShouldBeSearchable()
+]]></system-out>
+  </testcase>
+  <testcase name="Successful logout" classname="Admin Logout" time="0.035">
+    <system-out><![CDATA[
+Scenario: Successful logout                                                  # src/test/resources/features/admin_logout.feature:6
+  Given the admin is logged in with username "admin1" and password "pass123" # steps.ServiceSteps.adminIsLoggedIn(java.lang.String,java.lang.String)
+  When the admin logs out                                                    # steps.AdminLogoutSteps.adminLogsOut()
+  Then the admin should be logged out                                        # steps.AdminLogoutSteps.adminShouldBeLoggedOut()
+  And any admin action should require re-login                               # steps.AdminLogoutSteps.adminActionRequiresRelogin()
+]]></system-out>
+  </testcase>
+  <testcase name="Successful login with valid credentials" classname="Admin Login" time="0.038">
+    <system-out><![CDATA[
+Scenario: Successful login with valid credentials                              # src/test/resources/features/login.feature:6
+  Given the admin is logged in with username "admin1" and password "pass123"   # steps.ServiceSteps.adminIsLoggedIn(java.lang.String,java.lang.String)
+  When the admin tries to log in with username "admin1" and password "pass123" # steps.AdminLoginSteps.adminTriesLogin(java.lang.String,java.lang.String)
+  Then the login should be successful                                          # steps.AdminLoginSteps.loginSuccessful()
+]]></system-out>
+  </testcase>
+  <testcase name="Failed login with invalid credentials" classname="Admin Login" time="0.019">
+    <system-out><![CDATA[
+Scenario: Failed login with invalid credentials                                  # src/test/resources/features/login.feature:13
+  Given the admin is logged in with username "admin1" and password "pass123"     # steps.ServiceSteps.adminIsLoggedIn(java.lang.String,java.lang.String)
+  When the admin tries to log in with username "admin1" and password "wrongpass" # steps.AdminLoginSteps.adminTriesLogin(java.lang.String,java.lang.String)
+  Then the login should fail                                                     # steps.AdminLoginSteps.loginFail()
+]]></system-out>
+  </testcase>
+  <testcase name="Search by title" classname="Search book" time="0.03">
     <system-out><![CDATA[
 Scenario: Search by title                                               # src/test/resources/features/search_book.feature:8
   Given the following book exists                                       # steps.ServiceSteps.setupBook()
@@ -68,7 +102,7 @@ Scenario: Search by title                                               # src/te
   Then the search results should include a book with title "Clean Code" # steps.AdminSearchBookSteps.verifyBookByTitle(java.lang.String)
 ]]></system-out>
   </testcase>
-  <testcase name="Search by author" classname="Search book" time="0.013">
+  <testcase name="Search by author" classname="Search book" time="0.021">
     <system-out><![CDATA[
 Scenario: Search by author                                                     # src/test/resources/features/search_book.feature:13
   Given the following book exists                                              # steps.ServiceSteps.setupBook()
@@ -76,7 +110,7 @@ Scenario: Search by author                                                     #
   Then the search results should include a book with author "Robert C. Martin" # steps.AdminSearchBookSteps.verifyBookByAuthor(java.lang.String)
 ]]></system-out>
   </testcase>
-  <testcase name="Search by ISBN" classname="Search book" time="0.03">
+  <testcase name="Search by ISBN" classname="Search book" time="0.028">
     <system-out><![CDATA[
 Scenario: Search by ISBN                                                  # src/test/resources/features/search_book.feature:18
   Given the following book exists                                         # steps.ServiceSteps.setupBook()

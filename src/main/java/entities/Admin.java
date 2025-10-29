@@ -4,20 +4,33 @@
  */
 package library.entities;
 
-public class admin {
+
+
+
+public class Admin {
     private String username;
     private String password;
     private boolean loggedIn;
 
-    public admin(String username, String password) {
+    public Admin(String username, String password) {
         this.username = username;
         this.password = password;
         this.loggedIn = false;
     }
 
-    public String getUsername() { return username; }
-    public String getPassword() { return password; }
-    public boolean isLoggedIn() { return loggedIn; }
-    public void setLoggedIn(boolean loggedIn) { this.loggedIn = loggedIn; }
-}
+    public String getUsername() {
+        return username;
+    }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+}

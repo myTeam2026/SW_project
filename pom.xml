@@ -43,6 +43,12 @@
         <version>5.5.0</version>
         <scope>test</scope>
     </dependency>
+<dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-picocontainer</artifactId>
+    <version>7.12.0</version> <!-- تأكد من أنها متوافقة مع نسخة Cucumber عندك -->
+    <scope>test</scope>
+</dependency>
 
     <!-- Jacoco plugin for code coverage -->
 </dependencies>

@@ -7,23 +7,23 @@ package library.data;
 
 
 
-import library.entities.admin;
+import library.entities.Admin;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdminData {
-    private static List<admin> admins = new ArrayList<>();
+    private static List<Admin> Admins = new ArrayList<>();
 
     static {
         // يمكن إضافة admins جاهزين للاختبار
-        admins.add(new admin("admin1", "pass123"));
-        admins.add(new admin("admin2", "adminpass"));
+        Admins.add(new Admin("admin1", "pass123"));
+        Admins.add(new Admin("admin2", "adminpass"));
     }
 
-    public static admin getAdminByUsername(String username) {
-        for (admin admin : admins) {
-            if (admin.getUsername().equalsIgnoreCase(username)) {
-                return admin;
+    public static Admin getAdminByUsername(String username) {
+        for (Admin Admin : Admins) {
+            if (Admin.getUsername().equalsIgnoreCase(username)) {
+                return Admin;
             }
         }
         return null;
