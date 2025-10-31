@@ -1,26 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-
-    package library.entities;
+package library.entities;
 
 public class Book {
     private String title;
     private String author;
     private String isbn;
+    private boolean available;  // ⬅️ نضيف هذا الحقل
 
     public Book(String title, String author, String isbn) {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
+        this.available = true;  // ⬅️ كل كتاب جديد بيكون متاح
     }
 
     // Getters
     public String getTitle() { return title; }
     public String getAuthor() { return author; }
     public String getIsbn() { return isbn; }
+    public boolean isAvailable() { return available; }  // ⬅️ نضيف هذا الـ getter
+
+    // Setter for available
+    public void setAvailable(boolean available) {  // ⬅️ نضيف هذا الـ setter
+        this.available = available;
+    }
 
     // Equals & hashCode based on ISBN
     @Override
@@ -36,4 +38,3 @@ public class Book {
         return isbn.hashCode();
     }
 }
-

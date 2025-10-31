@@ -8,6 +8,7 @@ package steps;
 
 
 import library.data.AdminData;
+
 import library.entities.Admin;
 import io.cucumber.java.en.*;
 import org.junit.Assert;
@@ -18,7 +19,7 @@ import org.junit.Assert;
 /*
 public class AdminLoginSteps {
 
-    private admin admin;
+    private Admin admin;
 
 
     

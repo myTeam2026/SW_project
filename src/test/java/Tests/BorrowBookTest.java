@@ -1,0 +1,96 @@
+package Tests;
+
+import org.junit.Test;
+import org.junit.Before;
+import org.junit.After;
+import static org.junit.Assert.*;
+import java.time.LocalDate;
+
+import library.entities.Book;
+import library.entities.User;
+import library.entities.Loan;
+import services.BorrowService;
+import library.data.BookData;
+import library.data.UserData;
+import library.data.LoanData;
+
+public class BorrowBookTest {
+    
+    private BorrowService borrowService;
+    private User testUser;
+    private Book testBook;
+    
+    @Before
+    public void setUp() {
+        borrowService = new BorrowService();
+        LoanData.clearLoans();
+        BookData.clearBooks();
+        UserData.clearUsers();
+        
+        testUser = new User("USER001", "John Doe", "john@email.com");
+        UserData.addUser(testUser);
+        
+        testBook = new Book("Test Book", "Test Author", "ISBN001");
+        testBook.setAvailable(true);
+        BookData.addBook(testBook);
+    }
+    
+    @After
+    public void tearDown() {
+        LoanData.clearLoans();
+        BookData.clearBooks();
+        UserData.clearUsers();
+    }
+    
+    @Test
+    public void testBorrowBookSuccess() {
+        String result = borrowService.borrowBook("ISBN001", "USER001");
+        
+        assertEquals("Success: Book borrowed successfully", result);
+        
+        Book borrowedBook = BookData.getBookByISBN("ISBN001");
+        assertFalse("Book should be marked as not available", borrowedBook.isAvailable());
+        
+        Loan loan = LoanData.getLoansByUser("USER001").get(0);
+        assertNotNull("Loan should be created", loan);
+        assertEquals("Due date should be 28 days from today", 
+                     LocalDate.now().plusDays(28), loan.getDueDate());
+    }
+    
+    @Test
+    public void testBorrowUnavailableBook() {
+        testBook.setAvailable(false);
+        
+        String result = borrowService.borrowBook("ISBN001", "USER001");
+        
+        assertEquals("Error: Book is not available", result);
+    }
+    
+    @Test
+    public void testBorrowWithFines() {
+        testUser.addFine(50.0);
+        
+        String result = borrowService.borrowBook("ISBN001", "USER001");
+        
+        assertEquals("Error: Cannot borrow - user has unpaid fines", result);
+    }
+    
+    @Test
+    public void testCanUserBorrow() {
+        boolean canBorrow = borrowService.canUserBorrow("USER001");
+        
+        assertTrue("User should be able to borrow", canBorrow);
+    }
+    
+    @Test
+    public void testReturnBook() {
+        borrowService.borrowBook("ISBN001", "USER001");
+        Loan loan = LoanData.getLoansByUser("USER001").get(0);
+        
+        boolean returnResult = borrowService.returnBook(loan.getLoanId());
+        
+        assertTrue("Return should be successful", returnResult);
+        assertTrue("Book should be available again", testBook.isAvailable());
+        assertNotNull("Return date should be set", loan.getReturnDate());
+    }
+}
