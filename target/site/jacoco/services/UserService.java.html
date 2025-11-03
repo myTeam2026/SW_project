@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">services</a> &gt; <span class="el_source">UserService.java</span></div><h1>UserService.java</h1><pre class="source lang-java linenums">package services;
+
+import library.data.UserData;
+import library.data.LoanData;
+import library.data.FineData;
+import library.entities.User;
+
+<span class="fc" id="L8">public class UserService {</span>
+    
+    public String unregisterUser(String userId, String adminId) {
+<span class="fc bfc" id="L11" title="All 2 branches covered.">        if (!isAdmin(adminId)) {</span>
+<span class="fc" id="L12">            return &quot;Error: Only administrators can unregister users&quot;;</span>
+        }
+        
+<span class="fc" id="L15">        User user = UserData.getUserById(userId);</span>
+<span class="fc bfc" id="L16" title="All 2 branches covered.">        if (user == null) {</span>
+<span class="fc" id="L17">            return &quot;Error: User not found&quot;;</span>
+        }
+        
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (hasActiveLoans(userId)) {</span>
+<span class="fc" id="L21">            return &quot;Error: Cannot unregister - user has active loans&quot;;</span>
+        }
+        
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (hasUnpaidFines(userId)) {</span>
+<span class="fc" id="L25">            return &quot;Error: Cannot unregister - user has unpaid fines&quot;;</span>
+        }
+        
+<span class="fc" id="L28">        user.setActive(false);</span>
+<span class="fc" id="L29">        return &quot;Success: User unregistered successfully&quot;;</span>
+    }
+    
+    public boolean canUnregisterUser(String userId) {
+<span class="fc bfc" id="L33" title="All 4 branches covered.">        return !hasActiveLoans(userId) &amp;&amp; !hasUnpaidFines(userId);</span>
+    }
+    
+    private boolean isAdmin(String adminId) {
+<span class="fc" id="L37">        User admin = UserData.getUserById(adminId);</span>
+<span class="fc bfc" id="L38" title="All 4 branches covered.">        return admin != null &amp;&amp; &quot;admin&quot;.equals(admin.getId().toLowerCase());</span>
+    }
+    
+    private boolean hasActiveLoans(String userId) {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        return !LoanData.getLoansByUser(userId).isEmpty();</span>
+    }
+    
+    private boolean hasUnpaidFines(String userId) {
+<span class="fc" id="L46">        User user = UserData.getUserById(userId);</span>
+<span class="pc bpc" id="L47" title="1 of 4 branches missed.">        return user != null &amp;&amp; user.getFineBalance() &gt; 0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -10,7 +10,7 @@ public class LoanData {
     public static void addLoan(Loan loan) {
         loans.add(loan);
     }
-    
+
     public static Loan getLoanById(String loanId) {
         for (Loan loan : loans) {
             if (loan.getLoanId().equals(loanId)) {

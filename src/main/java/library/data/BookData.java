@@ -53,7 +53,10 @@ public class BookData {
             book.setAvailable(true);
         }
     }
-    
+    public static List<Book> getAllBooks() {
+    return new ArrayList<>(books); // تعيد نسخة من جميع الكتب
+}
+
     public static void clearBooks() {
         books.clear();
     }

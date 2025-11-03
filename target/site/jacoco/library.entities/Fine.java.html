@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Fine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">library.entities</a> &gt; <span class="el_source">Fine.java</span></div><h1>Fine.java</h1><pre class="source lang-java linenums">package library.entities;
+
+public class Fine {
+    private String fineId;
+    private User user;
+    private double amount;
+    private String reason;
+    private boolean isPaid;
+    
+<span class="nc" id="L10">    public Fine(String fineId, User user, double amount, String reason) {</span>
+<span class="nc" id="L11">        this.fineId = fineId;</span>
+<span class="nc" id="L12">        this.user = user;</span>
+<span class="nc" id="L13">        this.amount = amount;</span>
+<span class="nc" id="L14">        this.reason = reason;</span>
+<span class="nc" id="L15">        this.isPaid = false;</span>
+<span class="nc" id="L16">    }</span>
+    
+    // Getters
+<span class="nc" id="L19">    public String getFineId() { return fineId; }</span>
+<span class="nc" id="L20">    public User getUser() { return user; }</span>
+<span class="nc" id="L21">    public double getAmount() { return amount; }</span>
+<span class="nc" id="L22">    public String getReason() { return reason; }</span>
+<span class="nc" id="L23">    public boolean isPaid() { return isPaid; }</span>
+    
+    // Pay fine
+    public void payFine(double amount) {
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (amount &gt;= this.amount) {</span>
+<span class="nc" id="L28">            this.isPaid = true;</span>
+<span class="nc" id="L29">            user.payFine(amount);</span>
+        }
+<span class="nc" id="L31">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Book.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">library.entities</a> &gt; <span class="el_source">Book.java</span></div><h1>Book.java</h1><pre class="source lang-java linenums">package library.entities;
+
+public class Book {
+    private String title;
+    private String author;
+    private String isbn;
+    private boolean available;  // ⬅️ نضيف هذا الحقل
+
+<span class="fc" id="L9">    public Book(String title, String author, String isbn) {</span>
+<span class="fc" id="L10">        this.title = title;</span>
+<span class="fc" id="L11">        this.author = author;</span>
+<span class="fc" id="L12">        this.isbn = isbn;</span>
+<span class="fc" id="L13">        this.available = true;  // ⬅️ كل كتاب جديد بيكون متاح</span>
+<span class="fc" id="L14">    }</span>
+
+    // Getters
+<span class="fc" id="L17">    public String getTitle() { return title; }</span>
+<span class="fc" id="L18">    public String getAuthor() { return author; }</span>
+<span class="fc" id="L19">    public String getIsbn() { return isbn; }</span>
+<span class="fc" id="L20">    public boolean isAvailable() { return available; }  // ⬅️ نضيف هذا الـ getter</span>
+
+    // Setter for available
+    public void setAvailable(boolean available) {  // ⬅️ نضيف هذا الـ setter
+<span class="fc" id="L24">        this.available = available;</span>
+<span class="fc" id="L25">    }</span>
+
+    // Equals &amp; hashCode based on ISBN
+    @Override
+    public boolean equals(Object obj) {
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        if (this == obj) return true;</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (!(obj instanceof Book)) return false;</span>
+<span class="nc" id="L32">        Book other = (Book) obj;</span>
+<span class="nc" id="L33">        return isbn.equals(other.isbn);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L38">        return isbn.hashCode();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

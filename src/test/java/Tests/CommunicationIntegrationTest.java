@@ -70,10 +70,10 @@ public class CommunicationIntegrationTest {
     @Test
     public void testMockEmailServerRecording() {
         EmailService mockEmailService = new EmailService();
-        
-        mockEmailService.sendReminder("user1@test.com", "First reminder");
-        mockEmailService.sendReminder("user2@test.com", "Second reminder");
-        mockEmailService.sendReminder("user3@test.com", "Third reminder");
+        mockEmailService.sendReminder("user1@test.com", "Reminder 1", "First reminder");
+    mockEmailService.sendReminder("user2@test.com", "Reminder 2", "Second reminder");
+    mockEmailService.sendReminder("user3@test.com", "Reminder 3", "Third reminder");
+
         
         assertEquals(3, mockEmailService.getSentEmailsCount());
         

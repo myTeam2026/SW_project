@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BorrowCDService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">services</a> &gt; <span class="el_source">BorrowCDService.java</span></div><h1>BorrowCDService.java</h1><pre class="source lang-java linenums">/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package services;
+
+import library.entities.CD;
+import library.entities.User;
+import library.data.CDData;
+
+import java.time.LocalDate;
+
+<span class="fc" id="L13">public class BorrowCDService {</span>
+
+    
+    public String borrowCD(String cdId, User user) {
+<span class="fc" id="L17">        CD cd = CDData.getCD(cdId);</span>
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">    if (cd == null) return &quot;Error: CD not found&quot;;</span>
+<span class="pc bpc" id="L19" title="1 of 2 branches missed.">    if (!cd.isAvailable()) return &quot;Error: CD is not available&quot;;</span>
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">    if (!user.canBorrow()) return &quot;Error: Cannot borrow - unpaid fines or restrictions&quot;;</span>
+
+<span class="fc" id="L22">    LocalDate dueDate = LocalDate.now().plusDays(7);</span>
+<span class="fc" id="L23">    user.addBorrowedCD(cd, dueDate);</span>
+<span class="fc" id="L24">    cd.setAvailable(false);</span>
+
+<span class="fc" id="L26">    return &quot;Success: CD borrowed successfully, due &quot; + dueDate;</span>
+}
+    
+
+    
+    public String returnCD(String cdId, User user) {
+<span class="nc" id="L32">        CD cd = CDData.getCD(cdId);</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">    if (cd == null) return &quot;Error: CD not found&quot;;</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">    if (!user.hasBorrowedCD(cdId)) return &quot;Error: User did not borrow this CD&quot;;</span>
+
+<span class="nc" id="L36">    LocalDate dueDate = user.getBorrowedCDDueDate(cdId);</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">    if (LocalDate.now().isAfter(dueDate)) {</span>
+<span class="nc" id="L38">        user.addFine(20.0);</span>
+    }
+
+<span class="nc" id="L41">    cd.setAvailable(true);</span>
+<span class="nc" id="L42">    user.returnCD(cdId);</span>
+
+<span class="nc" id="L44">    return &quot;Success: CD returned successfully&quot;;</span>
+
+        
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotificationService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">services</a> &gt; <span class="el_source">NotificationService.java</span></div><h1>NotificationService.java</h1><pre class="source lang-java linenums">/*package services;
+
+import library.entities.User;
+import library.entities.Loan;
+import library.data.LoanData;
+import library.data.UserData;
+import java.time.LocalDate;
+import java.util.List;
+
+public class NotificationService {
+    private EmailService emailService;
+    
+    public NotificationService(EmailService emailService) {
+        this.emailService = emailService;
+    }
+    
+    public int sendOverdueReminders() {
+        int remindersSent = 0;
+        List&lt;Loan&gt; activeLoans = LoanData.getActiveLoans();
+        
+        for (Loan loan : activeLoans) {
+            if (isOverdue(loan)) {
+                User user = loan.getUser();
+                int overdueCount = countUserOverdueBooks(user.getId());
+                
+                String message = &quot;You have &quot; + overdueCount + &quot; overdue book(s). Please return them as soon as possible to avoid additional fines.&quot;;
+                
+                boolean sent = emailService.sendReminder(user.getEmail(), message);
+                if (sent) {
+                    remindersSent++;
+                }
+            }
+        }
+        
+        return remindersSent;
+    }
+    
+    public int sendOverdueReminderToUser(String userId) {
+        User user = UserData.getUserById(userId);
+        if (user == null) {
+            return 0;
+        }
+        
+        int overdueCount = countUserOverdueBooks(userId);
+        if (overdueCount &gt; 0) {
+            String message = &quot;You have &quot; + overdueCount + &quot; overdue book(s). Please return them as soon as possible to avoid additional fines.&quot;;
+            
+            boolean sent = emailService.sendReminder(user.getEmail(), message);
+            return sent ? 1 : 0;
+        }
+        
+        return 0;
+    }
+    
+    private boolean isOverdue(Loan loan) {
+        return loan.getDueDate().isBefore(LocalDate.now()) &amp;&amp; loan.getReturnDate() == null;
+    }
+    
+    private int countUserOverdueBooks(String userId) {
+        int count = 0;
+        List&lt;Loan&gt; userLoans = LoanData.getLoansByUser(userId);
+        
+        for (Loan loan : userLoans) {
+            if (isOverdue(loan)) {
+                count++;
+            }
+        }
+        
+        return count;
+    }
+}*/
+package services;
+
+import library.data.UserData;
+import library.data.LoanData;
+import library.entities.User;
+import library.entities.Loan;
+import java.util.ArrayList;
+import java.util.List;
+
+public class NotificationService {
+
+    private EmailService emailService;
+
+<span class="fc" id="L85">    public NotificationService(EmailService emailService) {</span>
+<span class="fc" id="L86">        this.emailService = emailService;</span>
+<span class="fc" id="L87">    }</span>
+
+    // إرسال تذكيرات لجميع المستخدمين
+    public int sendOverdueReminders() {
+<span class="fc" id="L91">        int remindersSent = 0;</span>
+<span class="fc" id="L92">        List&lt;User&gt; allUsers = UserData.getAllUsers();</span>
+
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        for (User user : allUsers) {</span>
+<span class="fc" id="L95">            List&lt;Loan&gt; allLoans = LoanData.getLoansByUser(user.getId());</span>
+<span class="fc" id="L96">            List&lt;Loan&gt; overdueLoans = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L98" title="All 2 branches covered.">            for (Loan loan : allLoans) {</span>
+<span class="pc bpc" id="L99" title="1 of 4 branches missed.">                if (loan.getReturnDate() == null &amp;&amp; loan.getDueDate().isBefore(java.time.LocalDate.now())) {</span>
+<span class="fc" id="L100">                    overdueLoans.add(loan);</span>
+                }
+<span class="fc" id="L102">            }</span>
+
+<span class="fc bfc" id="L104" title="All 2 branches covered.">            if (!overdueLoans.isEmpty()) {</span>
+<span class="fc" id="L105">                int count = overdueLoans.size();</span>
+<span class="fc" id="L106">                String message = &quot;You have &quot; + count + &quot; overdue book(s). Please return them to avoid additional fines.&quot;;</span>
+<span class="fc" id="L107">                emailService.sendReminder(user.getEmail(), &quot;Overdue Books Reminder&quot;, message);</span>
+<span class="fc" id="L108">                remindersSent++; // رسالة واحدة لكل مستخدم</span>
+            }
+<span class="fc" id="L110">        }</span>
+
+<span class="fc" id="L112">        return remindersSent;</span>
+    }
+
+    // إرسال تذكير لمستخدم محدد
+    public int sendOverdueReminderToUser(String userId) {
+<span class="fc" id="L117">        User user = UserData.getUserById(userId);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (user == null) return 0;</span>
+
+<span class="fc" id="L120">        List&lt;Loan&gt; allLoans = LoanData.getLoansByUser(userId);</span>
+<span class="fc" id="L121">        List&lt;Loan&gt; overdueLoans = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        for (Loan loan : allLoans) {</span>
+<span class="pc bpc" id="L124" title="1 of 4 branches missed.">            if (loan.getReturnDate() == null &amp;&amp; loan.getDueDate().isBefore(java.time.LocalDate.now())) {</span>
+<span class="fc" id="L125">                overdueLoans.add(loan);</span>
+            }
+<span class="fc" id="L127">        }</span>
+
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        if (overdueLoans.isEmpty()) return 0;</span>
+
+<span class="fc" id="L131">        int count = overdueLoans.size();</span>
+<span class="fc" id="L132">        String message = &quot;You have &quot; + count + &quot; overdue book(s). Please return them to avoid additional fines.&quot;;</span>
+<span class="fc" id="L133">        emailService.sendReminder(user.getEmail(), &quot;Overdue Books Reminder&quot;, message);</span>
+
+<span class="fc" id="L135">        return 1; // رسالة واحدة لكل مستخدم فقط</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

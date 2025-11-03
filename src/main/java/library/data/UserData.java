@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserData {
+
     private static List<User> users = new ArrayList<>();
-    
+
     static {
         // Sample users for testing
         users.add(new User("U001", "John Doe", "john@email.com"));
@@ -15,7 +16,8 @@ public class UserData {
         users.add(new User("U082", "User Eight Two", "u082@email.com"));
         users.add(new User("UQQ1", "User QQ One", "uqq1@email.com"));
     }
-    
+
+    // جلب مستخدم حسب المعرف
     public static User getUserById(String userId) {
         for (User user : users) {
             if (user.getId().equalsIgnoreCase(userId)) {
@@ -24,15 +26,18 @@ public class UserData {
         }
         return null;
     }
-    
+
+    // إضافة مستخدم جديد
     public static void addUser(User user) {
         users.add(user);
     }
-    
+
+    // جلب جميع المستخدمين
     public static List<User> getAllUsers() {
         return new ArrayList<>(users);
     }
-    
+
+    // إعادة تهيئة قائمة المستخدمين
     public static void clearUsers() {
         users.clear();
         users.add(new User("U001", "John Doe", "john@email.com"));

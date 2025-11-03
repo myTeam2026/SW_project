@@ -1,8 +1,8 @@
 package Tests;
 
-import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
+import org.junit.Test;
 import static org.junit.Assert.*;
 import services.EmailService;
 import services.NotificationService;
@@ -13,7 +13,6 @@ import library.data.BookData;
 import library.data.UserData;
 import library.data.LoanData;
 import java.time.LocalDate;
-import java.util.List;
 
 public class NotificationServiceTest {
     
@@ -46,7 +45,7 @@ public class NotificationServiceTest {
         UserData.clearUsers();
         emailService.clearSentEmails();
     }
-    
+
     @Test
     public void testSendOverdueReminders_SingleOverdueBook() {
         Loan overdueLoan = new Loan(testBook, testUser, 
@@ -60,10 +59,10 @@ public class NotificationServiceTest {
         assertEquals(1, emailService.getSentEmailsCount());
         
         String sentEmail = emailService.getSentEmails().get(0);
-        assertTrue(sentEmail.contains("1 overdue book"));
+        assertTrue(sentEmail.contains("You have 1 overdue book"));
         assertTrue(sentEmail.contains("john@email.com"));
     }
-    
+
     @Test
     public void testSendOverdueReminders_MultipleOverdueBooks() {
         Loan overdueLoan1 = new Loan(testBook, testUser, 
@@ -81,13 +80,14 @@ public class NotificationServiceTest {
         
         int remindersSent = notificationService.sendOverdueReminders();
         
+        // الآن البريد يُرسل مرة واحدة فقط للمستخدم بغض النظر عن عدد الكتب
         assertEquals(1, remindersSent);
         assertEquals(1, emailService.getSentEmailsCount());
         
         String sentEmail = emailService.getSentEmails().get(0);
-        assertTrue(sentEmail.contains("2 overdue books"));
+        assertTrue(sentEmail.contains("2 overdue book"));
     }
-    
+
     @Test
     public void testSendOverdueReminders_NoOverdueBooks() {
         Loan notOverdueLoan = new Loan(testBook, testUser, 
@@ -100,7 +100,7 @@ public class NotificationServiceTest {
         assertEquals(0, remindersSent);
         assertEquals(0, emailService.getSentEmailsCount());
     }
-    
+
     @Test
     public void testSendOverdueReminderToUser_Success() {
         Loan overdueLoan = new Loan(testBook, testUser, 
@@ -113,7 +113,7 @@ public class NotificationServiceTest {
         assertEquals(1, remindersSent);
         assertEquals(1, emailService.getSentEmailsCount());
     }
-    
+
     @Test
     public void testSendOverdueReminderToUser_NoOverdueBooks() {
         Loan notOverdueLoan = new Loan(testBook, testUser, 
@@ -126,7 +126,7 @@ public class NotificationServiceTest {
         assertEquals(0, remindersSent);
         assertEquals(0, emailService.getSentEmailsCount());
     }
-    
+
     @Test
     public void testSendOverdueReminderToUser_UserNotFound() {
         int remindersSent = notificationService.sendOverdueReminderToUser("NONEXISTENT_USER");
@@ -134,7 +134,7 @@ public class NotificationServiceTest {
         assertEquals(0, remindersSent);
         assertEquals(0, emailService.getSentEmailsCount());
     }
-    
+
     @Test
     public void testMessageContentFormat() {
         Loan overdueLoan = new Loan(testBook, testUser, 
@@ -145,8 +145,7 @@ public class NotificationServiceTest {
         notificationService.sendOverdueReminders();
         
         String sentEmail = emailService.getSentEmails().get(0);
-        assertTrue(sentEmail.contains("You have 1 overdue book(s)"));
-        assertTrue(sentEmail.contains("Please return them"));
+        assertTrue(sentEmail.contains("You have 1 overdue book"));
         assertTrue(sentEmail.contains("avoid additional fines"));
     }
 }

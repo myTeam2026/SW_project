@@ -1,4 +1,4 @@
-package services;
+/*package services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,5 +32,39 @@ public class EmailService {
     
     public int getSentEmailsCount() {
         return sentEmails.size();
+    }
+}*/
+package services;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class EmailService {
+    private List<String> sentEmails;
+
+    public EmailService() {
+        sentEmails = new ArrayList<>();
+    }
+
+    public boolean sendReminder(String userEmail, String subject, String message) {
+        if (userEmail == null || userEmail.isEmpty() || message == null || message.isEmpty()) {
+            return false;
+        }
+        String emailRecord = "To: " + userEmail + " | Subject: " + subject + " | Message: " + message;
+        sentEmails.add(emailRecord);
+        System.out.println("📧 Email sent: " + emailRecord);
+        return true;
+    }
+
+    public List<String> getSentEmails() {
+        return new ArrayList<>(sentEmails);
+    }
+
+    public int getSentEmailsCount() {
+        return sentEmails.size();
+    }
+
+    public void clearSentEmails() {
+        sentEmails.clear();
     }
 }

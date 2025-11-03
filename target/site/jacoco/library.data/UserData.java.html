@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserData.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">library.data</a> &gt; <span class="el_source">UserData.java</span></div><h1>UserData.java</h1><pre class="source lang-java linenums">package library.data;
+
+import library.entities.User;
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="nc" id="L7">public class UserData {</span>
+
+<span class="fc" id="L9">    private static List&lt;User&gt; users = new ArrayList&lt;&gt;();</span>
+
+    static {
+        // Sample users for testing
+<span class="fc" id="L13">        users.add(new User(&quot;U001&quot;, &quot;John Doe&quot;, &quot;john@email.com&quot;));</span>
+<span class="fc" id="L14">        users.add(new User(&quot;U002&quot;, &quot;Jane Smith&quot;, &quot;jane@email.com&quot;));</span>
+<span class="fc" id="L15">        users.add(new User(&quot;U003&quot;, &quot;Alice Johnson&quot;, &quot;alice@email.com&quot;));</span>
+<span class="fc" id="L16">        users.add(new User(&quot;U082&quot;, &quot;User Eight Two&quot;, &quot;u082@email.com&quot;));</span>
+<span class="fc" id="L17">        users.add(new User(&quot;UQQ1&quot;, &quot;User QQ One&quot;, &quot;uqq1@email.com&quot;));</span>
+<span class="fc" id="L18">    }</span>
+
+    // جلب مستخدم حسب المعرف
+    public static User getUserById(String userId) {
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        for (User user : users) {</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">            if (user.getId().equalsIgnoreCase(userId)) {</span>
+<span class="fc" id="L24">                return user;</span>
+            }
+<span class="fc" id="L26">        }</span>
+<span class="fc" id="L27">        return null;</span>
+    }
+
+    // إضافة مستخدم جديد
+    public static void addUser(User user) {
+<span class="fc" id="L32">        users.add(user);</span>
+<span class="fc" id="L33">    }</span>
+
+    // جلب جميع المستخدمين
+    public static List&lt;User&gt; getAllUsers() {
+<span class="fc" id="L37">        return new ArrayList&lt;&gt;(users);</span>
+    }
+
+    // إعادة تهيئة قائمة المستخدمين
+    public static void clearUsers() {
+<span class="fc" id="L42">        users.clear();</span>
+<span class="fc" id="L43">        users.add(new User(&quot;U001&quot;, &quot;John Doe&quot;, &quot;john@email.com&quot;));</span>
+<span class="fc" id="L44">        users.add(new User(&quot;U002&quot;, &quot;Jane Smith&quot;, &quot;jane@email.com&quot;));</span>
+<span class="fc" id="L45">        users.add(new User(&quot;U003&quot;, &quot;Alice Johnson&quot;, &quot;alice@email.com&quot;));</span>
+<span class="fc" id="L46">        users.add(new User(&quot;U082&quot;, &quot;User Eight Two&quot;, &quot;u082@email.com&quot;));</span>
+<span class="fc" id="L47">        users.add(new User(&quot;UQQ1&quot;, &quot;User QQ One&quot;, &quot;uqq1@email.com&quot;));</span>
+<span class="fc" id="L48">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
