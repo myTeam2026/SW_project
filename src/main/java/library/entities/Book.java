@@ -3,38 +3,28 @@ package library.entities;
 public class Book {
     private String title;
     private String author;
-    private String isbn;
-    private boolean available;  // ⬅️ نضيف هذا الحقل
+    private String ISBN;
+    private boolean available;
 
-    public Book(String title, String author, String isbn) {
+    public Book(String title, String author, String ISBN) {
         this.title = title;
         this.author = author;
-        this.isbn = isbn;
-        this.available = true;  // ⬅️ كل كتاب جديد بيكون متاح
+        this.ISBN = ISBN;
+        this.available = true;
     }
 
-    // Getters
     public String getTitle() { return title; }
     public String getAuthor() { return author; }
-    public String getIsbn() { return isbn; }
-    public boolean isAvailable() { return available; }  // ⬅️ نضيف هذا الـ getter
+    public String getISBN() { return ISBN; }
+    public boolean isAvailable() { return available; }
 
-    // Setter for available
-    public void setAvailable(boolean available) {  // ⬅️ نضيف هذا الـ setter
-        this.available = available;
-    }
-
-    // Equals & hashCode based on ISBN
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Book)) return false;
-        Book other = (Book) obj;
-        return isbn.equals(other.isbn);
-    }
+    public void setTitle(String title) { this.title = title; }
+    public void setAuthor(String author) { this.author = author; }
+    public void setISBN(String ISBN) { this.ISBN = ISBN; }
+    public void setAvailable(boolean available) { this.available = available; }
 
     @Override
-    public int hashCode() {
-        return isbn.hashCode();
+    public String toString() {
+        return "Book [Title=" + title + ", Author=" + author + ", ISBN=" + ISBN + "]";
     }
 }

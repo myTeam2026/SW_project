@@ -1,70 +1,43 @@
-/*package services;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class EmailService {
-    private List<String> sentEmails;
-    
-    public EmailService() {
-        this.sentEmails = new ArrayList<>();
-    }
-    
-    public boolean sendReminder(String userEmail, String message) {
-        if (userEmail == null || userEmail.isEmpty() || message == null || message.isEmpty()) {
-            return false;
-        }
-        
-        String emailRecord = "To: " + userEmail + " | Message: " + message;
-        sentEmails.add(emailRecord);
-        
-        System.out.println("📧 Email sent: " + emailRecord);
-        return true;
-    }
-    
-    public List<String> getSentEmails() {
-        return new ArrayList<>(sentEmails);
-    }
-    
-    public void clearSentEmails() {
-        sentEmails.clear();
-    }
-    
-    public int getSentEmailsCount() {
-        return sentEmails.size();
-    }
-}*/
 package services;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Properties;
+
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 
 public class EmailService {
-    private List<String> sentEmails;
+    private final String fromEmail = "your_email@gmail.com";
+    private final String password = "your_app_password";
 
-    public EmailService() {
-        sentEmails = new ArrayList<>();
-    }
-
-    public boolean sendReminder(String userEmail, String subject, String message) {
-        if (userEmail == null || userEmail.isEmpty() || message == null || message.isEmpty()) {
+    public boolean sendEmail(String subject, String messageText) {
+        try {
+            String to = "aradi0298@gmail.com";
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+            Session session = Session.getInstance(props, new Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(fromEmail, password);
+                }
+            });
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(fromEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            message.setSubject(subject);
+            message.setText(messageText);
+            Transport.send(message);
+            System.out.println("Email sent to: " + to);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
-        String emailRecord = "To: " + userEmail + " | Subject: " + subject + " | Message: " + message;
-        sentEmails.add(emailRecord);
-        System.out.println("📧 Email sent: " + emailRecord);
-        return true;
-    }
-
-    public List<String> getSentEmails() {
-        return new ArrayList<>(sentEmails);
-    }
-
-    public int getSentEmailsCount() {
-        return sentEmails.size();
-    }
-
-    public void clearSentEmails() {
-        sentEmails.clear();
     }
 }

@@ -29,7 +29,7 @@ public class BookData {
 
     public static Book getBookByISBN(String isbn) {
         for (Book book : books) {
-            if (book.getIsbn().equals(isbn)) {
+            if (book.getISBN().equals(isbn)) {
                 return book;
             }
         }

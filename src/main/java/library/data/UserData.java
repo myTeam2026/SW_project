@@ -46,4 +46,14 @@ public class UserData {
         users.add(new User("U082", "User Eight Two", "u082@email.com"));
         users.add(new User("UQQ1", "User QQ One", "uqq1@email.com"));
     }
+    
+    public static User getUser(String userId) {
+        for (User user : users) {
+            if (user.getId().equalsIgnoreCase(userId)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
 }

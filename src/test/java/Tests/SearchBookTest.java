@@ -38,7 +38,7 @@ public class SearchBookTest {
     public void testSearchByTitle() {
         List<Book> results = searchService.searchByTitle("Java Programming");
         assertEquals(1, results.size());
-        assertEquals("ISBN001", results.get(0).getIsbn());
+        assertEquals("ISBN001", results.get(0).getISBN());
     }
 
     @Test
