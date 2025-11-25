@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Tests;
 import library.data.AdminData;
 import library.entities.Admin;
@@ -16,14 +12,13 @@ public class login_logout_test {
 
     @Before
     public void setUp() {
-        loginService = new login_logout_service();  // تهيئة السيرفيس
-        // إعادة تهيئة الـ Admins
+        loginService = new login_logout_service();  
         AdminData.getAdminByUsername("admin1").setLoggedIn(false);
     }
 
     @Test
     public void testLoginSuccess() {
-        boolean result = loginService.login("admin1", "pass123");  // استخدام اسم المتغير الجديد
+        boolean result = loginService.login("admin1", "pass123");  
         assertTrue("Login should succeed with correct credentials", result);
 
         Admin admin = AdminData.getAdminByUsername("admin1");
@@ -32,7 +27,7 @@ public class login_logout_test {
 
     @Test
     public void testLoginFailure() {
-        boolean result = loginService.login("admin1", "wrongpass");  // استخدام اسم المتغير الجديد
+        boolean result = loginService.login("admin1", "wrongpass");  
         assertFalse("Login should fail with wrong credentials", result);
 
         Admin admin = AdminData.getAdminByUsername("admin1");
@@ -41,7 +36,7 @@ public class login_logout_test {
 
     @Test
     public void testLogout() {
-        loginService.login("admin1", "pass123"); // تسجيل دخول أولاً
+        loginService.login("admin1", "pass123"); 
         loginService.logout("admin1");
 
         Admin admin = AdminData.getAdminByUsername("admin1");

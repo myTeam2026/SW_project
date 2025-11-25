@@ -15,14 +15,12 @@ public class Fine {
         this.isPaid = false;
     }
     
-    // Getters
     public String getFineId() { return fineId; }
     public User getUser() { return user; }
     public double getAmount() { return amount; }
     public String getReason() { return reason; }
     public boolean isPaid() { return isPaid; }
     
-    // Pay fine
     public void payFine(double amount) {
         if (amount >= this.amount) {
             this.isPaid = true;
