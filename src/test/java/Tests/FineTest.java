@@ -23,18 +23,18 @@ public class FineTest {
         assertEquals(testUser, fine.getUser());
         assertEquals(50.0, fine.getAmount(), 0.01);
         assertEquals("Late return", fine.getReason());
-        assertFalse(fine.isPaid()); // should be unpaid at creation
+        assertFalse(fine.isPaid());
     }
 
     @Test
     public void testPayFineReducesAmount() {
         fine.payFine(20.0);
         assertEquals(30.0, fine.getAmount(), 0.01);
-        assertFalse(fine.isPaid()); // still unpaid because not full
+        assertFalse(fine.isPaid());
 
         fine.payFine(30.0);
         assertEquals(0.0, fine.getAmount(), 0.01);
-        assertTrue(fine.isPaid()); // should now be marked as paid
+        assertTrue(fine.isPaid());
     }
 
     @Test

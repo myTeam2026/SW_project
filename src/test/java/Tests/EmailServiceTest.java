@@ -59,6 +59,7 @@ public class EmailServiceTest {
         assertEquals(0, emailService.getSentEmailsCount());
     }
     
+    
     @Test
     public void testMultipleEmails() {
         emailService.sendReminder("user1@email.com", "Subject 1", "First reminder");

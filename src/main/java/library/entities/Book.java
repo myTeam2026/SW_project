@@ -6,6 +6,7 @@ public class Book {
     private String ISBN;
     private boolean available;
 
+    
     public Book(String title, String author, String ISBN) {
         this.title = title;
         this.author = author;

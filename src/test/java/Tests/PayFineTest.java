@@ -40,7 +40,7 @@ public class PayFineTest {
         // Then - التحقق من النتائج
         assertTrue("Payment should be successful", paymentResult);
         assertEquals("Fine balance should be 0", 0.0, testUser.getFineBalance(), 0.001);
-        assertTrue("User should be able to borrow after full payment", testUser.canBorrow());
+        assertTrue("User should be able to borrow after full payment", testUser.CanBorrow());
     }
     
     @Test
@@ -54,7 +54,7 @@ public class PayFineTest {
         // Then - التحقق من النتائج
         assertTrue("Partial payment should be successful", paymentResult);
         assertEquals("Fine balance should be 20", 20.0, testUser.getFineBalance(), 0.001);
-        assertFalse("User should not be able to borrow after partial payment", testUser.canBorrow());
+        assertFalse("User should not be able to borrow after partial payment", testUser.CanBorrow());
     }
     
     @Test
@@ -90,7 +90,7 @@ public class PayFineTest {
         
         // Then - التحقق من الغرامة
         assertEquals("Fine balance should be 25", 25.0, testUser.getFineBalance(), 0.001);
-        assertFalse("User should not be able to borrow with fine", testUser.canBorrow());
+        assertFalse("User should not be able to borrow with fine", testUser.CanBorrow());
     }
     
     @Test
@@ -112,7 +112,7 @@ public class PayFineTest {
         fineService.payFine("USER001", 50.0);
         
         // When - التحقق من صلاحية الاستعارة
-        boolean canBorrow = testUser.canBorrow();
+        boolean canBorrow = testUser.CanBorrow();
         
         // Then - يجب يكون مسموح بالاستعارة
         assertTrue("User should be able to borrow after fine clearance", canBorrow);

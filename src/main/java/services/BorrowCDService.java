@@ -1,49 +1,73 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package services;
 
-import library.entities.CD;
-import library.entities.User;
 import library.data.CDData;
+import library.entities.CD;
+import library.entities.Loan;
+import library.entities.User;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class BorrowCDService {
 
-    
     public String borrowCD(String cdId, User user) {
+
         CD cd = CDData.getCD(cdId);
-    if (cd == null) return "Error: CD not found";
-    if (!cd.isAvailable()) return "Error: CD is not available";
-    if (!user.canBorrow()) return "Error: Cannot borrow - unpaid fines or restrictions";
 
-    LocalDate dueDate = LocalDate.now().plusDays(7);
-    user.addBorrowedCD(cd, dueDate);
-    cd.setAvailable(false);
+        if (cd == null) return "Error: CD not found";
+        if (user == null) return "Error: User not found";
 
-    return "Success: CD borrowed successfully, due " + dueDate;
-}
-    
+        if (!cd.isAvailable()) return "Error: CD is not available";
 
-    
+        if (!user.CanBorrow())
+            return "Error: User cannot borrow due to restrictions";
+
+        cd.setAvailable(false);
+        user.borrowCD(cdId, LocalDate.now());
+
+        // ===============================
+        //          SEND EMAIL
+        // ===============================
+
+        EmailService emailService = new EmailService();
+        emailService.sendEmail(
+                user.getEmail(),
+                "CD Borrowed Successfully",
+                "Hello " + user.getName() + ",\n\n"
+                + "You borrowed the CD successfully.\n"
+                + "CD ID: " + cdId + "\n"
+                + "Title: " + cd.getTitle() + "\n\n"
+                + "Enjoy listening!"
+        );
+
+        return "Success: CD borrowed successfully";
+    }
+
     public String returnCD(String cdId, User user) {
-        CD cd = CDData.getCD(cdId);
-    if (cd == null) return "Error: CD not found";
-    if (!user.hasBorrowedCD(cdId)) return "Error: User did not borrow this CD";
 
-    LocalDate dueDate = user.getBorrowedCDDueDate(cdId);
-    if (LocalDate.now().isAfter(dueDate)) {
-        user.addFine(20.0);
+        CD cd = CDData.getCD(cdId);
+
+        if (cd == null) return "Error: CD not found";
+
+        if (!user.hasBorrowedCD(cdId))
+            return "Error: User did not borrow this CD";
+
+        LocalDate dueDate = user.getBorrowedCDDueDate(cdId);
+
+        if (LocalDate.now().isAfter(dueDate))
+            user.addFine(20.0);
+
+        cd.setAvailable(true);
+        user.returnCD(cdId);
+
+        return "Success: CD returned successfully";
     }
 
-    cd.setAvailable(true);
-    user.returnCD(cdId);
+    public List<Loan> getUserCDLoans1(String id) {
+        return null;
+    }
 
-    return "Success: CD returned successfully";
-
-        
+    public List<Loan> getUserCDLoans(String id) {
+        return null;
     }
 }
-

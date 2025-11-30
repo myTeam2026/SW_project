@@ -33,6 +33,7 @@ public class MixedMediaFinesTest {
         CDData.clearCDs();
         LoanData.clearLoans();
 
+        
         reportService = new MediaReportService();
         cdService = new CDService();
 

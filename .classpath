@@ -38,5 +38,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/A&amp;Z/Downloads/jakarta.mail-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/A&amp;Z/Downloads/jakarta.mail-2.0.1 (1).jar"/>
+	<classpathentry kind="lib" path="C:/Users/A&amp;Z/Downloads/jakarta.activation-2.0.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

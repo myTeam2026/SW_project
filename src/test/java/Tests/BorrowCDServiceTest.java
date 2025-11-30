@@ -3,100 +3,122 @@ package Tests;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+
 import library.data.CDData;
 import library.data.UserData;
 import library.entities.CD;
 import library.entities.User;
 import services.BorrowCDService;
+
 import java.time.LocalDate;
 
 public class BorrowCDServiceTest {
 
-    private BorrowCDService borrowCDService;
+    private BorrowCDService service;
     private User user;
-    private CD cd1;
-    private CD cd2;
+    private CD cd;
 
     @Before
     public void setUp() {
         CDData.clearCDs();
         UserData.clearUsers();
-        borrowCDService = new BorrowCDService();
+
+        service = new BorrowCDService();
 
         user = new User("USER001", "John Doe", "john@email.com");
+        user.setCanBorrow(true);
         UserData.addUser(user);
 
-        cd1 = new CD("CD001", "Artist1", "Title1");
-        cd2 = new CD("CD002", "Artist2", "Title2");
-        cd1.setAvailable(true);
-        cd2.setAvailable(true);
-
-        CDData.addCD(cd1);
-        CDData.addCD(cd2);
+        cd = new CD("CD001", "Artist", "Title");
+        cd.setAvailable(true);
+        CDData.addCD(cd);
     }
 
     @Test
-    public void testBorrowCD_Success() {
-        String result = borrowCDService.borrowCD("CD001", user);
-        assertTrue(result.startsWith("Success"));
-        assertFalse(cd1.isAvailable());
+    public void testBorrowCDSuccess() {
+        String result = service.borrowCD("CD001", user);
+
+        assertEquals("Success: CD borrowed successfully", result);
+        assertFalse(cd.isAvailable());
         assertTrue(user.hasBorrowedCD("CD001"));
     }
 
     @Test
-    public void testBorrowCD_NotFound() {
-        String result = borrowCDService.borrowCD("CD999", user);
-        assertTrue(result.startsWith("Error"));
-        assertTrue(result.contains("not found"));
+    public void testBorrowCDNotFound() {
+        String result = service.borrowCD("CD999", user);
+        assertEquals("Error: CD not found", result);
     }
 
     @Test
-    public void testBorrowCD_NotAvailable() {
-        cd1.setAvailable(false);
-        String result = borrowCDService.borrowCD("CD001", user);
-        assertTrue(result.startsWith("Error"));
-        assertTrue(result.contains("not available"));
+    public void testBorrowUserNotFound() {
+        String result = service.borrowCD("CD001", null);
+        assertEquals("Error: User not found", result);
     }
 
     @Test
-    public void testBorrowCD_UserRestricted() {
+    public void testBorrowCDNotAvailable() {
+        cd.setAvailable(false);
+        String result = service.borrowCD("CD001", user);
+        assertEquals("Error: CD is not available", result);
+    }
+
+    @Test
+    public void testBorrowCDUserRestricted() {
         user.setCanBorrow(false);
-        String result = borrowCDService.borrowCD("CD001", user);
-        assertTrue(result.startsWith("Error"));
-        assertTrue(result.contains("restrictions"));
+        String result = service.borrowCD("CD001", user);
+        assertEquals("Error: User cannot borrow due to restrictions", result);
     }
 
     @Test
-    public void testReturnCD_Success() {
-        borrowCDService.borrowCD("CD001", user);
-        String result = borrowCDService.returnCD("CD001", user);
-        assertTrue(result.startsWith("Success"));
-        assertTrue(cd1.isAvailable());
+    public void testReturnCDSuccess() {
+        service.borrowCD("CD001", user);
+        user.setBorrowedCDDueDate("CD001", LocalDate.now().plusDays(3));
+
+        String result = service.returnCD("CD001", user);
+
+        assertEquals("Success: CD returned successfully", result);
+        assertTrue(cd.isAvailable());
         assertFalse(user.hasBorrowedCD("CD001"));
     }
 
     @Test
-    public void testReturnCD_NotFound() {
-        String result = borrowCDService.returnCD("CD999", user);
-        assertTrue(result.startsWith("Error"));
-        assertTrue(result.contains("not found"));
+    public void testReturnCDNotFound() {
+        String result = service.returnCD("CD999", user);
+        assertEquals("Error: CD not found", result);
     }
 
     @Test
-    public void testReturnCD_NotBorrowed() {
-        String result = borrowCDService.returnCD("CD001", user);
-        assertTrue(result.startsWith("Error"));
-        assertTrue(result.contains("did not borrow"));
+    public void testReturnCDNotBorrowed() {
+        String result = service.returnCD("CD001", user);
+        assertEquals("Error: User did not borrow this CD", result);
     }
 
     @Test
-    public void testReturnCD_LateAddsFine() {
-        borrowCDService.borrowCD("CD001", user);
-        user.getBorrowedCDs().put("CD001", LocalDate.now().minusDays(3));
+    public void testReturnCDLateAddsFine() {
+        service.borrowCD("CD001", user);
+        user.setBorrowedCDDueDate("CD001", LocalDate.now().minusDays(2));
+
         double beforeFine = user.getFineBalance();
-        String result = borrowCDService.returnCD("CD001", user);
+
+        String result = service.returnCD("CD001", user);
         double afterFine = user.getFineBalance();
-        assertTrue(result.startsWith("Success"));
+
+        assertEquals("Success: CD returned successfully", result);
         assertTrue(afterFine > beforeFine);
+    }
+
+    
+    @Test
+    public void testReturnCDOnTimeNoFine() {
+        service.borrowCD("CD001", user);
+        user.setBorrowedCDDueDate("CD001", LocalDate.now().plusDays(2));
+
+        double beforeFine = user.getFineBalance();
+
+        String result = service.returnCD("CD001", user);
+        double afterFine = user.getFineBalance();
+
+        assertEquals("Success: CD returned successfully", result);
+        assertEquals(beforeFine, afterFine, 0.01);
     }
 }

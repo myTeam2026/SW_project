@@ -60,12 +60,13 @@ public class CommunicationIntegrationTest {
         int remindersSent = notificationService.sendOverdueReminders();
         
         assertEquals(1, remindersSent);
-        assertEquals(1, emailService.getSentEmailsCount());
+        assertEquals(1, emailService.getSentEmails());
         
         String sentEmail = emailService.getSentEmails().get(0);
         assertTrue(sentEmail.contains("overdue book"));
         assertTrue(sentEmail.contains("john@email.com"));
     }
+    
     
     @Test
     public void testMockEmailServerRecording() {
@@ -75,7 +76,7 @@ public class CommunicationIntegrationTest {
     mockEmailService.sendReminder("user3@test.com", "Reminder 3", "Third reminder");
 
         
-        assertEquals(3, mockEmailService.getSentEmailsCount());
+        assertEquals(3, mockEmailService.getSentEmails());
         
         List<String> recordedEmails = mockEmailService.getSentEmails();
         assertTrue(recordedEmails.get(0).contains("user1@test.com"));

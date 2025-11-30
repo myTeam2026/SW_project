@@ -39,6 +39,7 @@ public class ServiceTest {
         BookData.addBook(testBook);
     }
     
+    
     @After
     public void tearDown() {
         BookData.clearBooks();
@@ -59,14 +60,14 @@ public class ServiceTest {
         fineService.addFine("USER001", 25.0);
         
         // Then - التحقق من الغرامة
-        assertFalse("User should not be able to borrow with fine", testUser.canBorrow());
+        assertFalse("User should not be able to borrow with fine", testUser.CanBorrow());
         
         // When - دفع الغرامة
         boolean paymentResult = fineService.payFine("USER001", 25.0);
         
         // Then - التحقق من إزالة الغرامة
         assertTrue("Payment should be successful", paymentResult);
-        assertTrue("User should be able to borrow after fine payment", testUser.canBorrow());
+        assertTrue("User should be able to borrow after fine payment", testUser.CanBorrow());
     }
     
     @Test
@@ -93,7 +94,7 @@ public class ServiceTest {
         
         // Then - يجب أن تنجح الاستعارة
         assertEquals("Success: Book borrowed successfully", borrowResult);
-        assertTrue("User should have borrowing rights", testUser.canBorrow());
+        assertTrue("User should have borrowing rights", testUser.CanBorrow ());
     }
     
     @Test

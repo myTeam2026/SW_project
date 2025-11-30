@@ -5,57 +5,57 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User {
+
     private String id;
     private String name;
     private String email;
-    private double fineBalance;
-    private boolean canBorrow;
-    private boolean isActive;
-    private Map<String, LocalDate> borrowedCDs;
+    private String password;
+
+    private boolean active = true;
+    private boolean canBorrow = true;
+    private double fineBalance = 0.0;
+
+    private Map<String, LocalDate> borrowedCDs = new HashMap<>();
 
     public User(String id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.fineBalance = 0.0;
-        this.canBorrow = true;
-        this.isActive = true;
-        this.borrowedCDs = new HashMap<>();
+        this.password = "";
     }
 
     public String getId() { return id; }
     public String getName() { return name; }
     public String getEmail() { return email; }
-    public double getFineBalance() { return fineBalance; }
-    public boolean canBorrow() { return canBorrow; }
-    public boolean isActive() { return isActive; }
-    public Map<String, LocalDate> getBorrowedCDs() { return borrowedCDs; }
 
-    public void setFineBalance(double fineBalance) { this.fineBalance = fineBalance; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
+    public boolean CanBorrow() { return canBorrow; }
     public void setCanBorrow(boolean canBorrow) { this.canBorrow = canBorrow; }
-    public void setActive(boolean isActive) { this.isActive = isActive; }
 
-    public void addFine(double amount) {
-        this.fineBalance += amount;
-        if (this.fineBalance > 0) {
-            this.canBorrow = false;
-        }
-    }
+    public double getFineBalance() { return fineBalance; }
+
+    public void addFine(double amount) { fineBalance += amount; }
 
     public void payFine(double amount) {
-        if (amount <= 0) return;
-        if (amount > this.fineBalance) {
-            amount = this.fineBalance;
-        }
-        this.fineBalance -= amount;
-        if (this.fineBalance <= 0) {
-            this.fineBalance = 0;
-            this.canBorrow = true;
-        }
+        fineBalance -= amount;
+        if (fineBalance < 0) fineBalance = 0;
     }
 
-    public void addBorrowedCD(CD cd, LocalDate dueDate) {
-        borrowedCDs.put(cd.getCdId(), dueDate);
+    public void setFineBalance(double val) {
+        this.fineBalance = Math.max(val, 0);
+    }
+
+    public void borrowCD(String cdId, LocalDate date) {
+        borrowedCDs.put(cdId, date);
+    }
+
+    public boolean hasBorrowedCD(String cdId) {
+        return borrowedCDs.containsKey(cdId);
     }
 
     public LocalDate getBorrowedCDDueDate(String cdId) {
@@ -66,13 +66,17 @@ public class User {
         borrowedCDs.remove(cdId);
     }
 
-    public boolean hasBorrowedCD(String cdId) {
-        return borrowedCDs.containsKey(cdId);
+    public Map<String, LocalDate> getBorrowedCDs() {
+        return borrowedCDs;
+    }
+    public void addBorrowedCD(CD cd, LocalDate date) {
+        if (cd != null) {
+            borrowedCDs.put(cd.getCdId(), date);
+        }
     }
 
-    public void setBorrowedCDDueDate(String cdId, LocalDate newDate) {
-        if (borrowedCDs.containsKey(cdId)) {
-            borrowedCDs.put(cdId, newDate);
-        }
+    // Set/update due date for borrowed CD
+    public void setBorrowedCDDueDate(String cdId, LocalDate date) {
+        borrowedCDs.put(cdId, date);
     }
 }

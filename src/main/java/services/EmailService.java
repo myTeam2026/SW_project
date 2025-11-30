@@ -1,43 +1,113 @@
+
+
 package services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
-import jakarta.mail.Authenticator;
-import jakarta.mail.Message;
-import jakarta.mail.PasswordAuthentication;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
+import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
 public class EmailService {
-    private final String fromEmail = "your_email@gmail.com";
-    private final String password = "your_app_password";
 
-    public boolean sendEmail(String subject, String messageText) {
+    // ======== MOCK EMAIL STORAGE FOR TESTS ========
+    private final List<String> sentEmails = new ArrayList<>();
+
+    public List<String> getSentEmails() {
+        return sentEmails;
+    }
+
+    public int getSentEmailsCount() {
+        return sentEmails.size();
+    }
+
+    public void clearSentEmails() {
+        sentEmails.clear();
+    }
+
+    // ============================================================
+    //                 SEND REAL EMAIL (GUI MODE)
+    // ============================================================
+    public boolean sendEmail(String to, String subject, String messageText) {
+
+        // avoid null crash
+        if (to == null || subject == null || messageText == null) {
+            sentEmails.add("INVALID EMAIL PARAMS");
+            return false;
+        }
+
+        // =========================
+        //   MOCK MODE FOR TESTS
+        // =========================
+        if (!EmailConfig.ENABLE_REAL_EMAIL) {
+            String msg = "TO: " + to + " | SUBJECT: " + subject + " | MSG: " + messageText;
+            sentEmails.add(msg);
+            return true;
+        }
+
         try {
-            String to = "aradi0298@gmail.com";
             Properties props = new Properties();
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
             props.put("mail.smtp.host", "smtp.gmail.com");
             props.put("mail.smtp.port", "587");
-            Session session = Session.getInstance(props, new Authenticator() {
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+
+            Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+                @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(fromEmail, password);
+                    return new PasswordAuthentication(
+                            EmailConfig.USERNAME,
+                            EmailConfig.APP_PASSWORD
+                    );
                 }
             });
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(fromEmail));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-            message.setSubject(subject);
-            message.setText(messageText);
-            Transport.send(message);
-            System.out.println("Email sent to: " + to);
+
+            Message msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress(EmailConfig.USERNAME));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            msg.setSubject(subject);
+            msg.setText(messageText);
+
+            Transport.send(msg);
+
+            sentEmails.add("REAL EMAIL SENT TO: " + to);
             return true;
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+
+    // =====================================================
+    //     SEND REMINDER (2 PARAMETERS) — FOR OLD TESTS
+    // =====================================================
+    public boolean sendReminder(String email, String message) {
+
+        if (email == null || email.isEmpty() ||
+            message == null || message.isEmpty()) {
+
+            sentEmails.add("INVALID REMINDER");
+            return false;
+        }
+
+        return sendEmail(email, "Overdue Reminder", message);
+    }
+
+
+    // =====================================================
+    //     SEND REMINDER (3 PARAMETERS) — FOR NEW TESTS
+    // =====================================================
+    public boolean sendReminder(String to, String subject, String messageText, boolean extra) {
+        // This version is required because tests call sendReminder(to, subject, msg)
+        return sendEmail(to, subject, messageText);
+    }
+
+    // نسخة 3 باراميتر بدون extra (Overload)
+    public boolean sendReminder(String to, String subject, String messageText) {
+        return sendEmail(to, subject, messageText);
     }
 }

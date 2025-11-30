@@ -1,0 +1,42 @@
+12,clean code,ayah,true
+12345,clean,ayah,true
+gg,g,2
+gg,g,2
+a,a,1
+a,a,1
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+Java Programming,John Doe,ISBN100
+a,a,21
+a,a,21
+s,s,22
+s,s,22
+d,d,23
+d,d,23
+gg,g,5
+gg,g,5
+hh,h,6
+hh,h,6

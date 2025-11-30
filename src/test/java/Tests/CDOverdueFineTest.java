@@ -27,6 +27,7 @@ public class CDOverdueFineTest {
 
     }
 
+    
     @Test
     public void testOverdueCDFine() {
         testUser.addBorrowedCD(testCD, LocalDate.now().minusDays(3));

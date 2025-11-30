@@ -6,54 +6,35 @@ import java.util.List;
 
 public class UserData {
 
-    private static List<User> users = new ArrayList<>();
+    private static final List<User> users = new ArrayList<>();
 
-    static {
-        // Sample users for testing
-        users.add(new User("U001", "John Doe", "john@email.com"));
-        users.add(new User("U002", "Jane Smith", "jane@email.com"));
-        users.add(new User("U003", "Alice Johnson", "alice@email.com"));
-        users.add(new User("U082", "User Eight Two", "u082@email.com"));
-        users.add(new User("UQQ1", "User QQ One", "uqq1@email.com"));
+    public static void clearUsers() {
+        users.clear();
     }
 
-    // جلب مستخدم حسب المعرف
-    public static User getUserById(String userId) {
-        for (User user : users) {
-            if (user.getId().equalsIgnoreCase(userId)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    // إضافة مستخدم جديد
     public static void addUser(User user) {
         users.add(user);
     }
 
-    // جلب جميع المستخدمين
     public static List<User> getAllUsers() {
-        return new ArrayList<>(users);
+        return users;
     }
 
-    // إعادة تهيئة قائمة المستخدمين
-    public static void clearUsers() {
-        users.clear();
-        users.add(new User("U001", "John Doe", "john@email.com"));
-        users.add(new User("U002", "Jane Smith", "jane@email.com"));
-        users.add(new User("U003", "Alice Johnson", "alice@email.com"));
-        users.add(new User("U082", "User Eight Two", "u082@email.com"));
-        users.add(new User("UQQ1", "User QQ One", "uqq1@email.com"));
-    }
-    
-    public static User getUser(String userId) {
-        for (User user : users) {
-            if (user.getId().equalsIgnoreCase(userId)) {
-                return user;
-            }
+    public static User getUserById(String id) {
+        for (User u : users) {
+            if (u.getId().equalsIgnoreCase(id)) return u;
         }
         return null;
     }
 
+    public static User getUserByEmail(String email) {
+        for (User u : users) {
+            if (u.getEmail().equalsIgnoreCase(email)) return u;
+        }
+        return null;
+    }
+
+    public static String generateNewUserId() {
+        return "U" + String.format("%03d", users.size() + 1);
+    }
 }

@@ -22,8 +22,14 @@ public class Fine {
     public boolean isPaid() { return isPaid; }
     
     public void payFine(double amount) {
+        if (amount <= 0) return;
+
         if (amount >= this.amount) {
+            this.amount = 0.0;
             this.isPaid = true;
+            user.payFine(amount);
+        } else {
+            this.amount -= amount;
             user.payFine(amount);
         }
     }
