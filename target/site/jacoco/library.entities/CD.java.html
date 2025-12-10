@@ -1,46 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CD.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">library.entities</a> &gt; <span class="el_source">CD.java</span></div><h1>CD.java</h1><pre class="source lang-java linenums">package library.entities;
 
+/**
+ * Represents a CD in the library system.
+ * &lt;p&gt;
+ * This class stores the CD's ID, title, artist, and availability status.
+ * &lt;/p&gt;
+ * 
+ * @author Hamsa
+ * @version 1.0
+ */
 public class CD {
+
+    /**
+     * The unique ID of the CD.
+     */
     private String id;
+
+    /**
+     * The title of the CD.
+     */
     private String title;
+
+    /**
+     * The artist of the CD.
+     */
     private String artist;
+
+    /**
+     * Indicates whether the CD is currently available.
+     */
     private boolean available;
 
-<span class="fc" id="L9">    public CD(String id, String title, String artist) {</span>
-<span class="fc" id="L10">        this.id = id;</span>
-<span class="fc" id="L11">        this.title = title;</span>
-<span class="fc" id="L12">        this.artist = artist;</span>
-<span class="fc" id="L13">        this.available = true;</span>
-<span class="fc" id="L14">    }</span>
+    /**
+     * Constructs a new CD with the specified ID, title, and artist.
+     * The CD is initially available.
+     *
+     * @param id     the unique ID of the CD
+     * @param title  the title of the CD
+     * @param artist the artist of the CD
+     */
+<span class="fc" id="L42">    public CD(String id, String title, String artist) {</span>
+<span class="fc" id="L43">        this.id = id;</span>
+<span class="fc" id="L44">        this.title = title;</span>
+<span class="fc" id="L45">        this.artist = artist;</span>
+<span class="fc" id="L46">        this.available = true;</span>
+<span class="fc" id="L47">    }</span>
 
-    // ✅ Getter للدالة المطلوبة
+    /**
+     * Returns the ID of the CD.
+     *
+     * @return the CD ID
+     */
     public String getCdId() {
-<span class="fc" id="L18">        return id;</span>
+<span class="fc" id="L55">        return id;</span>
     }
 
-    // باقي الـ getters/setters
+    /**
+     * Returns the title of the CD.
+     *
+     * @return the CD title
+     */
     public String getTitle() {
-<span class="nc" id="L23">        return title;</span>
+<span class="fc" id="L64">        return title;</span>
     }
 
+    /**
+     * Returns the artist of the CD.
+     *
+     * @return the CD artist
+     */
     public String getArtist() {
-<span class="nc" id="L27">        return artist;</span>
+<span class="nc" id="L73">        return artist;</span>
     }
 
+    /**
+     * Checks whether the CD is available.
+     *
+     * @return true if available, false otherwise
+     */
     public boolean isAvailable() {
-<span class="fc" id="L31">        return available;</span>
+<span class="fc" id="L82">        return available;</span>
     }
 
+    /**
+     * Sets the availability status of the CD.
+     *
+     * @param available the availability status to set
+     */
     public void setAvailable(boolean available) {
-<span class="fc" id="L35">        this.available = available;</span>
-<span class="fc" id="L36">    }</span>
+<span class="fc" id="L91">        this.available = available;</span>
+<span class="fc" id="L92">    }</span>
 
+    /**
+     * Returns a string representation of the CD.
+     *
+     * @return a string in the format &quot;title by artist&quot;
+     */
     @Override
     public String toString() {
-<span class="nc" id="L40">        return title + &quot; by &quot; + artist;</span>
+<span class="nc" id="L101">        return title + &quot; by &quot; + artist;</span>
     }
-    
 }
-
-
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

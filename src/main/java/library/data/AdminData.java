@@ -4,28 +4,42 @@ import library.entities.Admin;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Provides static data for Admin users in the system.
+ * Contains a list of Admin objects and methods to access them.
+ * <p>
+ * This class simulates a simple in-memory database for admin authentication.
+ * </p>
+ * 
+ * @author Hamsa
+ * @version 1.0
+ */
 public class AdminData {
 
-    private static final List<Admin> admins = new ArrayList<>();
+    /**
+     * List that stores all Admin users.
+     * This list is pre-populated with two sample Admins.
+     */
+    private static List<Admin> Admins = new ArrayList<>();
 
+    /**
+     * Static block to initialize the list of Admins with sample data.
+     */
     static {
-        admins.add(new Admin("ayah", "1234"));   // الأدمن الأساسي
-        admins.add(new Admin("admin", "pass123")); // حساب إضافي اختياري
+        Admins.add(new Admin("admin1", "pass123"));
+        Admins.add(new Admin("admin2", "adminpass"));
     }
 
-    
-    public static void addAdmin(Admin admin) {
-        admins.add(admin);
-    }
-
-    public static void clearAdmins() {
-        admins.clear();
-    }
-
+    /**
+     * Retrieves an Admin object by its username.
+     *
+     * @param username the username of the admin to search for
+     * @return the Admin object if found; otherwise returns null
+     */
     public static Admin getAdminByUsername(String username) {
-        for (Admin a : admins) {
-            if (a.getUsername().equalsIgnoreCase(username)) {
-                return a;
+        for (Admin admin : Admins) {
+            if (admin.getUsername().equalsIgnoreCase(username)) {
+                return admin;
             }
         }
         return null;

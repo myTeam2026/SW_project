@@ -1,41 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Book.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">library.entities</a> &gt; <span class="el_source">Book.java</span></div><h1>Book.java</h1><pre class="source lang-java linenums">package library.entities;
 
+/**
+ * Represents a book in the library system.
+ * &lt;p&gt;
+ * This class stores the book's title, author, ISBN, and availability status.
+ * &lt;/p&gt;
+ * 
+ * @author Hamsa
+ * @version 1.0
+ */
 public class Book {
+
+    /** The title of the book. */
     private String title;
+
+    /** The author of the book. */
     private String author;
+
+    /** The unique ISBN identifier for the book. */
     private String isbn;
-    private boolean available;  // ⬅️ نضيف هذا الحقل
 
-<span class="fc" id="L9">    public Book(String title, String author, String isbn) {</span>
-<span class="fc" id="L10">        this.title = title;</span>
-<span class="fc" id="L11">        this.author = author;</span>
-<span class="fc" id="L12">        this.isbn = isbn;</span>
-<span class="fc" id="L13">        this.available = true;  // ⬅️ كل كتاب جديد بيكون متاح</span>
-<span class="fc" id="L14">    }</span>
+    /** Indicates whether the book is currently available. */
+    private boolean available;
 
-    // Getters
-<span class="fc" id="L17">    public String getTitle() { return title; }</span>
-<span class="fc" id="L18">    public String getAuthor() { return author; }</span>
-<span class="fc" id="L19">    public String getIsbn() { return isbn; }</span>
-<span class="fc" id="L20">    public boolean isAvailable() { return available; }  // ⬅️ نضيف هذا الـ getter</span>
+    /**
+     * Constructs a new Book with the specified title, author, and ISBN.
+     * The book is initially available.
+     *
+     * @param title  the title of the book
+     * @param author the author of the book
+     * @param isbn   the ISBN of the book
+     */
+<span class="fc" id="L34">    public Book(String title, String author, String isbn) {</span>
+<span class="fc" id="L35">        this.title = title;</span>
+<span class="fc" id="L36">        this.author = author;</span>
+<span class="fc" id="L37">        this.isbn = isbn;</span>
+<span class="fc" id="L38">        this.available = true;</span>
+<span class="fc" id="L39">    }</span>
 
-    // Setter for available
-    public void setAvailable(boolean available) {  // ⬅️ نضيف هذا الـ setter
-<span class="fc" id="L24">        this.available = available;</span>
-<span class="fc" id="L25">    }</span>
+    /** @return the book title */
+<span class="fc" id="L42">    public String getTitle() { return title; }</span>
 
-    // Equals &amp; hashCode based on ISBN
+    /** @return the book author */
+<span class="fc" id="L45">    public String getAuthor() { return author; }</span>
+
+    /** @return the book ISBN */
+<span class="fc" id="L48">    public String getISBN() { return isbn; }</span>
+
+    /** @return true if available, false otherwise */
+<span class="fc" id="L51">    public boolean isAvailable() { return available; }</span>
+
+    /** Sets the availability status of the book. */
+<span class="fc" id="L54">    public void setAvailable(boolean available) { this.available = available; }</span>
+
+    /** Compares this book to another object for equality based on ISBN. */
     @Override
     public boolean equals(Object obj) {
-<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        if (this == obj) return true;</span>
-<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (!(obj instanceof Book)) return false;</span>
-<span class="nc" id="L32">        Book other = (Book) obj;</span>
-<span class="nc" id="L33">        return isbn.equals(other.isbn);</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        if (this == obj) return true;</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (!(obj instanceof Book)) return false;</span>
+<span class="nc" id="L61">        Book other = (Book) obj;</span>
+<span class="nc" id="L62">        return isbn.equals(other.isbn);</span>
     }
 
+    /** Returns the hash code for this book based on its ISBN. */
     @Override
-    public int hashCode() {
-<span class="nc" id="L38">        return isbn.hashCode();</span>
+<span class="nc" id="L67">    public int hashCode() { return isbn.hashCode(); }</span>
+
+    /** Sets the title of the book. */
+<span class="fc" id="L70">    public void setTitle(String title) { this.title = title; }</span>
+
+    /** Sets the author of the book. */
+<span class="fc" id="L73">    public void setAuthor(String author) { this.author = author; }</span>
+
+    /** Sets the ISBN of the book. */
+<span class="fc" id="L76">    public void setISBN(String isbn) { this.isbn = isbn; }</span>
+
+    /** @return a string representation of the book */
+    @Override
+    public String toString() {
+<span class="fc" id="L81">        return &quot;Book Title: &quot; + title +</span>
+               &quot;, Author Name: &quot; + author +
+               &quot;, ISBN: &quot; + isbn;
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

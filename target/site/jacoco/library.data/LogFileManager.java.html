@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogFileManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">library.data</a> &gt; <span class="el_source">LogFileManager.java</span></div><h1>LogFileManager.java</h1><pre class="source lang-java linenums">package library.data;
+
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+/**
+ * Handles writing log messages to a text file for the library system.
+ * &lt;p&gt;
+ * This class creates the log folder if missing, and appends timestamped
+ * messages to &lt;code&gt;log.txt&lt;/code&gt;. Each log entry follows the format:
+ * &lt;br&gt;
+ * &lt;code&gt;[yyyy-MM-dd HH:mm:ss] message&lt;/code&gt;
+ * &lt;/p&gt;
+ *
+ * @author Hamsa
+ * @version 1.1
+ */
+<span class="nc" id="L19">public class LogFileManager {</span>
+
+    /** Folder in which log files are stored. */
+    private static final String FOLDER = &quot;Files&quot;;
+
+    /** Path to the log file used for writing log entries. */
+    private static final String PATH = &quot;Files/log.txt&quot;;
+
+    /**
+     * Ensures that the log folder exists.
+     * &lt;p&gt;
+     * If the folder does not exist, it will be created automatically.
+     * &lt;/p&gt;
+     */
+    private static void ensureFolder() {
+<span class="nc" id="L34">        File f = new File(FOLDER);</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (!f.exists()) f.mkdirs();</span>
+<span class="nc" id="L36">    }</span>
+
+    /**
+     * Writes a log message to the log file with a timestamp.
+     * &lt;p&gt;
+     * The format of each logged line is:
+     * &lt;br&gt;
+     * &lt;code&gt;[yyyy-MM-dd HH:mm:ss] message&lt;/code&gt;
+     * &lt;/p&gt;
+     *
+     * @param msg the message to be recorded in the log file
+     */
+    public static void log(String msg) {
+<span class="nc" id="L49">        ensureFolder();</span>
+
+<span class="nc" id="L51">        try (BufferedWriter w = new BufferedWriter(new FileWriter(PATH, true))) {</span>
+<span class="nc" id="L52">            String time = LocalDateTime.now().format(</span>
+<span class="nc" id="L53">                    DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;)</span>
+            );
+<span class="nc" id="L55">            w.write(&quot;[&quot; + time + &quot;] &quot; + msg);</span>
+<span class="nc" id="L56">            w.newLine();</span>
+<span class="nc" id="L57">        } catch (Exception e) {</span>
+<span class="nc" id="L58">            e.printStackTrace();</span>
+<span class="nc" id="L59">        }</span>
+<span class="nc" id="L60">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

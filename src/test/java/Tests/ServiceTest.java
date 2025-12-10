@@ -15,13 +15,36 @@ import library.data.BookData;
 import library.data.UserData;
 import library.data.LoanData;
 
+/**
+ * Test class for library services including BorrowService and FineService.
+ * <p>
+ * This class contains JUnit tests for scenarios such as borrowing books, 
+ * handling fines, returning books, and restrictions on overdue books.
+ * </p>
+ * 
+ * @author همسة حنتش
+ * @version 1.0
+ */
 public class ServiceTest {
     
+    /** Borrow service instance */
     private BorrowService borrowService;
+    
+    /** Fine service instance */
     private FineService fineService;
+    
+    /** Test user */
     private User testUser;
+    
+    /** Test book */
     private Book testBook;
     
+    /**
+     * Set up the test environment before each test.
+     * <p>
+     * Initializes services, clears previous data, and adds a test user and a test book.
+     * </p>
+     */
     @Before
     public void setUp() {
         borrowService = new BorrowService();
@@ -39,7 +62,12 @@ public class ServiceTest {
         BookData.addBook(testBook);
     }
     
-    
+    /**
+     * Tear down the test environment after each test.
+     * <p>
+     * Clears all books, users, and loans.
+     * </p>
+     */
     @After
     public void tearDown() {
         BookData.clearBooks();
@@ -47,79 +75,84 @@ public class ServiceTest {
         LoanData.clearLoans();
     }
     
+    /**
+     * Test an integrated scenario of borrowing a book, adding a fine, 
+     * and paying the fine.
+     * 
+     * @author همسة حنتش
+     * @return void
+     */
     @Test
     public void testIntegratedBorrowAndFineScenario() {
-        // When - استعارة كتاب
         String borrowResult = borrowService.borrowBook("ISBN001", "USER001");
-        
-        // Then - التحقق من الاستعارة
         assertEquals("Success: Book borrowed successfully", borrowResult);
         assertFalse("Book should not be available", testBook.isAvailable());
         
-        // When - إضافة غرامة للمستخدم
         fineService.addFine("USER001", 25.0);
+        assertFalse("User should not be able to borrow with fine", testUser.canBorrow());
         
-        // Then - التحقق من الغرامة
-        assertFalse("User should not be able to borrow with fine", testUser.CanBorrow());
-        
-        // When - دفع الغرامة
         boolean paymentResult = fineService.payFine("USER001", 25.0);
-        
-        // Then - التحقق من إزالة الغرامة
         assertTrue("Payment should be successful", paymentResult);
-        assertTrue("User should be able to borrow after fine payment", testUser.CanBorrow());
+        assertTrue("User should be able to borrow after fine payment", testUser.canBorrow());
     }
     
+    /**
+     * Test that a user with an active fine cannot borrow a book.
+     * 
+     * @author همسة حنتش
+     * @return void
+     */
     @Test
     public void testCannotBorrowWithActiveFine() {
-        // Given - غرامة نشطة
         fineService.addFine("USER001", 10.0);
-        
-        // When - محاولة استعارة كتاب
         String borrowResult = borrowService.borrowBook("ISBN001", "USER001");
-        
-        // Then - يجب أن ترجع رسالة خطأ
         assertEquals("Error: Cannot borrow - user has unpaid fines", borrowResult);
         assertTrue("Book should still be available", testBook.isAvailable());
     }
     
+    /**
+     * Test borrowing a book after paying an existing fine.
+     * 
+     * @author همسة حنتش
+     * @return void
+     */
     @Test
     public void testBorrowAfterFinePayment() {
-        // Given - غرامة مدفوعة
         fineService.addFine("USER001", 15.0);
         fineService.payFine("USER001", 15.0);
         
-        // When - محاولة استعارة كتاب
         String borrowResult = borrowService.borrowBook("ISBN001", "USER001");
-        
-        // Then - يجب أن تنجح الاستعارة
         assertEquals("Success: Book borrowed successfully", borrowResult);
-        assertTrue("User should have borrowing rights", testUser.CanBorrow ());
+        assertTrue("User should have borrowing rights", testUser.canBorrow());
     }
     
+    /**
+     * Test the scenario of returning a borrowed book.
+     * 
+     * @author همسة حنتش
+     * @return void
+     */
     @Test
     public void testReturnBookScenario() {
-        // Given - استعارة كتاب
         borrowService.borrowBook("ISBN001", "USER001");
         Loan loan = LoanData.getLoansByUser("USER001").get(0);
         
-        // When - إرجاع الكتاب
         boolean returnResult = borrowService.returnBook(loan.getLoanId());
-        
-        // Then - التحقق من النتائج
         assertTrue("Return should be successful", returnResult);
         assertTrue("Book should be available again", testBook.isAvailable());
         
-        // When - محاولة استعارة نفس الكتاب مرة أخرى
         String borrowAgain = borrowService.borrowBook("ISBN001", "USER001");
-        
-        // Then - يجب أن تنجح الاستعارة
         assertEquals("Success: Book borrowed successfully", borrowAgain);
     }
     
+    /**
+     * Test that a user with overdue books cannot borrow new books.
+     * 
+     * @author همسة حنتش
+     * @return void
+     */
     @Test
     public void testBorrowWithOverdueBooks() {
-        // Given - كتاب متأخر
         Loan overdueLoan = new Loan(testBook, testUser, 
                                   LocalDate.now().minusDays(35), 
                                   LocalDate.now().minusDays(7));
@@ -129,10 +162,7 @@ public class ServiceTest {
         newBook.setAvailable(true);
         BookData.addBook(newBook);
         
-        // When - محاولة استعارة كتاب جديد
         String borrowResult = borrowService.borrowBook("ISBN002", "USER001");
-        
-        // Then - يجب أن ترجع رسالة خطأ
         assertEquals("Error: Cannot borrow - user has overdue books", borrowResult);
         assertTrue("New book should still be available", newBook.isAvailable());
     }

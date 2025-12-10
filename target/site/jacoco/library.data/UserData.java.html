@@ -4,47 +4,79 @@ import library.entities.User;
 import java.util.ArrayList;
 import java.util.List;
 
-<span class="nc" id="L7">public class UserData {</span>
+/**
+ * Provides static data management for users in the library system.
+ * &lt;p&gt;
+ * This class simulates an in-memory database of users and provides
+ * methods to add, retrieve, list, and reset user data.
+ * &lt;/p&gt;
+ * 
+ * @author Hamsa
+ * @version 1.0
+ */
+<span class="nc" id="L17">public class UserData {</span>
 
-<span class="fc" id="L9">    private static List&lt;User&gt; users = new ArrayList&lt;&gt;();</span>
+    /**
+     * List that stores all User objects.
+     * Pre-populated with sample users in the static block.
+     */
+<span class="fc" id="L23">    private static List&lt;User&gt; users = new ArrayList&lt;&gt;();</span>
 
+    /**
+     * Static block to initialize the users list with sample data.
+     */
     static {
-        // Sample users for testing
-<span class="fc" id="L13">        users.add(new User(&quot;U001&quot;, &quot;John Doe&quot;, &quot;john@email.com&quot;));</span>
-<span class="fc" id="L14">        users.add(new User(&quot;U002&quot;, &quot;Jane Smith&quot;, &quot;jane@email.com&quot;));</span>
-<span class="fc" id="L15">        users.add(new User(&quot;U003&quot;, &quot;Alice Johnson&quot;, &quot;alice@email.com&quot;));</span>
-<span class="fc" id="L16">        users.add(new User(&quot;U082&quot;, &quot;User Eight Two&quot;, &quot;u082@email.com&quot;));</span>
-<span class="fc" id="L17">        users.add(new User(&quot;UQQ1&quot;, &quot;User QQ One&quot;, &quot;uqq1@email.com&quot;));</span>
-<span class="fc" id="L18">    }</span>
+<span class="fc" id="L29">        users.add(new User(&quot;U001&quot;, &quot;John Doe&quot;, &quot;john@email.com&quot;));</span>
+<span class="fc" id="L30">        users.add(new User(&quot;U002&quot;, &quot;Jane Smith&quot;, &quot;jane@email.com&quot;));</span>
+<span class="fc" id="L31">        users.add(new User(&quot;U003&quot;, &quot;Alice Johnson&quot;, &quot;alice@email.com&quot;));</span>
+<span class="fc" id="L32">        users.add(new User(&quot;U082&quot;, &quot;User Eight Two&quot;, &quot;u082@email.com&quot;));</span>
+<span class="fc" id="L33">        users.add(new User(&quot;UQQ1&quot;, &quot;User QQ One&quot;, &quot;uqq1@email.com&quot;));</span>
+<span class="fc" id="L34">    }</span>
 
-    // جلب مستخدم حسب المعرف
+    /**
+     * Retrieves a user by their unique ID.
+     *
+     * @param userId the ID of the user to search for
+     * @return the User object if found; otherwise null
+     */
     public static User getUserById(String userId) {
-<span class="fc bfc" id="L22" title="All 2 branches covered.">        for (User user : users) {</span>
-<span class="fc bfc" id="L23" title="All 2 branches covered.">            if (user.getId().equalsIgnoreCase(userId)) {</span>
-<span class="fc" id="L24">                return user;</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        for (User user : users) {</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            if (user.getId().equalsIgnoreCase(userId)) {</span>
+<span class="fc" id="L45">                return user;</span>
             }
-<span class="fc" id="L26">        }</span>
-<span class="fc" id="L27">        return null;</span>
+<span class="fc" id="L47">        }</span>
+<span class="fc" id="L48">        return null;</span>
     }
 
-    // إضافة مستخدم جديد
+    /**
+     * Adds a new user to the system.
+     *
+     * @param user the User object to add
+     */
     public static void addUser(User user) {
-<span class="fc" id="L32">        users.add(user);</span>
-<span class="fc" id="L33">    }</span>
+<span class="fc" id="L57">        users.add(user);</span>
+<span class="fc" id="L58">    }</span>
 
-    // جلب جميع المستخدمين
+    /**
+     * Retrieves a copy of all users in the system.
+     *
+     * @return a list of all User objects
+     */
     public static List&lt;User&gt; getAllUsers() {
-<span class="fc" id="L37">        return new ArrayList&lt;&gt;(users);</span>
+<span class="fc" id="L66">        return new ArrayList&lt;&gt;(users);</span>
     }
 
-    // إعادة تهيئة قائمة المستخدمين
+    /**
+     * Clears all users and resets the list to the initial sample users.
+     * Typically used for testing or resetting the system.
+     */
     public static void clearUsers() {
-<span class="fc" id="L42">        users.clear();</span>
-<span class="fc" id="L43">        users.add(new User(&quot;U001&quot;, &quot;John Doe&quot;, &quot;john@email.com&quot;));</span>
-<span class="fc" id="L44">        users.add(new User(&quot;U002&quot;, &quot;Jane Smith&quot;, &quot;jane@email.com&quot;));</span>
-<span class="fc" id="L45">        users.add(new User(&quot;U003&quot;, &quot;Alice Johnson&quot;, &quot;alice@email.com&quot;));</span>
-<span class="fc" id="L46">        users.add(new User(&quot;U082&quot;, &quot;User Eight Two&quot;, &quot;u082@email.com&quot;));</span>
-<span class="fc" id="L47">        users.add(new User(&quot;UQQ1&quot;, &quot;User QQ One&quot;, &quot;uqq1@email.com&quot;));</span>
-<span class="fc" id="L48">    }</span>
+<span class="fc" id="L74">        users.clear();</span>
+<span class="fc" id="L75">        users.add(new User(&quot;U001&quot;, &quot;John Doe&quot;, &quot;john@email.com&quot;));</span>
+<span class="fc" id="L76">        users.add(new User(&quot;U002&quot;, &quot;Jane Smith&quot;, &quot;jane@email.com&quot;));</span>
+<span class="fc" id="L77">        users.add(new User(&quot;U003&quot;, &quot;Alice Johnson&quot;, &quot;alice@email.com&quot;));</span>
+<span class="fc" id="L78">        users.add(new User(&quot;U082&quot;, &quot;User Eight Two&quot;, &quot;u082@email.com&quot;));</span>
+<span class="fc" id="L79">        users.add(new User(&quot;UQQ1&quot;, &quot;User QQ One&quot;, &quot;uqq1@email.com&quot;));</span>
+<span class="fc" id="L80">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

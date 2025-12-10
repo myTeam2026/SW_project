@@ -1,51 +1,127 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CDService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">services</a> &gt; <span class="el_source">CDService.java</span></div><h1>CDService.java</h1><pre class="source lang-java linenums">package services;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CDService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">services</a> &gt; <span class="el_source">CDService.java</span></div><h1>CDService.java</h1><pre class="source lang-java linenums">
+ package services;
 
 import library.entities.CD;
 import library.entities.User;
 import library.data.UserData;
+import library.data.CDData;
 import library.data.LoanData;
+import library.entities.Loan;
+
 import java.time.LocalDate;
+import java.util.List;
 
-<span class="fc" id="L9">public class CDService {</span>
+/**
+ * Service class to manage CD borrowing, returning, and overdue fines.
+ * &lt;p&gt;
+ * Provides methods to borrow CDs, return CDs, and automatically apply fines
+ * if a CD is returned after its due date.
+ * Also provides add, search, and remove operations for CDs.
+ * &lt;/p&gt;
+ * 
+ * @author Hamsa
+ * @version 1.0
+ */
+<span class="fc" id="L25">public class CDService {</span>
 
-    // إضافة غرامة تلقائية على CD متأخر
-    public void applyOverdueFine(CD cd, String userId) {
-<span class="fc" id="L13">        User user = UserData.getUserById(userId);</span>
-<span class="pc bpc" id="L14" title="1 of 2 branches missed.">        if (user == null) return;</span>
-
-<span class="fc" id="L16">        LocalDate dueDate = user.getBorrowedCDDueDate(cd.getCdId());</span>
-<span class="pc bpc" id="L17" title="1 of 2 branches missed.">        if (dueDate == null) return; // لم يستعر CD</span>
-
-<span class="pc bpc" id="L19" title="1 of 2 branches missed.">        if (LocalDate.now().isAfter(dueDate)) {</span>
-            // فرض الغرامة: 20 NIS للـCD المتأخر
-<span class="fc" id="L21">            user.addFine(20.0);</span>
+    /**
+     * Adds a new CD to the system.
+     *
+     * @param title  the title of the CD
+     * @param artist the artist of the CD
+     * @param cdId   the unique CD ID
+     * @return a success message
+     */
+    public String addCD(String title, String artist, String cdId) {
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (CDData.getCD(cdId) != null) {</span>
+<span class="fc" id="L37">            return &quot;Error: CD with this ID already exists&quot;;</span>
         }
-<span class="fc" id="L23">    }</span>
-
-    // استعارة CD
-    public String borrowCD(CD cd, String userId) {
-<span class="nc" id="L27">         User user = UserData.getUserById(userId);</span>
-<span class="nc bnc" id="L28" title="All 2 branches missed.">    if (user == null) return &quot;Error: User not found&quot;;</span>
-<span class="nc bnc" id="L29" title="All 2 branches missed.">    if (!user.canBorrow()) return &quot;Error: Cannot borrow - unpaid fines or restrictions&quot;;</span>
-<span class="nc bnc" id="L30" title="All 2 branches missed.">    if (!cd.isAvailable()) return &quot;Error: CD is not available&quot;;</span>
-
-<span class="nc" id="L32">    LocalDate dueDate = LocalDate.now().plusDays(7);</span>
-<span class="nc" id="L33">    user.addBorrowedCD(cd, dueDate);</span>
-<span class="nc" id="L34">    cd.setAvailable(false); // تحديث حالة CD</span>
-
-<span class="nc" id="L36">    return &quot;Success: CD borrowed successfully, due &quot; + dueDate;</span>
+<span class="fc" id="L39">        CD newCD = new CD(cdId, title, artist);</span>
+<span class="fc" id="L40">        CDData.addCD(newCD);</span>
+<span class="fc" id="L41">        return &quot;Success: CD added successfully&quot;;</span>
     }
 
-    // إرجاع CD
-    public String returnCD(CD cd, String userId) {
-<span class="fc" id="L41">        User user = UserData.getUserById(userId);</span>
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">    if (user == null) return &quot;Error: User not found&quot;;</span>
+    /**
+     * Searches for a CD by its ID.
+     *
+     * @param cdId the ID of the CD
+     * @return the CD object if found, null otherwise
+     */
+    public CD searchCDById(String cdId) {
+<span class="fc" id="L51">        return CDData.getCD(cdId);</span>
+    }
 
-<span class="fc" id="L44">    applyOverdueFine(cd, userId);</span>
-<span class="fc" id="L45">    cd.setAvailable(true);       // تحديث حالة CD</span>
-<span class="fc" id="L46">    user.returnCD(cd.getCdId());</span>
-
-<span class="fc" id="L48">    return &quot;Success: CD returned&quot;;}</span>
-       
+    /**
+     * Removes a CD from the system by its ID.
+     *
+     * @param cdId the ID of the CD to remove
+     * @return a success message if removed, error message if not found
+     */
+  public String removeCD(String cdId) {
+<span class="fc" id="L61">    CD cdToRemove = CDData.getCD(cdId);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">    if (cdToRemove != null) {</span>
+<span class="fc" id="L63">        CDData.removeCD(cdId); // استخدام الميثود الرسمية لإزالة CD</span>
+<span class="fc" id="L64">        return &quot;Success: CD removed successfully&quot;;</span>
+    } else {
+<span class="fc" id="L66">        return &quot;Error: CD not found&quot;;</span>
+    }
 }
+
+
+    // ================= Existing methods =================
+
+    public void applyOverdueFine(CD cd, String userId) {
+<span class="fc" id="L74">        User user = UserData.getUserById(userId);</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        if (user == null) return;</span>
+
+<span class="fc" id="L77">        LocalDate dueDate = user.getBorrowedCDDueDate(cd.getCdId());</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        if (dueDate == null) return; // CD not borrowed</span>
+
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if (LocalDate.now().isAfter(dueDate)) {</span>
+<span class="fc" id="L81">            user.addFine(20.0);</span>
+        }
+<span class="fc" id="L83">    }</span>
+
+    public String borrowCD(CD cd, String userId) {
+<span class="nc" id="L86">        User user = UserData.getUserById(userId);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (user == null) return &quot;Error: User not found&quot;;</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (!user.canBorrow()) return &quot;Error: Cannot borrow - unpaid fines or restrictions&quot;;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        if (!cd.isAvailable()) return &quot;Error: CD is not available&quot;;</span>
+
+<span class="nc" id="L91">        LocalDate dueDate = LocalDate.now().plusDays(7);</span>
+<span class="nc" id="L92">        user.addBorrowedCD(cd, dueDate);</span>
+<span class="nc" id="L93">        cd.setAvailable(false);</span>
+
+<span class="nc" id="L95">        return &quot;Success: CD borrowed successfully, due &quot; + dueDate;</span>
+    }
+
+    public String returnCD(CD cd, String userId) {
+<span class="fc" id="L99">        User user = UserData.getUserById(userId);</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        if (user == null) return &quot;Error: User not found&quot;;</span>
+
+<span class="fc" id="L102">        applyOverdueFine(cd, userId);</span>
+<span class="fc" id="L103">        cd.setAvailable(true);</span>
+<span class="fc" id="L104">        user.returnCD(cd.getCdId());</span>
+
+<span class="fc" id="L106">        return &quot;Success: CD returned&quot;;</span>
+    }
+}
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

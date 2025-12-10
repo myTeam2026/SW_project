@@ -3,36 +3,64 @@
 import library.data.UserData;
 import library.entities.User;
 
-<span class="fc" id="L6">public class FineService {</span>
-    
+/**
+ * Service class to manage fines for users in the library system.
+ * &lt;p&gt;
+ * Provides methods to pay fines, add fines, and check a user's fine balance.
+ * &lt;/p&gt;
+ * 
+ * @author Hamsa
+ * @version 1.0
+ */
+<span class="fc" id="L15">public class FineService {</span>
+
+    /**
+     * Pays a fine for a user.
+     *
+     * @param userId the ID of the user paying the fine
+     * @param amount the amount to pay
+     * @return true if payment was successful, false otherwise
+     */
     public boolean payFine(String userId, double amount) {
-<span class="fc" id="L9">        User user = UserData.getUserById(userId);</span>
-<span class="pc bpc" id="L10" title="1 of 2 branches missed.">        if (user == null) {</span>
-<span class="nc" id="L11">            return false;</span>
+<span class="fc" id="L25">        User user = UserData.getUserById(userId);</span>
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">        if (user == null) {</span>
+<span class="nc" id="L27">            return false;</span>
         }
         
-<span class="fc bfc" id="L14" title="All 2 branches covered.">        if (amount &lt;= 0) {</span>
-<span class="fc" id="L15">            return false;</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if (amount &lt;= 0) {</span>
+<span class="fc" id="L31">            return false;</span>
         }
         
-<span class="fc bfc" id="L18" title="All 2 branches covered.">        if (amount &gt; user.getFineBalance()) {</span>
-<span class="fc" id="L19">            return false;</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (amount &gt; user.getFineBalance()) {</span>
+<span class="fc" id="L35">            return false;</span>
         }
         
-<span class="fc" id="L22">        user.payFine(amount);</span>
-<span class="fc" id="L23">        return true;</span>
+<span class="fc" id="L38">        user.payFine(amount);</span>
+<span class="fc" id="L39">        return true;</span>
     }
-    
+
+    /**
+     * Adds a fine to a user's account.
+     *
+     * @param userId the ID of the user to be fined
+     * @param amount the fine amount
+     */
     public void addFine(String userId, double amount) {
-<span class="fc" id="L27">        User user = UserData.getUserById(userId);</span>
-<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if (user != null) {</span>
-<span class="fc" id="L29">            user.addFine(amount);</span>
+<span class="fc" id="L49">        User user = UserData.getUserById(userId);</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        if (user != null) {</span>
+<span class="fc" id="L51">            user.addFine(amount);</span>
         }
-<span class="fc" id="L31">    }</span>
-    
+<span class="fc" id="L53">    }</span>
+
+    /**
+     * Retrieves the total fine balance for a user.
+     *
+     * @param userId the ID of the user
+     * @return the user's fine balance; returns 0.0 if user not found
+     */
     public double getFineBalance(String userId) {
-<span class="fc" id="L34">        User user = UserData.getUserById(userId);</span>
-<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        return user != null ? user.getFineBalance() : 0.0;</span>
+<span class="fc" id="L62">        User user = UserData.getUserById(userId);</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        return user != null ? user.getFineBalance() : 0.0;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

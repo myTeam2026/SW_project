@@ -1,28 +1,50 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BookSearchService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">services</a> &gt; <span class="el_source">BookSearchService.java</span></div><h1>BookSearchService.java</h1><pre class="source lang-java linenums">/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-    package services;
-
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BookSearchService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">services</a> &gt; <span class="el_source">BookSearchService.java</span></div><h1>BookSearchService.java</h1><pre class="source lang-java linenums">package services;
 import library.data.BookData;
 import library.entities.Book;
 import java.util.List;
 
-<span class="fc" id="L12">public class BookSearchService {</span>
 
+/**
+ * Provides services to search for books in the library.
+ * &lt;p&gt;
+ * This class allows searching books by title, author, or ISBN
+ * using the data provided by {@link BookData}.
+ * &lt;/p&gt;
+ * 
+ * @author Hamsa
+ * @version 1.0
+ */
+<span class="fc" id="L17">public class BookSearchService {</span>
+
+    /**
+     * Searches for books with a matching title.
+     *
+     * @param title the title to search for
+     * @return a list of books with the specified title
+     */
     public List&lt;Book&gt; searchByTitle(String title) {
-<span class="fc" id="L15">        return BookData.searchBooksByTitle(title);</span>
+<span class="fc" id="L26">        return BookData.searchBooksByTitle(title);</span>
     }
 
+    /**
+     * Searches for books by a specific author.
+     *
+     * @param author the author's name to search for
+     * @return a list of books written by the specified author
+     */
     public List&lt;Book&gt; searchByAuthor(String author) {
-<span class="fc" id="L19">        return BookData.searchBooksByAuthor(author);</span>
+<span class="fc" id="L36">        return BookData.searchBooksByAuthor(author);</span>
     }
 
+    /**
+     * Searches for a book with a specific ISBN.
+     *
+     * @param isbn the ISBN of the book to search for
+     * @return the book with the specified ISBN, or null if not found
+     */
     public Book searchByISBN(String isbn) {
-<span class="fc" id="L23">        return BookData.getBookByISBN(isbn);</span>
+<span class="fc" id="L46">        return BookData.getBookByISBN(isbn);</span>
     }
 }
-
 
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

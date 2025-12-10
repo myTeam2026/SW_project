@@ -10,11 +10,31 @@ import library.entities.User;
 
 import java.util.List;
 
+/**
+ * Unit tests for {@link library.data.FineData}.
+ * <p>
+ * This class verifies the functionality for creating fines,
+ * retrieving fines by user, calculating total fines, and clearing fines.
+ * It also ensures that fine IDs increment correctly and user fine balances
+ * are updated appropriately.
+ * </p>
+ *
+ * @version 1.1
+ * @author Hamsa
+ */
 public class FineDataTest {
 
+    /** First test user */
     private User user1;
+
+    /** Second test user */
     private User user2;
 
+    /**
+     * Initializes the test environment before each test:
+     * - Clears all fines in FineData
+     * - Creates sample users
+     */
     @Before
     public void setUp() {
         FineData.clearFines();
@@ -22,6 +42,9 @@ public class FineDataTest {
         user2 = new User("U002", "Jane Doe", "jane@email.com");
     }
 
+    /**
+     * Tests creating a fine and verifying its properties and user balance.
+     */
     @Test
     public void testCreateFineAndGetters() {
         Fine fine = FineData.createFine(user1, 10.0, "Late return");
@@ -32,6 +55,9 @@ public class FineDataTest {
         assertEquals(10.0, user1.getFineBalance(), 0.01);
     }
 
+    /**
+     * Tests that multiple fines increment IDs correctly.
+     */
     @Test
     public void testMultipleFinesIncrementIds() {
         Fine f1 = FineData.createFine(user1, 5.0, "Lost book");
@@ -40,6 +66,9 @@ public class FineDataTest {
         assertEquals("F002", f2.getFineId());
     }
 
+    /**
+     * Tests retrieving fines associated with a specific user.
+     */
     @Test
     public void testGetFinesByUser() {
         Fine f1 = FineData.createFine(user1, 10.0, "Late");
@@ -49,6 +78,9 @@ public class FineDataTest {
         assertEquals(f1, user1Fines.get(0));
     }
 
+    /**
+     * Tests calculating the total fines for a specific user.
+     */
     @Test
     public void testGetTotalFinesByUser() {
         FineData.createFine(user1, 10.0, "Late");
@@ -57,6 +89,9 @@ public class FineDataTest {
         assertEquals(15.0, total, 0.01);
     }
 
+    /**
+     * Tests clearing all fines and resetting fine IDs.
+     */
     @Test
     public void testClearFines() {
         FineData.createFine(user1, 5.0, "Lost");

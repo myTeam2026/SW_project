@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CDLoan.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">library.entities</a> &gt; <span class="el_source">CDLoan.java</span></div><h1>CDLoan.java</h1><pre class="source lang-java linenums">package library.entities;
+
+import java.io.Serializable;
+
+/**
+ * Represents a loan of a CD to a library user.
+ * &lt;p&gt;
+ * This class stores information about the CD being borrowed, the user who borrowed it,
+ * the borrow date, and whether the CD has been returned or not.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Implements {@link Serializable} to allow CDLoan objects to be serialized.
+ * &lt;/p&gt;
+ */
+public class CDLoan implements Serializable {
+
+    /** The unique identifier of the CD being borrowed. */
+    private String cdId;
+
+    /** The unique identifier of the user borrowing the CD. */
+    private String userId;
+
+    /** The date when the CD was borrowed. */
+    private String borrowDate;
+
+    /** Indicates whether the CD has been returned. */
+    private boolean returned;
+
+    /**
+     * Constructs a new CDLoan with the specified CD ID, user ID, borrow date, and return status.
+     *
+     * @param cdId the ID of the CD
+     * @param userId the ID of the user
+     * @param borrowDate the date the CD was borrowed
+     * @param returned true if the CD has been returned, false otherwise
+     */
+<span class="nc" id="L37">    public CDLoan(String cdId, String userId, String borrowDate, boolean returned) {</span>
+<span class="nc" id="L38">        this.cdId = cdId;</span>
+<span class="nc" id="L39">        this.userId = userId;</span>
+<span class="nc" id="L40">        this.borrowDate = borrowDate;</span>
+<span class="nc" id="L41">        this.returned = returned;</span>
+<span class="nc" id="L42">    }</span>
+
+    /**
+     * Returns the ID of the CD.
+     *
+     * @return the CD ID
+     */
+    public String getCdId() {
+<span class="nc" id="L50">        return cdId;</span>
+    }
+
+    /**
+     * Returns the ID of the user who borrowed the CD.
+     *
+     * @return the user ID
+     */
+    public String getUserId() {
+<span class="nc" id="L59">        return userId;</span>
+    }
+
+    /**
+     * Returns the date when the CD was borrowed.
+     *
+     * @return the borrow date
+     */
+    public String getBorrowDate() {
+<span class="nc" id="L68">        return borrowDate;</span>
+    }
+
+    /**
+     * Checks whether the CD has been returned.
+     *
+     * @return true if returned, false otherwise
+     */
+    public boolean isReturned() {
+<span class="nc" id="L77">        return returned;</span>
+    }
+
+    /**
+     * Sets the return status of the CD.
+     *
+     * @param returned true if the CD has been returned, false otherwise
+     */
+    public void setReturned(boolean returned) {
+<span class="nc" id="L86">        this.returned = returned;</span>
+<span class="nc" id="L87">    }</span>
+
+    /**
+     * Returns a string representation of the CDLoan object.
+     *
+     * @return a string describing the CDLoan
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L96">        return &quot;CDLoan{&quot; +</span>
+                &quot;cdId='&quot; + cdId + '\'' +
+                &quot;, userId='&quot; + userId + '\'' +
+                &quot;, borrowDate='&quot; + borrowDate + '\'' +
+                &quot;, returned=&quot; + returned +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

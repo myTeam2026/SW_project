@@ -1,25 +1,36 @@
 package services;
 
 import library.data.BookData;
-import library.data.BookFileManager;
-import library.data.LogFileManager;
 import library.entities.Book;
 
+/**
+ * Service class responsible for adding new books to the library system.
+ * <p>
+ * Ensures that a book with the same ISBN does not already exist before adding.
+ * </p>
+ * 
+ * @author Hamsa
+ * @version 1.0
+ */
 public class add_book_service {
 
+    /**
+     * Adds a new book to the library.
+     *
+     * @param title  the title of the book
+     * @param author the author of the book
+     * @param isbn   the ISBN of the book (must be unique)
+     * @return true if the book was successfully added; false if a book with the same ISBN already exists
+     */
     public boolean addBook(String title, String author, String isbn) {
+        // التحقق من وجود الكتاب مسبقاً
         if (BookData.getBookByISBN(isbn) != null) {
-            LogFileManager.log("ADD_BOOK_FAILED: ISBN=" + isbn + " already exists");
-            return false;
+            return false; // الكتاب موجود بالفعل
         }
 
         Book newBook = new Book(title, author, isbn);
-        newBook.setAvailable(true);
+        newBook.setAvailable(true); // الكتاب متاح للاستعارة
         BookData.addBook(newBook);
-
-        BookFileManager.saveBookToFile(newBook);
-        LogFileManager.log("ADD_BOOK_SUCCESS: ISBN=" + isbn + ", TITLE=" + title);
-
         return true;
     }
 }

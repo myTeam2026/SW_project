@@ -11,68 +11,93 @@ import library.data.CDData;
 import java.time.LocalDate;
 import java.util.List;
 
-<span class="fc" id="L14">public class MediaReportService {</span>
+/**
+ * Service class to generate reports on borrowed media and fines for users.
+ * &lt;p&gt;
+ * Provides methods to calculate total fines and generate detailed fine reports
+ * for books and CDs borrowed by a user.
+ * &lt;/p&gt;
+ * 
+ * @author Hamsa
+ * @version 1.0
+ */
+<span class="fc" id="L24">public class MediaReportService {</span>
 
+    /** Fixed fine amount for overdue books */
     private static final double BOOK_FINE = 10.0;
+
+    /** Fixed fine amount for overdue CDs */
     private static final double CD_FINE = 20.0;
 
+    /**
+     * Calculates the total fines for a specific user.
+     *
+     * @param userId the ID of the user
+     * @return the total fine amount for overdue books and CDs; returns 0.0 if user not found
+     */
     public double getTotalFines(String userId) {
-<span class="fc" id="L20">        User user = UserData.getUserById(userId);</span>
-<span class="pc bpc" id="L21" title="1 of 2 branches missed.">        if (user == null) return 0.0;</span>
+<span class="fc" id="L39">        User user = UserData.getUserById(userId);</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        if (user == null) return 0.0;</span>
 
-<span class="fc" id="L23">        double totalFine = 0.0;</span>
+<span class="fc" id="L42">        double totalFine = 0.0;</span>
 
-        // كتب متأخرة
-<span class="fc" id="L26">        List&lt;Loan&gt; loans = LoanData.getLoansByUser(userId);</span>
-<span class="fc bfc" id="L27" title="All 2 branches covered.">        for (Loan loan : loans) {</span>
-<span class="pc bpc" id="L28" title="2 of 4 branches missed.">            if (loan.getBook() != null &amp;&amp; LocalDate.now().isAfter(loan.getDueDate())) {</span>
-<span class="fc" id="L29">                totalFine += BOOK_FINE;</span>
+        // حساب الكتب المتأخرة
+<span class="fc" id="L45">        List&lt;Loan&gt; loans = LoanData.getLoansByUser(userId);</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        for (Loan loan : loans) {</span>
+<span class="pc bpc" id="L47" title="2 of 4 branches missed.">            if (loan.getBook() != null &amp;&amp; LocalDate.now().isAfter(loan.getDueDate())) {</span>
+<span class="fc" id="L48">                totalFine += BOOK_FINE;</span>
             }
-<span class="fc" id="L31">        }</span>
+<span class="fc" id="L50">        }</span>
 
-        // CDs متأخرة
-<span class="fc bfc" id="L34" title="All 2 branches covered.">        for (String cdId : user.getBorrowedCDs().keySet()) {</span>
-<span class="fc" id="L35">            LocalDate dueDate = user.getBorrowedCDs().get(cdId);</span>
-<span class="pc bpc" id="L36" title="1 of 2 branches missed.">            if (LocalDate.now().isAfter(dueDate)) {</span>
-<span class="fc" id="L37">                totalFine += CD_FINE;</span>
+        // حساب الأقراص CD المتأخرة
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        for (String cdId : user.getBorrowedCDs().keySet()) {</span>
+<span class="fc" id="L54">            LocalDate dueDate = user.getBorrowedCDs().get(cdId);</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">            if (LocalDate.now().isAfter(dueDate)) {</span>
+<span class="fc" id="L56">                totalFine += CD_FINE;</span>
             }
-<span class="fc" id="L39">        }</span>
+<span class="fc" id="L58">        }</span>
 
-<span class="fc" id="L41">        return totalFine;</span>
+<span class="fc" id="L60">        return totalFine;</span>
     }
 
+    /**
+     * Generates a detailed fine report for a specific user.
+     *
+     * @param userId the ID of the user
+     * @return a string containing detailed information about overdue books and CDs and the total fines,
+     *         or &quot;User not found&quot; if the user does not exist
+     */
     public String getDetailedFineReport(String userId) {
-<span class="fc" id="L45">        User user = UserData.getUserById(userId);</span>
-<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        if (user == null) return &quot;User not found&quot;;</span>
+<span class="fc" id="L71">        User user = UserData.getUserById(userId);</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if (user == null) return &quot;User not found&quot;;</span>
 
-<span class="fc" id="L48">        StringBuilder report = new StringBuilder();</span>
-<span class="fc" id="L49">        report.append(&quot;Fine Report for &quot;).append(user.getName()).append(&quot;:\n&quot;);</span>
+<span class="fc" id="L74">        StringBuilder report = new StringBuilder();</span>
+<span class="fc" id="L75">        report.append(&quot;Fine Report for &quot;).append(user.getName()).append(&quot;:\n&quot;);</span>
 
         // كتب متأخرة
-<span class="fc" id="L52">        List&lt;Loan&gt; loans = LoanData.getLoansByUser(userId);</span>
-<span class="fc bfc" id="L53" title="All 2 branches covered.">        for (Loan loan : loans) {</span>
-<span class="pc bpc" id="L54" title="2 of 4 branches missed.">            if (loan.getBook() != null &amp;&amp; LocalDate.now().isAfter(loan.getDueDate())) {</span>
-<span class="fc" id="L55">                Book book = loan.getBook();</span>
-<span class="fc" id="L56">                report.append(&quot;Book: &quot;).append(book.getTitle())</span>
-<span class="fc" id="L57">                      .append(&quot; - Fine: &quot;).append(BOOK_FINE).append(&quot; NIS\n&quot;);</span>
+<span class="fc" id="L78">        List&lt;Loan&gt; loans = LoanData.getLoansByUser(userId);</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        for (Loan loan : loans) {</span>
+<span class="pc bpc" id="L80" title="2 of 4 branches missed.">            if (loan.getBook() != null &amp;&amp; LocalDate.now().isAfter(loan.getDueDate())) {</span>
+<span class="fc" id="L81">                Book book = loan.getBook();</span>
+<span class="fc" id="L82">                report.append(&quot;Book: &quot;).append(book.getTitle())</span>
+<span class="fc" id="L83">                      .append(&quot; - Fine: &quot;).append(BOOK_FINE).append(&quot; NIS\n&quot;);</span>
             }
-<span class="fc" id="L59">        }</span>
+<span class="fc" id="L85">        }</span>
 
         // CDs متأخرة
-<span class="fc bfc" id="L62" title="All 2 branches covered.">        for (String cdId : user.getBorrowedCDs().keySet()) {</span>
-<span class="fc" id="L63">            LocalDate dueDate = user.getBorrowedCDs().get(cdId);</span>
-<span class="pc bpc" id="L64" title="1 of 2 branches missed.">            if (LocalDate.now().isAfter(dueDate)) {</span>
-<span class="fc" id="L65">                CD cd = CDData.getCD(cdId);</span>
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">                if (cd != null) {</span>
-<span class="fc" id="L67">                    report.append(&quot;CD: &quot;).append(cd.getCdId()) // ✅ تعديل هنا</span>
-<span class="fc" id="L68">                          .append(&quot; - Fine: &quot;).append(CD_FINE).append(&quot; NIS\n&quot;);</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        for (String cdId : user.getBorrowedCDs().keySet()) {</span>
+<span class="fc" id="L89">            LocalDate dueDate = user.getBorrowedCDs().get(cdId);</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">            if (LocalDate.now().isAfter(dueDate)) {</span>
+<span class="fc" id="L91">                CD cd = CDData.getCD(cdId);</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">                if (cd != null) {</span>
+<span class="fc" id="L93">                    report.append(&quot;CD: &quot;).append(cd.getCdId())</span>
+<span class="fc" id="L94">                          .append(&quot; - Fine: &quot;).append(CD_FINE).append(&quot; NIS\n&quot;);</span>
                 }
             }
-<span class="fc" id="L71">        }</span>
+<span class="fc" id="L97">        }</span>
 
-<span class="fc" id="L73">        report.append(&quot;Total fines: &quot;).append(getTotalFines(userId)).append(&quot; NIS\n&quot;);</span>
-<span class="fc" id="L74">        return report.toString();</span>
+<span class="fc" id="L99">        report.append(&quot;Total fines: &quot;).append(getTotalFines(userId)).append(&quot; NIS\n&quot;);</span>
+<span class="fc" id="L100">        return report.toString();</span>
     }
 }
-
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -4,21 +4,45 @@ import library.entities.Admin;
 import java.util.ArrayList;
 import java.util.List;
 
-<span class="nc" id="L7">public class AdminData {</span>
-<span class="nc" id="L8">    private static List&lt;Admin&gt; Admins = new ArrayList&lt;&gt;();</span>
-    
+/**
+ * Provides static data for Admin users in the system.
+ * Contains a list of Admin objects and methods to access them.
+ * &lt;p&gt;
+ * This class simulates a simple in-memory database for admin authentication.
+ * &lt;/p&gt;
+ * 
+ * @author Hamsa
+ * @version 1.0
+ */
+<span class="nc" id="L17">public class AdminData {</span>
+
+    /**
+     * List that stores all Admin users.
+     * This list is pre-populated with two sample Admins.
+     */
+<span class="nc" id="L23">    private static List&lt;Admin&gt; Admins = new ArrayList&lt;&gt;();</span>
+
+    /**
+     * Static block to initialize the list of Admins with sample data.
+     */
     static {
-<span class="nc" id="L11">        Admins.add(new Admin(&quot;admin1&quot;, &quot;pass123&quot;));</span>
-<span class="nc" id="L12">        Admins.add(new Admin(&quot;admin2&quot;, &quot;adminpass&quot;));</span>
-<span class="nc" id="L13">    }</span>
-    
+<span class="nc" id="L29">        Admins.add(new Admin(&quot;admin1&quot;, &quot;pass123&quot;));</span>
+<span class="nc" id="L30">        Admins.add(new Admin(&quot;admin2&quot;, &quot;adminpass&quot;));</span>
+<span class="nc" id="L31">    }</span>
+
+    /**
+     * Retrieves an Admin object by its username.
+     *
+     * @param username the username of the admin to search for
+     * @return the Admin object if found; otherwise returns null
+     */
     public static Admin getAdminByUsername(String username) {
-<span class="nc bnc" id="L16" title="All 2 branches missed.">        for (Admin admin : Admins) {</span>
-<span class="nc bnc" id="L17" title="All 2 branches missed.">            if (admin.getUsername().equalsIgnoreCase(username)) {</span>
-<span class="nc" id="L18">                return admin;</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        for (Admin admin : Admins) {</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (admin.getUsername().equalsIgnoreCase(username)) {</span>
+<span class="nc" id="L42">                return admin;</span>
             }
-<span class="nc" id="L20">        }</span>
-<span class="nc" id="L21">        return null;</span>
+<span class="nc" id="L44">        }</span>
+<span class="nc" id="L45">        return null;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

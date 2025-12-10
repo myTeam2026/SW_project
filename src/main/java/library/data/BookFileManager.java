@@ -5,18 +5,37 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Provides file-based data management for storing and loading books.
+ * <p>
+ * This class handles saving new books to a text file and loading all stored
+ * books from that file. Each book is stored in CSV format:
+ * <br><code>title,author,isbn</code>
+ * </p>
+ *
+ * @author Hamsa
+ * @version 1.1
+ */
 public class BookFileManager {
 
+    /** Path to the text file where books are stored. */
     private static final String FILE_PATH = "Files/books.txt";
 
-    // حفظ كتاب جديد في ملف الكتب
+    /**
+     * Saves a new book to the books file.
+     * <p>
+     * If the file or its parent directory does not exist, they will be created
+     * automatically. The book is appended in CSV format.
+     * </p>
+     *
+     * @param book the Book object to save
+     */
     public static void saveBookToFile(Book book) {
         try {
             File file = new File(FILE_PATH);
             file.getParentFile().mkdirs();
 
-            FileWriter fw = new FileWriter(file, true);
-            BufferedWriter bw = new BufferedWriter(fw);
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
             bw.write(book.getTitle() + "," + book.getAuthor() + "," + book.getISBN());
             bw.newLine();
             bw.close();
@@ -26,7 +45,15 @@ public class BookFileManager {
         }
     }
 
-    // قراءة جميع الكتب من الملف
+    /**
+     * Loads all books stored inside the file.
+     * <p>
+     * If the file does not exist, an empty list is returned. Each line is parsed
+     * into a {@link Book} object if it contains three comma-separated fields.
+     * </p>
+     *
+     * @return a list of all books found in the file
+     */
     public static List<Book> loadBooksFromFile() {
         List<Book> books = new ArrayList<>();
 

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StartPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">StartPanel.java</span></div><h1>StartPanel.java</h1><pre class="source lang-java linenums">package gui;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class StartPanel extends JPanel {
+
+<span class="nc" id="L8">    public StartPanel(MainFrame frame) {</span>
+
+<span class="nc" id="L10">        setLayout(null);</span>
+<span class="nc" id="L11">        setBackground(new Color(245, 246, 250));</span>
+
+<span class="nc" id="L13">        JLabel logo = new JLabel(&quot;A   H&quot;, SwingConstants.CENTER);</span>
+<span class="nc" id="L14">        logo.setFont(new Font(&quot;Serif&quot;, Font.BOLD, 64));</span>
+<span class="nc" id="L15">        logo.setForeground(new Color(35, 78, 142));</span>
+<span class="nc" id="L16">        logo.setBounds(0, 40, 1000, 80);</span>
+<span class="nc" id="L17">        add(logo);</span>
+
+<span class="nc" id="L19">        JLabel subtitle = new JLabel(&quot;Library System&quot;, SwingConstants.CENTER);</span>
+<span class="nc" id="L20">        subtitle.setFont(new Font(&quot;SansSerif&quot;, Font.PLAIN, 24));</span>
+<span class="nc" id="L21">        subtitle.setForeground(new Color(90, 90, 90));</span>
+<span class="nc" id="L22">        subtitle.setBounds(0, 110, 1000, 40);</span>
+<span class="nc" id="L23">        add(subtitle);</span>
+
+<span class="nc" id="L25">        RoundedButton btnAdmin = new RoundedButton(&quot;Admin Login&quot;);</span>
+<span class="nc" id="L26">        btnAdmin.setBounds(330, 220, 340, 55);</span>
+<span class="nc" id="L27">        stylePrimary(btnAdmin);</span>
+<span class="nc" id="L28">        add(btnAdmin);</span>
+
+<span class="nc" id="L30">        RoundedButton btnUser = new RoundedButton(&quot;User Login&quot;);</span>
+<span class="nc" id="L31">        btnUser.setBounds(330, 290, 340, 55);</span>
+<span class="nc" id="L32">        styleSecondary(btnUser);</span>
+<span class="nc" id="L33">        add(btnUser);</span>
+
+<span class="nc" id="L35">        RoundedButton btnRegister = new RoundedButton(&quot;Register New User&quot;);</span>
+<span class="nc" id="L36">        btnRegister.setBounds(330, 360, 340, 55);</span>
+<span class="nc" id="L37">        styleSecondary(btnRegister);</span>
+<span class="nc" id="L38">        add(btnRegister);</span>
+
+<span class="nc" id="L40">        RoundedButton btnExit = new RoundedButton(&quot;Exit&quot;);</span>
+<span class="nc" id="L41">        btnExit.setBounds(330, 430, 340, 55);</span>
+<span class="nc" id="L42">        styleDanger(btnExit);</span>
+<span class="nc" id="L43">        add(btnExit);</span>
+
+<span class="nc" id="L45">        btnAdmin.addActionListener(e -&gt; frame.showPanel(&quot;LOGIN_ADMIN&quot;));</span>
+<span class="nc" id="L46">        btnUser.addActionListener(e -&gt; frame.showPanel(&quot;LOGIN_USER&quot;));</span>
+<span class="nc" id="L47">        btnRegister.addActionListener(e -&gt; frame.showPanel(&quot;REGISTER&quot;));</span>
+<span class="nc" id="L48">        btnExit.addActionListener(e -&gt; System.exit(0));</span>
+<span class="nc" id="L49">    }</span>
+
+    private void stylePrimary(JButton btn) {
+<span class="nc" id="L52">        btn.setBackground(new Color(35, 78, 142));</span>
+<span class="nc" id="L53">        btn.setForeground(Color.WHITE);</span>
+<span class="nc" id="L54">        btn.setFont(new Font(&quot;SansSerif&quot;, Font.BOLD, 18));</span>
+<span class="nc" id="L55">    }</span>
+
+    private void styleSecondary(JButton btn) {
+<span class="nc" id="L58">        btn.setBackground(new Color(230, 230, 235));</span>
+<span class="nc" id="L59">        btn.setForeground(new Color(35, 78, 142));</span>
+<span class="nc" id="L60">        btn.setFont(new Font(&quot;SansSerif&quot;, Font.BOLD, 18));</span>
+<span class="nc" id="L61">    }</span>
+
+    private void styleDanger(JButton btn) {
+<span class="nc" id="L64">        btn.setBackground(new Color(180, 40, 40));</span>
+<span class="nc" id="L65">        btn.setForeground(Color.WHITE);</span>
+<span class="nc" id="L66">        btn.setFont(new Font(&quot;SansSerif&quot;, Font.BOLD, 18));</span>
+<span class="nc" id="L67">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

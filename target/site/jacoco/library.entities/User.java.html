@@ -4,90 +4,235 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a library user.
+ *
+ * &lt;p&gt;This class stores the user's ID, name, email, fine balance, borrowing permissions,
+ * account status, and borrowed CDs with their due dates.&lt;/p&gt;
+ * 
+ * @author Hamsa
+ * @version 1.0
+ */
 public class User {
+
+    /**
+     * The unique ID of the user.
+     */
     private String id;
+
+    /**
+     * The name of the user.
+     */
     private String name;
+
+    /**
+     * The email of the user.
+     */
     private String email;
+
+    /**
+     * The current fine balance of the user.
+     */
     private double fineBalance;
+
+    /**
+     * Indicates whether the user can borrow items.
+     */
     private boolean canBorrow;
+
+    /**
+     * Indicates whether the user account is active.
+     */
     private boolean isActive;
 
-    // خريطة لتخزين CDs المستعارة مع تاريخ الاستحقاق
+    /**
+     * Map storing borrowed CDs and their respective due dates.
+     */
     private Map&lt;String, LocalDate&gt; borrowedCDs;
 
-<span class="fc" id="L18">    public User(String id, String name, String email) {</span>
-<span class="fc" id="L19">        this.id = id;</span>
-<span class="fc" id="L20">        this.name = name;</span>
-<span class="fc" id="L21">        this.email = email;</span>
-<span class="fc" id="L22">        this.fineBalance = 0.0;</span>
-<span class="fc" id="L23">        this.canBorrow = true;</span>
-<span class="fc" id="L24">        this.isActive = true;</span>
-<span class="fc" id="L25">        this.borrowedCDs = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L26">    }</span>
+    /**
+     * The password of the user for authentication.
+     */
+    private String password;
+
+    // -------------------- Constructors --------------------
+
+    /**
+     * Constructs a new User with the specified ID, name, and email.
+     * Initializes fine balance to 0, allows borrowing, sets account as active,
+     * and initializes an empty borrowed CD map.
+     *
+     * @param id    the user's ID
+     * @param name  the user's name
+     * @param email the user's email
+     */
+<span class="fc" id="L69">    public User(String id, String name, String email) {</span>
+<span class="fc" id="L70">        this.id = id;</span>
+<span class="fc" id="L71">        this.name = name;</span>
+<span class="fc" id="L72">        this.email = email;</span>
+<span class="fc" id="L73">        this.fineBalance = 0.0;</span>
+<span class="fc" id="L74">        this.canBorrow = true;</span>
+<span class="fc" id="L75">        this.isActive = true;</span>
+<span class="fc" id="L76">        this.borrowedCDs = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L77">    }</span>
+
+    /**
+     * Constructs a new User with the specified ID, name, email, and password.
+     *
+     * @param id       the user's ID
+     * @param name     the user's name
+     * @param email    the user's email
+     * @param password the user's password
+     */
+    public User(String id, String name, String email, String password) {
+<span class="nc" id="L88">        this(id, name, email);</span>
+<span class="nc" id="L89">        this.password = password;</span>
+<span class="nc" id="L90">    }</span>
 
     // -------------------- Getters --------------------
-<span class="fc" id="L29">    public String getId() { return id; }</span>
-<span class="fc" id="L30">    public String getName() { return name; }</span>
-<span class="fc" id="L31">    public String getEmail() { return email; }</span>
-<span class="fc" id="L32">    public double getFineBalance() { return fineBalance; }</span>
-<span class="fc" id="L33">    public boolean canBorrow() { return canBorrow; }</span>
-<span class="fc" id="L34">    public boolean isActive() { return isActive; }</span>
-<span class="fc" id="L35">    public Map&lt;String, LocalDate&gt; getBorrowedCDs() { return borrowedCDs; } // مهم للتقرير</span>
+
+    public String getId() {
+<span class="fc" id="L95">        return id;</span>
+    }
+
+    public String getName() {
+<span class="fc" id="L99">        return name;</span>
+    }
+
+    public String getEmail() {
+<span class="fc" id="L103">        return email;</span>
+    }
+
+    public double getFineBalance() {
+<span class="fc" id="L107">        return fineBalance;</span>
+    }
+
+    public boolean canBorrow() {
+<span class="fc" id="L111">        return canBorrow;</span>
+    }
+
+    public boolean isActive() {
+<span class="fc" id="L115">        return isActive;</span>
+    }
+
+    /**
+     * Returns a map of borrowed CDs and their due dates.
+     *
+     * @return the borrowed CDs map
+     */
+    public Map&lt;String, LocalDate&gt; getBorrowedCDs() {
+<span class="fc" id="L124">        return borrowedCDs;</span>
+    }
+
+    /**
+     * Returns the user's password.
+     * 
+     * @return the password
+     */
+    public String getPassword() {
+<span class="nc" id="L133">        return password;</span>
+    }
 
     // -------------------- Setters --------------------
-    public void setFineBalance(double fineBalance) { 
-<span class="fc" id="L39">        this.fineBalance = fineBalance; </span>
-<span class="fc" id="L40">    }</span>
-    public void setCanBorrow(boolean canBorrow) { 
-<span class="fc" id="L42">        this.canBorrow = canBorrow; </span>
-<span class="fc" id="L43">    }</span>
+
+    public void setFineBalance(double fineBalance) {
+<span class="nc" id="L139">        this.fineBalance = fineBalance;</span>
+<span class="nc" id="L140">    }</span>
+
+    public void setCanBorrow(boolean canBorrow) {
+<span class="fc" id="L143">        this.canBorrow = canBorrow;</span>
+<span class="fc" id="L144">    }</span>
+
     public void setActive(boolean isActive) {
-<span class="fc" id="L45">        this.isActive = isActive;</span>
-<span class="fc" id="L46">    }</span>
+<span class="fc" id="L147">        this.isActive = isActive;</span>
+<span class="fc" id="L148">    }</span>
+
+    public void setPassword(String password) {
+<span class="nc" id="L151">        this.password = password;</span>
+<span class="nc" id="L152">    }</span>
+
+    /**
+     * Sets or updates the due date for a borrowed CD.
+     *
+     * @param cdId    the CD ID
+     * @param dueDate the new due date
+     */
+    public void setBorrowedCDDueDate(String cdId, LocalDate dueDate) {
+<span class="fc" id="L161">        borrowedCDs.put(cdId, dueDate);</span>
+<span class="fc" id="L162">    }</span>
 
     // -------------------- Fine Management --------------------
+
+    /**
+     * Adds a fine to the user's account and updates borrowing permissions.
+     *
+     * @param amount the fine amount to add
+     */
     public void addFine(double amount) {
-<span class="fc" id="L50">        this.fineBalance += amount;</span>
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        if (this.fineBalance &gt; 0) {</span>
-<span class="fc" id="L52">            this.canBorrow = false;</span>
+<span class="fc" id="L172">        this.fineBalance += amount;</span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">        if (this.fineBalance &gt; 0) {</span>
+<span class="fc" id="L174">            this.canBorrow = false;</span>
         }
-<span class="fc" id="L54">    }</span>
-    
+<span class="fc" id="L176">    }</span>
+
+    /**
+     * Pays a specified amount towards the user's fines and updates borrowing permissions.
+     *
+     * @param amount the amount to pay
+     */
     public void payFine(double amount) {
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        if (amount &lt;= 0) return;</span>
-        
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        if (amount &gt; this.fineBalance) {</span>
-<span class="nc" id="L60">            amount = this.fineBalance;</span>
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">        if (amount &lt;= 0) return;</span>
+
+<span class="fc bfc" id="L186" title="All 2 branches covered.">        if (amount &gt; this.fineBalance) {</span>
+<span class="fc" id="L187">            amount = this.fineBalance;</span>
         }
-        
-<span class="fc" id="L63">        this.fineBalance -= amount;</span>
-<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (this.fineBalance &lt;= 0) {</span>
-<span class="fc" id="L65">            this.fineBalance = 0;</span>
-<span class="fc" id="L66">            this.canBorrow = true;</span>
+
+<span class="fc" id="L190">        this.fineBalance -= amount;</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">        if (this.fineBalance &lt;= 0) {</span>
+<span class="fc" id="L192">            this.fineBalance = 0;</span>
+<span class="fc" id="L193">            this.canBorrow = true;</span>
         }
-<span class="fc" id="L68">    }</span>
+<span class="fc" id="L195">    }</span>
 
     // -------------------- CD Borrowing Management --------------------
+
+    /**
+     * Adds a borrowed CD with its due date to the user's account.
+     *
+     * @param cd      the borrowed CD
+     * @param dueDate the due date for returning the CD
+     */
     public void addBorrowedCD(CD cd, LocalDate dueDate) {
-<span class="fc" id="L72">        borrowedCDs.put(cd.getCdId(), dueDate);</span>
-<span class="fc" id="L73">    }</span>
+<span class="fc" id="L206">        borrowedCDs.put(cd.getCdId(), dueDate);</span>
+<span class="fc" id="L207">    }</span>
 
+    /**
+     * Returns the due date for a borrowed CD.
+     *
+     * @param cdId the CD ID
+     * @return the due date, or null if CD is not borrowed
+     */
     public LocalDate getBorrowedCDDueDate(String cdId) {
-<span class="fc" id="L76">        return borrowedCDs.get(cdId);</span>
+<span class="fc" id="L216">        return borrowedCDs.get(cdId);</span>
     }
 
+    /**
+     * Removes a returned CD from the user's borrowed CDs.
+     *
+     * @param cdId the CD ID
+     */
     public void returnCD(String cdId) {
-<span class="fc" id="L80">        borrowedCDs.remove(cdId);</span>
-<span class="fc" id="L81">    }</span>
+<span class="fc" id="L225">        borrowedCDs.remove(cdId);</span>
+<span class="fc" id="L226">    }</span>
 
+    /**
+     * Checks if the user has borrowed a specific CD.
+     *
+     * @param cdId the CD ID
+     * @return true if the CD is borrowed, false otherwise
+     */
     public boolean hasBorrowedCD(String cdId) {
-<span class="nc" id="L84">        return borrowedCDs.containsKey(cdId);</span>
+<span class="fc" id="L235">        return borrowedCDs.containsKey(cdId);</span>
     }
-    
-
-
-
-
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

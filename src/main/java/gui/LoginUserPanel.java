@@ -76,14 +76,13 @@ public class LoginUserPanel extends JPanel {
             frame.showPanel("USER");
 
             // =============== SEND EMAIL SAFELY ===============
-            if (user.getEmail() != null && !user.getEmail().trim().isEmpty()) {
-                EmailService emailService = new EmailService();
-                emailService.sendEmail(
-                        user.getEmail(),
-                        "Login Successful",
-                        "Hello " + user.getName() + ",\n\nYou have successfully logged into the Library System!"
-                );
-            }
+       EmailService emailService = new EmailService();
+emailService.sendReminder(
+    user.getEmail(),
+    "Login Successful",
+    "Hello " + user.getName() + ",\n\nYou have successfully logged into the Library System!"
+);
+
 
             JOptionPane.showMessageDialog(this, "Welcome, " + user.getName() + "!");
 

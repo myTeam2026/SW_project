@@ -1,50 +1,116 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BorrowCDService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">services</a> &gt; <span class="el_source">BorrowCDService.java</span></div><h1>BorrowCDService.java</h1><pre class="source lang-java linenums">/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package services;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BorrowCDService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">services</a> &gt; <span class="el_source">BorrowCDService.java</span></div><h1>BorrowCDService.java</h1><pre class="source lang-java linenums">package services;
 
 import library.entities.CD;
 import library.entities.User;
 import library.data.CDData;
+import library.data.LoanData;
+import library.entities.Loan;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-<span class="fc" id="L13">public class BorrowCDService {</span>
+/**
+ * Service class responsible for managing CD borrowing and returning operations
+ * within the library system.
+ *
+ * &lt;p&gt;This class handles borrowing validation (availability, user eligibility),
+ * assigns due dates, applies fines for late returns, and retrieves the list
+ * of CD loans for a user.&lt;/p&gt;
+ * 
+ * @author Hamsa
+ * @version 1.2
+ */
+public class BorrowCDService {
 
-    
+    /**
+     * Default constructor for BorrowCDService.
+     */
+<span class="fc" id="L29">    public BorrowCDService() {</span>
+        // No special initialization required
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * Attempts to borrow a CD for a given user.
+     *
+     * &lt;p&gt;The method validates the following conditions:
+     * &lt;ul&gt;
+     *     &lt;li&gt;User existence&lt;/li&gt;
+     *     &lt;li&gt;CD existence&lt;/li&gt;
+     *     &lt;li&gt;CD availability&lt;/li&gt;
+     *     &lt;li&gt;User borrowing eligibility&lt;/li&gt;
+     * &lt;/ul&gt;
+     * If successful, the CD is marked as unavailable, and the user is assigned
+     * a due date 7 days from the current date.&lt;/p&gt;
+     *
+     * @param cdId the ID of the CD to be borrowed
+     * @param user the {@link User} requesting the CD
+     * @return a message describing the result: &quot;Success&quot; or specific error
+     */
     public String borrowCD(String cdId, User user) {
-<span class="fc" id="L17">        CD cd = CDData.getCD(cdId);</span>
-<span class="pc bpc" id="L18" title="1 of 2 branches missed.">    if (cd == null) return &quot;Error: CD not found&quot;;</span>
-<span class="pc bpc" id="L19" title="1 of 2 branches missed.">    if (!cd.isAvailable()) return &quot;Error: CD is not available&quot;;</span>
-<span class="pc bpc" id="L20" title="1 of 2 branches missed.">    if (!user.canBorrow()) return &quot;Error: Cannot borrow - unpaid fines or restrictions&quot;;</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (user == null) return &quot;Error: User not found&quot;;</span>
 
-<span class="fc" id="L22">    LocalDate dueDate = LocalDate.now().plusDays(7);</span>
-<span class="fc" id="L23">    user.addBorrowedCD(cd, dueDate);</span>
-<span class="fc" id="L24">    cd.setAvailable(false);</span>
+<span class="fc" id="L53">        CD cd = CDData.getCD(cdId);</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (cd == null) return &quot;Error: CD not found&quot;;</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (!cd.isAvailable()) return &quot;Error: CD is not available&quot;;</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (!user.canBorrow()) return &quot;Error: User cannot borrow due to restrictions&quot;;</span>
 
-<span class="fc" id="L26">    return &quot;Success: CD borrowed successfully, due &quot; + dueDate;</span>
-}
-    
+<span class="fc" id="L58">        LocalDate dueDate = LocalDate.now().plusDays(7);</span>
+<span class="fc" id="L59">        user.addBorrowedCD(cd, dueDate);</span>
+<span class="fc" id="L60">        cd.setAvailable(false);</span>
 
-    
+<span class="fc" id="L62">        return &quot;Success: CD borrowed successfully&quot;;</span>
+    }
+
+    /**
+     * Returns a CD previously borrowed by a user.
+     *
+     * &lt;p&gt;The method checks user existence, CD existence, and whether
+     * the CD was actually borrowed by the user. A fine of 20.0 is applied
+     * if the CD is returned late.&lt;/p&gt;
+     *
+     * @param cdId the ID of the CD to return
+     * @param user the {@link User} returning the CD
+     * @return a message describing the result: &quot;Success&quot; or specific error
+     */
     public String returnCD(String cdId, User user) {
-<span class="nc" id="L32">        CD cd = CDData.getCD(cdId);</span>
-<span class="nc bnc" id="L33" title="All 2 branches missed.">    if (cd == null) return &quot;Error: CD not found&quot;;</span>
-<span class="nc bnc" id="L34" title="All 2 branches missed.">    if (!user.hasBorrowedCD(cdId)) return &quot;Error: User did not borrow this CD&quot;;</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (user == null) return &quot;Error: User not found&quot;;</span>
 
-<span class="nc" id="L36">    LocalDate dueDate = user.getBorrowedCDDueDate(cdId);</span>
-<span class="nc bnc" id="L37" title="All 2 branches missed.">    if (LocalDate.now().isAfter(dueDate)) {</span>
-<span class="nc" id="L38">        user.addFine(20.0);</span>
+<span class="fc" id="L79">        CD cd = CDData.getCD(cdId);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (cd == null) return &quot;Error: CD not found&quot;;</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (!user.hasBorrowedCD(cdId)) return &quot;Error: User did not borrow this CD&quot;;</span>
+
+<span class="fc" id="L83">        LocalDate dueDate = user.getBorrowedCDDueDate(cdId);</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        if (LocalDate.now().isAfter(dueDate)) {</span>
+<span class="fc" id="L85">            user.addFine(20.0);</span>
+        }
+
+<span class="fc" id="L88">        cd.setAvailable(true);</span>
+<span class="fc" id="L89">        user.returnCD(cdId);</span>
+
+<span class="fc" id="L91">        return &quot;Success: CD returned successfully&quot;;</span>
     }
 
-<span class="nc" id="L41">    cd.setAvailable(true);</span>
-<span class="nc" id="L42">    user.returnCD(cdId);</span>
+    /**
+     * Retrieves the list of CD loans associated with a specific user.
+     *
+     * &lt;p&gt;This method filters out non-CD loans, ensuring that the returned list
+     * contains only CD-related {@link Loan} objects.&lt;/p&gt;
+     *
+     * @param userId the ID of the user whose CD loans are requested
+     * @return a list of {@link Loan} objects representing CD loans
+     */
+    public List&lt;Loan&gt; getUserCDLoans(String userId) {
+<span class="nc" id="L104">        List&lt;Loan&gt; allLoans = LoanData.getLoansByUser(userId);</span>
+<span class="nc" id="L105">        List&lt;Loan&gt; cdLoans = new ArrayList&lt;&gt;();</span>
 
-<span class="nc" id="L44">    return &quot;Success: CD returned successfully&quot;;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        for (Loan loan : allLoans) {</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (loan.getCD() != null) {  // Assuming Loan class has getCD() method</span>
+<span class="nc" id="L109">                cdLoans.add(loan);</span>
+            }
+<span class="nc" id="L111">        }</span>
 
-        
+<span class="nc" id="L113">        return cdLoans;</span>
     }
 }
-
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

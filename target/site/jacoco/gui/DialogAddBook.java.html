@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DialogAddBook.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">DialogAddBook.java</span></div><h1>DialogAddBook.java</h1><pre class="source lang-java linenums">package gui;
+
+import javax.swing.*;
+import java.awt.*;
+
+import library.entities.Book;
+import services.add_book_service;
+import library.data.BookFileManager;
+
+public class DialogAddBook extends JDialog {
+
+    public DialogAddBook(MainFrame frame) {
+<span class="nc" id="L13">        super(frame, &quot;Add New Book&quot;, true);</span>
+<span class="nc" id="L14">        setSize(420, 330);</span>
+<span class="nc" id="L15">        setLocationRelativeTo(frame);</span>
+<span class="nc" id="L16">        setLayout(null);</span>
+
+<span class="nc" id="L18">        JLabel lblTitle = new JLabel(&quot;Title:&quot;);</span>
+<span class="nc" id="L19">        lblTitle.setBounds(40, 40, 120, 25);</span>
+<span class="nc" id="L20">        add(lblTitle);</span>
+
+<span class="nc" id="L22">        JTextField txtTitle = new JTextField();</span>
+<span class="nc" id="L23">        txtTitle.setBounds(140, 40, 220, 30);</span>
+<span class="nc" id="L24">        add(txtTitle);</span>
+
+<span class="nc" id="L26">        JLabel lblAuthor = new JLabel(&quot;Author:&quot;);</span>
+<span class="nc" id="L27">        lblAuthor.setBounds(40, 90, 120, 25);</span>
+<span class="nc" id="L28">        add(lblAuthor);</span>
+
+<span class="nc" id="L30">        JTextField txtAuthor = new JTextField();</span>
+<span class="nc" id="L31">        txtAuthor.setBounds(140, 90, 220, 30);</span>
+<span class="nc" id="L32">        add(txtAuthor);</span>
+
+<span class="nc" id="L34">        JLabel lblISBN = new JLabel(&quot;ISBN:&quot;);</span>
+<span class="nc" id="L35">        lblISBN.setBounds(40, 140, 120, 25);</span>
+<span class="nc" id="L36">        add(lblISBN);</span>
+
+<span class="nc" id="L38">        JTextField txtISBN = new JTextField();</span>
+<span class="nc" id="L39">        txtISBN.setBounds(140, 140, 220, 30);</span>
+<span class="nc" id="L40">        add(txtISBN);</span>
+
+<span class="nc" id="L42">        JButton btnAdd = new JButton(&quot;Add&quot;);</span>
+<span class="nc" id="L43">        btnAdd.setBounds(90, 210, 110, 40);</span>
+<span class="nc" id="L44">        btnAdd.setBackground(new Color(35, 78, 142));</span>
+<span class="nc" id="L45">        btnAdd.setForeground(Color.white);</span>
+<span class="nc" id="L46">        add(btnAdd);</span>
+
+<span class="nc" id="L48">        JButton btnCancel = new JButton(&quot;Cancel&quot;);</span>
+<span class="nc" id="L49">        btnCancel.setBounds(220, 210, 110, 40);</span>
+<span class="nc" id="L50">        add(btnCancel);</span>
+
+<span class="nc" id="L52">        btnAdd.addActionListener(e -&gt; {</span>
+<span class="nc" id="L53">            add_book_service service = new add_book_service();</span>
+
+<span class="nc" id="L55">            boolean ok = service.addBook(</span>
+<span class="nc" id="L56">                    txtTitle.getText(),</span>
+<span class="nc" id="L57">                    txtAuthor.getText(),</span>
+<span class="nc" id="L58">                    txtISBN.getText()</span>
+            );
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">            if (ok) {</span>
+
+<span class="nc" id="L63">                Book newBook = new Book(txtTitle.getText(), txtAuthor.getText(), txtISBN.getText());</span>
+<span class="nc" id="L64">                BookFileManager.saveBookToFile(newBook);   // ← ← تم إصلاح اسم الدالة</span>
+
+<span class="nc" id="L66">                JOptionPane.showMessageDialog(this, &quot;Book added &amp; saved!&quot;);</span>
+<span class="nc" id="L67">                dispose();</span>
+<span class="nc" id="L68">            } else {</span>
+<span class="nc" id="L69">                JOptionPane.showMessageDialog(this, &quot;Book already exists.&quot;);</span>
+            }
+<span class="nc" id="L71">        });</span>
+
+<span class="nc" id="L73">        btnCancel.addActionListener(e -&gt; dispose());</span>
+<span class="nc" id="L74">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

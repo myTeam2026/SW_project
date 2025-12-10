@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginUserPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">LoginUserPanel.java</span></div><h1>LoginUserPanel.java</h1><pre class="source lang-java linenums">package gui;
+
+import javax.swing.*;
+import java.awt.*;
+
+import library.entities.User;
+import services.EmailService;
+import library.data.UserData;
+
+public class LoginUserPanel extends JPanel {
+
+<span class="nc" id="L12">    public LoginUserPanel(MainFrame frame) {</span>
+
+<span class="nc" id="L14">        setLayout(null);</span>
+<span class="nc" id="L15">        setBackground(new Color(245, 246, 250));</span>
+
+<span class="nc" id="L17">        JLabel title = new JLabel(&quot;User Login&quot;, SwingConstants.CENTER);</span>
+<span class="nc" id="L18">        title.setFont(new Font(&quot;SansSerif&quot;, Font.BOLD, 34));</span>
+<span class="nc" id="L19">        title.setBounds(0, 40, 1000, 60);</span>
+<span class="nc" id="L20">        add(title);</span>
+
+<span class="nc" id="L22">        JLabel lblId = new JLabel(&quot;User ID:&quot;);</span>
+<span class="nc" id="L23">        lblId.setFont(new Font(&quot;SansSerif&quot;, Font.PLAIN, 20));</span>
+<span class="nc" id="L24">        lblId.setBounds(320, 170, 150, 30);</span>
+<span class="nc" id="L25">        add(lblId);</span>
+
+<span class="nc" id="L27">        JTextField txtId = new JTextField();</span>
+<span class="nc" id="L28">        txtId.setBounds(450, 170, 220, 35);</span>
+<span class="nc" id="L29">        add(txtId);</span>
+
+<span class="nc" id="L31">        JLabel lblPass = new JLabel(&quot;Password:&quot;);</span>
+<span class="nc" id="L32">        lblPass.setFont(new Font(&quot;SansSerif&quot;, Font.PLAIN, 20));</span>
+<span class="nc" id="L33">        lblPass.setBounds(320, 230, 150, 30);</span>
+<span class="nc" id="L34">        add(lblPass);</span>
+
+<span class="nc" id="L36">        JPasswordField txtPass = new JPasswordField();</span>
+<span class="nc" id="L37">        txtPass.setBounds(450, 230, 220, 35);</span>
+<span class="nc" id="L38">        add(txtPass);</span>
+
+<span class="nc" id="L40">        RoundedButton btnLogin = new RoundedButton(&quot;Login&quot;);</span>
+<span class="nc" id="L41">        btnLogin.setBounds(360, 330, 300, 55);</span>
+<span class="nc" id="L42">        add(btnLogin);</span>
+
+<span class="nc" id="L44">        RoundedButton btnBack = new RoundedButton(&quot;Back&quot;);</span>
+<span class="nc" id="L45">        btnBack.setBounds(360, 400, 300, 55);</span>
+<span class="nc" id="L46">        add(btnBack);</span>
+
+        // =====================================================
+        //                     LOGIN ACTION
+        // =====================================================
+<span class="nc" id="L51">        btnLogin.addActionListener(e -&gt; {</span>
+
+<span class="nc" id="L53">            String id = txtId.getText().trim();</span>
+<span class="nc" id="L54">            String pass = new String(txtPass.getPassword()).trim();</span>
+
+<span class="nc bnc" id="L56" title="All 4 branches missed.">            if (id.isEmpty() || pass.isEmpty()) {</span>
+<span class="nc" id="L57">                JOptionPane.showMessageDialog(this, &quot;Please fill all fields.&quot;);</span>
+<span class="nc" id="L58">                return;</span>
+            }
+
+<span class="nc" id="L61">            User user = UserData.getUserById(id);</span>
+
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (user == null) {</span>
+<span class="nc" id="L64">                JOptionPane.showMessageDialog(this, &quot;User not found.&quot;);</span>
+<span class="nc" id="L65">                return;</span>
+            }
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            if (!user.getPassword().equals(pass)) {</span>
+<span class="nc" id="L69">                JOptionPane.showMessageDialog(this, &quot;Incorrect password.&quot;);</span>
+<span class="nc" id="L70">                return;</span>
+            }
+
+            // =============== LOGIN SUCCESS ===============
+<span class="nc" id="L74">            frame.setCurrentUser(user);</span>
+<span class="nc" id="L75">            frame.loadUserPanel();</span>
+<span class="nc" id="L76">            frame.showPanel(&quot;USER&quot;);</span>
+
+            // =============== SEND EMAIL SAFELY ===============
+<span class="nc" id="L79">       EmailService emailService = new EmailService();</span>
+<span class="nc" id="L80">emailService.sendReminder(</span>
+<span class="nc" id="L81">    user.getEmail(),</span>
+    &quot;Login Successful&quot;,
+<span class="nc" id="L83">    &quot;Hello &quot; + user.getName() + &quot;,\n\nYou have successfully logged into the Library System!&quot;</span>
+);
+
+
+<span class="nc" id="L87">            JOptionPane.showMessageDialog(this, &quot;Welcome, &quot; + user.getName() + &quot;!&quot;);</span>
+
+<span class="nc" id="L89">        });</span>
+
+        // BACK BUTTON
+<span class="nc" id="L92">        btnBack.addActionListener(e -&gt; frame.showPanel(&quot;START&quot;));</span>
+<span class="nc" id="L93">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

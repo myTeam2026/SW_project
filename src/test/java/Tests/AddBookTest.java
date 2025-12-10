@@ -1,31 +1,57 @@
-
-    package Tests;
+package Tests;
 
 import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-
 import library.data.BookData;
 import library.entities.Book;
 import services.add_book_service;
 
+/**
+ * Unit test class for {@link add_book_service}.
+ * <p>
+ * Tests adding books to the library, including success cases and duplicate book prevention.
+ * </p>
+ * 
+ * @author Hamsa
+ * @version 1.0
+ */
 public class AddBookTest {
 
+    /** The service used to add books */
     private add_book_service bookService;
 
+    /**
+     * Sets up the test environment before each test.
+     * <p>
+     * Initializes the add_book_service and clears any existing books.
+     * </p>
+     */
     @Before
     public void setUp() {
         bookService = new add_book_service();
         BookData.clearBooks();
     }
 
+    /**
+     * Cleans up after each test.
+     * <p>
+     * Clears the books data to ensure a clean state for the next test.
+     * </p>
+     */
     @After
     public void tearDown() {
         BookData.clearBooks();
     }
 
+    /**
+     * Tests that adding a new book succeeds.
+     * <p>
+     * Verifies that the book is retrievable by ISBN and its properties are correct.
+     * </p>
+     */
     @Test
     public void testAddBookSuccess() {
         boolean result = bookService.addBook("Java Programming", "John Doe", "ISBN100");
@@ -38,6 +64,12 @@ public class AddBookTest {
         assertTrue("Book should be available", book.isAvailable());
     }
 
+    /**
+     * Tests that adding a duplicate book fails.
+     * <p>
+     * Verifies that trying to add a book with an existing ISBN returns false.
+     * </p>
+     */
     @Test
     public void testAddDuplicateBookFails() {
         bookService.addBook("Java Programming", "John Doe", "ISBN100");
@@ -45,5 +77,3 @@ public class AddBookTest {
         assertFalse("Adding duplicate book should fail", result);
     }
 }
-
-

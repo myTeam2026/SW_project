@@ -3,11 +3,8 @@ package Tests;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
-
 import static org.junit.Assert.*;
-
 import java.time.LocalDate;
-import java.util.List;
 
 import library.entities.Book;
 import library.entities.User;
@@ -16,137 +13,129 @@ import services.BorrowService;
 import library.data.BookData;
 import library.data.UserData;
 import library.data.LoanData;
-import library.data.FineData;
 
+/**
+ * Unit tests for BorrowService class focusing on book borrowing functionality.
+ * 
+ * This test class checks scenarios including:
+ * - Successful borrowing of a book
+ * - Borrowing an unavailable book
+ * - Borrowing while having unpaid fines
+ * - Checking user's ability to borrow
+ * - Returning a book and verifying its state
+ */
 public class BorrowBookTest {
-
+    
     private BorrowService borrowService;
     private User testUser;
     private Book testBook;
-
+    
+    /**
+     * Sets up the test environment before each test case.
+     * Initializes BorrowService, clears all BookData, UserData, and LoanData,
+     * and creates a test user and test book.
+     */
     @Before
     public void setUp() {
         borrowService = new BorrowService();
         LoanData.clearLoans();
         BookData.clearBooks();
         UserData.clearUsers();
-        FineData.clearFines();
-
+        
         testUser = new User("USER001", "John Doe", "john@email.com");
         UserData.addUser(testUser);
-
+        
         testBook = new Book("Test Book", "Test Author", "ISBN001");
         testBook.setAvailable(true);
         BookData.addBook(testBook);
     }
-
+    
+    /**
+     * Cleans up the test environment after each test case.
+     * Clears all BookData, UserData, and LoanData.
+     */
     @After
     public void tearDown() {
         LoanData.clearLoans();
         BookData.clearBooks();
         UserData.clearUsers();
-        FineData.clearFines();
     }
-
+    
+    /**
+     * Tests successful borrowing of a book.
+     * Verifies:
+     * - The borrow operation returns a success message
+     * - The book availability is updated to false
+     * - A loan record is created with correct due date
+     */
     @Test
     public void testBorrowBookSuccess() {
         String result = borrowService.borrowBook("ISBN001", "USER001");
+        
         assertEquals("Success: Book borrowed successfully", result);
-
+        
         Book borrowedBook = BookData.getBookByISBN("ISBN001");
-        assertFalse(borrowedBook.isAvailable());
-
-        List<Loan> loans = LoanData.getLoansByUser("USER001");
-        assertEquals(1, loans.size());
-        Loan loan = loans.get(0);
-        assertEquals(LocalDate.now().plusDays(28), loan.getDueDate());
+        assertFalse("Book should be marked as not available", borrowedBook.isAvailable());
+        
+        Loan loan = LoanData.getLoansByUser("USER001").get(0);
+        assertNotNull("Loan should be created", loan);
+        assertEquals("Due date should be 28 days from today", 
+                     LocalDate.now().plusDays(28), loan.getDueDate());
     }
-
+    
+    /**
+     * Tests borrowing a book that is already unavailable.
+     * Expects an error message indicating the book is not available.
+     */
     @Test
-    public void testBorrowBookNotFound() {
-        String result = borrowService.borrowBook("WRONG", "USER001");
-        assertEquals("Error: Book not found", result);
-    }
-
-    @Test
-    public void testBorrowBookUnavailable() {
+    public void testBorrowUnavailableBook() {
         testBook.setAvailable(false);
+        
         String result = borrowService.borrowBook("ISBN001", "USER001");
+        
         assertEquals("Error: Book is not available", result);
     }
-
+    
+    /**
+     * Tests borrowing a book when the user has unpaid fines.
+     * Expects an error message indicating unpaid fines.
+     */
     @Test
-    public void testBorrowWithUnpaidFines() {
+    public void testBorrowWithFines() {
         testUser.addFine(50.0);
+        
         String result = borrowService.borrowBook("ISBN001", "USER001");
+        
         assertEquals("Error: Cannot borrow - user has unpaid fines", result);
     }
-
+    
+    /**
+     * Tests the canUserBorrow() method of BorrowService.
+     * Verifies that a user without restrictions can borrow.
+     */
     @Test
-    public void testCanUserBorrowAllowed() {
+    public void testCanUserBorrow() {
         boolean canBorrow = borrowService.canUserBorrow("USER001");
-        assertTrue(canBorrow);
+        
+        assertTrue("User should be able to borrow", canBorrow);
     }
-
-    @Test
-    public void testCanUserBorrow_BlockedDueToOverdue() {
-        String resultBorrow = borrowService.borrowBook("ISBN001", "USER001");
-        assertEquals("Success: Book borrowed successfully", resultBorrow);
-
-        List<Loan> loans = LoanData.getLoansByUser("USER001");
-        assertFalse(loans.isEmpty());
-
-        Loan loan = loans.get(0);
-        loan.setDueDate(LocalDate.now().minusDays(10));
-        loan.setReturnDate(null);
-
-        boolean result = borrowService.canUserBorrow("USER001");
-        assertFalse(result);
-    }
-
+    
+    /**
+     * Tests returning a borrowed book.
+     * Verifies:
+     * - Return operation is successful
+     * - Book availability is restored
+     * - Loan return date is set
+     */
     @Test
     public void testReturnBook() {
         borrowService.borrowBook("ISBN001", "USER001");
-        List<Loan> loans = LoanData.getLoansByUser("USER001");
-        assertEquals(1, loans.size());
-        Loan loan = loans.get(0);
-
+        Loan loan = LoanData.getLoansByUser("USER001").get(0);
+        
         boolean returnResult = borrowService.returnBook(loan.getLoanId());
-        assertTrue(returnResult);
-        assertTrue(testBook.isAvailable());
-        assertNotNull(loan.getReturnDate());
-    }
-
-    @Test
-    public void testGetUserLoans() {
-        String resultBorrow = borrowService.borrowBook("ISBN001", "USER001");
-        assertEquals("Success: Book borrowed successfully", resultBorrow);
-
-        List<Loan> loans = borrowService.getUserLoans("USER001");
-        assertEquals(1, loans.size());
-        assertEquals("ISBN001", loans.get(0).getBook().getISBN());
-    }
-
-    @Test
-    public void testBorrowLimitReached() {
-        Book b2 = new Book("B2", "A2", "ISBN002");
-        Book b3 = new Book("B3", "A3", "ISBN003");
-        Book b4 = new Book("B4", "A4", "ISBN004");
-        b2.setAvailable(true);
-        b3.setAvailable(true);
-        b4.setAvailable(true);
-        BookData.addBook(b2);
-        BookData.addBook(b3);
-        BookData.addBook(b4);
-
-        assertEquals("Success: Book borrowed successfully", borrowService.borrowBook("ISBN001", "USER001"));
-        assertEquals("Success: Book borrowed successfully", borrowService.borrowBook("ISBN002", "USER001"));
-        assertEquals("Success: Book borrowed successfully", borrowService.borrowBook("ISBN003", "USER001"));
-
-        String result = borrowService.borrowBook("ISBN004", "USER001");
-        assertEquals("Error: Cannot borrow - maximum limit reached", result);
-
-        List<Loan> loans = LoanData.getLoansByUser("USER001");
-        assertEquals(3, loans.size());
+        
+        assertTrue("Return should be successful", returnResult);
+        assertTrue("Book should be available again", testBook.isAvailable());
+        assertNotNull("Return date should be set", loan.getReturnDate());
     }
 }

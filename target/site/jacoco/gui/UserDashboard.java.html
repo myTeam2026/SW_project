@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserDashboard.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">library</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">UserDashboard.java</span></div><h1>UserDashboard.java</h1><pre class="source lang-java linenums">package gui;
+
+import javax.swing.*;
+import java.awt.*;
+
+import library.entities.User;
+
+public class UserDashboard extends JFrame {
+
+<span class="nc" id="L10">    public UserDashboard(User currentUser) {</span>
+
+<span class="nc" id="L12">        setTitle(&quot;User Dashboard&quot;);</span>
+<span class="nc" id="L13">        setSize(900, 600);</span>
+<span class="nc" id="L14">        setLocationRelativeTo(null);</span>
+<span class="nc" id="L15">        setLayout(null);</span>
+<span class="nc" id="L16">        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+
+<span class="nc" id="L18">        getContentPane().setBackground(new Color(245, 246, 250));</span>
+
+<span class="nc" id="L20">        JLabel title = new JLabel(&quot;User Dashboard&quot;);</span>
+<span class="nc" id="L21">        title.setFont(new Font(&quot;Segoe UI&quot;, Font.BOLD, 36));</span>
+<span class="nc" id="L22">        title.setBounds(280, 40, 600, 40);</span>
+<span class="nc" id="L23">        add(title);</span>
+
+        // Buttons
+<span class="nc" id="L26">        JButton btnBorrowBook = makeButton(&quot;Borrow Book&quot;, 150, 150);</span>
+<span class="nc" id="L27">        JButton btnBorrowCD   = makeButton(&quot;Borrow CD&quot;,   480, 150);</span>
+<span class="nc" id="L28">        JButton btnMyLoans    = makeButton(&quot;My Loans / Fines&quot;, 150, 260);</span>
+<span class="nc" id="L29">        JButton btnResetPass  = makeButton(&quot;Reset Password&quot;,   480, 260);</span>
+<span class="nc" id="L30">        JButton btnLogout     = makeButton(&quot;Logout&quot;, 300, 380);</span>
+
+<span class="nc" id="L32">        add(btnBorrowBook);</span>
+<span class="nc" id="L33">        add(btnBorrowCD);</span>
+<span class="nc" id="L34">        add(btnMyLoans);</span>
+<span class="nc" id="L35">        add(btnResetPass);</span>
+<span class="nc" id="L36">        add(btnLogout);</span>
+
+        // ================== ACTIONS ==================
+
+<span class="nc" id="L40">        btnBorrowBook.addActionListener(e -&gt;</span>
+<span class="nc" id="L41">                new DialogBorrowBook(this, currentUser)</span>
+        );
+
+<span class="nc" id="L44">        btnBorrowCD.addActionListener(e -&gt;</span>
+<span class="nc" id="L45">                new DialogBorrowCD(this, currentUser)</span>
+        );
+
+<span class="nc" id="L48">        btnMyLoans.addActionListener(e -&gt;</span>
+<span class="nc" id="L49">                new MyLoansFinesDialog(this, currentUser)</span>
+        );
+
+<span class="nc" id="L52">        btnResetPass.addActionListener(e -&gt;</span>
+<span class="nc" id="L53">                new DialogResetPassword(this, currentUser)</span>
+        );
+
+<span class="nc" id="L56">        btnLogout.addActionListener(e -&gt; {</span>
+<span class="nc" id="L57">            dispose();</span>
+<span class="nc" id="L58">            new MainFrame().setVisible(true);</span>
+<span class="nc" id="L59">        });</span>
+
+<span class="nc" id="L61">        setVisible(true);</span>
+<span class="nc" id="L62">    }</span>
+
+    private JButton makeButton(String text, int x, int y) {
+<span class="nc" id="L65">        JButton btn = new JButton(text);</span>
+<span class="nc" id="L66">        btn.setBounds(x, y, 260, 70);</span>
+<span class="nc" id="L67">        btn.setFocusPainted(false);</span>
+<span class="nc" id="L68">        btn.setBackground(new Color(230, 230, 230));</span>
+<span class="nc" id="L69">        btn.setFont(new Font(&quot;Segoe UI&quot;, Font.BOLD, 16));</span>
+<span class="nc" id="L70">        return btn;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
