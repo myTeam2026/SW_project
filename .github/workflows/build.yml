@@ -35,11 +35,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2-
 
-      # 4️⃣ Build project and run tests with JaCoCo
+      # 4️⃣ Prepare JaCoCo agent for coverage
+      - name: Prepare JaCoCo agent
+        run: mvn jacoco:prepare-agent
+
+      # 5️⃣ Build project and run tests with JaCoCo
       - name: Build and Test with JaCoCo
         run: mvn clean verify jacoco:report
 
-      # 5️⃣ SonarCloud analysis
+      # 6️⃣ SonarCloud analysis
       - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
