@@ -42,6 +42,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.organization=myteam2026
+            -Dsonar.organization=myTeam2026
             -Dsonar.projectKey=myTeam2026_SW_project
             -Dsonar.java.binaries=.
