@@ -39,7 +39,7 @@ library,services,EmailService,13,62,2,8,3,17,3,8,1,5
 library,services,NotificationService,3,119,5,19,0,32,5,11,0,4
 library,services,UserService,19,82,6,20,7,18,5,15,1,6
 library,services,add_book_service,0,22,0,2,0,7,0,3,0,2
-library,services,EmailService.SmtpEmailSender.new Authenticator() {...},9,0,0,0,2,0,2,0,2,0
+library,services,EmailService.SmtpEmailSender.new Authenticator() {...},12,0,0,0,2,0,2,0,2,0
 library,services,BookSearchService,0,12,0,0,0,4,0,4,0,4
 library,services,EmailConfig,3,0,0,0,1,0,1,0,1,0
 library,services,CDService,36,71,10,8,8,25,8,8,1,6
