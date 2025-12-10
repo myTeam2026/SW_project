@@ -96,8 +96,5 @@ public class CD {
      *
      * @return a string in the format "title by artist"
      */
-    @Override
-    public String toString() {
-        return title + " by " + artist;
-    }
+    
 }

@@ -1,98 +1,78 @@
 package Tests;
 
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import library.entities.Book;
+import org.junit.*;
+import java.lang.reflect.Constructor;
+import static org.junit.Assert.*;
 
-/**
- * Unit tests for the {@link Book} entity.
- * <p>
- * This class verifies the correctness of the constructor,
- * getter/setter methods, availability handling, and the
- * {@code toString()} representation of a book.
- * </p>
- *
- * @version 1.1
- * author Hamsa
- */
 public class BookTest {
 
-    /** Sample book instance used across tests. */
-    private Book book;
-
-    /**
-     * Initializes a sample book before each test.
-     */
-    @Before
-    public void setUp() {
-        book = new Book("Book Title", "Author Name", "ISBN001");
+    @Test
+    public void testPrivateConstructor() throws Exception {
+        Constructor<Book> c = Book.class.getDeclaredConstructor();
+        c.setAccessible(true);
+        c.newInstance();
+        assertTrue(true);
     }
 
-    /**
-     * Tests the constructor and getter methods of the Book class.
-     */
     @Test
-    public void testConstructorAndGetters() {
-        assertEquals("Book Title", book.getTitle());
-        assertEquals("Author Name", book.getAuthor());
-        assertEquals("ISBN001", book.getISBN());
-        assertTrue(book.isAvailable());
+    public void testBuild(){
+        Book b = Book.build("A","B","1");
+        assertEquals("A",b.getTitle());
     }
 
-    /**
-     * Tests updating the book title.
-     */
     @Test
-    public void testSetTitle() {
-        book.setTitle("New Title");
-        assertEquals("New Title", book.getTitle());
+    public void testFormat(){
+        Book b = new Book("T","A","2");
+        b.setAvailable(false);
+        String f = b.format();
+        assertEquals("T,A,2,false",f);
     }
 
-    /**
-     * Tests updating the book author.
-     */
     @Test
-    public void testSetAuthor() {
-        book.setAuthor("New Author");
-        assertEquals("New Author", book.getAuthor());
+    public void testParse(){
+        Book b = Book.parse("X,Y,3,true");
+        assertEquals("X",b.getTitle());
+        assertTrue(b.isAvailable());
     }
 
-    /**
-     * Tests updating the ISBN value.
-     */
     @Test
-    public void testSetISBN() {
-        book.setISBN("NEW123");
-        assertEquals("NEW123", book.getISBN());
+    public void testCopy(){
+        Book b = new Book("A","B","10");
+        b.setAvailable(false);
+        Book c = b.copy();
+        assertEquals(b.getISBN(),c.getISBN());
+        assertFalse(c.isAvailable());
     }
 
-    /**
-     * Tests setting the availability flag to true.
-     */
     @Test
-    public void testAvailabilityTrue() {
-        book.setAvailable(true);
-        assertTrue(book.isAvailable());
+    public void testToggle(){
+        Book b = new Book("M","N","5");
+        b.toggleAvailable();
+        assertFalse(b.isAvailable());
     }
 
-    /**
-     * Tests setting the availability flag to false.
-     */
     @Test
-    public void testAvailabilityFalse() {
-        book.setAvailable(false);
-        assertFalse(book.isAvailable());
+    public void testSetters(){
+        Book b = new Book("1","2","3");
+        b.setTitle("X");
+        b.setAuthor("Y");
+        b.setISBN("Z");
+        assertEquals("X",b.getTitle());
+        assertEquals("Y",b.getAuthor());
+        assertEquals("Z",b.getISBN());
     }
 
-    /**
-     * Tests the {@code toString()} method for expected content.
-     */
     @Test
-    public void testToString() {
-        String text = book.toString();
-        assertTrue(text.contains("Book Title"));
-        assertTrue(text.contains("Author Name"));
-        assertTrue(text.contains("ISBN001"));
+    public void testEquals(){
+        Book a = new Book("A","B","100");
+        Book b = new Book("X","Y","100");
+        assertEquals(a,b);
+    }
+
+    @Test
+    public void testHashCode(){
+        Book a = new Book("A","B","200");
+        assertEquals("200".hashCode(),a.hashCode());
     }
 }

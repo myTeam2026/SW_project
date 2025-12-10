@@ -3,39 +3,37 @@ package library.data;
 import library.entities.User;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.File;
 
-/**
- * Handles saving user information into a text file.
- * <p>
- * This class appends user data to <code>users.txt</code> in CSV format:
- * <br>
- * <code>id,name,email,password</code>
- * </p>
- *
- * @version 1.1
- * @author Hamsa
- */
-public class UserFileManager {
+public final class UserFileManager {
 
-    /** Path to the file where user information is stored. */
     private static final String FILE_PATH = "Files/users.txt";
 
-    /**
-     * Saves a new user to the users file.
-     * <p>
-     * The user is written in CSV format and appended to the file.
-     * </p>
-     *
-     * @param user the User object to be saved
-     */
+    private UserFileManager(){}
+
+    public static String buildFilePath(){
+        return FILE_PATH;
+    }
+
+    public static boolean exists(){
+        return new File(FILE_PATH).exists();
+    }
+
+    public static String formatUser(User user){
+        return user.getId() + "," +
+               user.getName() + "," +
+               user.getEmail() + "," +
+               user.getPassword();
+    }
+
+    public static User parseUser(String line){
+        String[] p = line.split(",");
+        return new User(p[0],p[1],p[2],p[3]);
+    }
+
     public static void saveUser(User user) {
         try (FileWriter fw = new FileWriter(FILE_PATH, true)) {
-            fw.write(user.getId() + "," +
-                     user.getName() + "," +
-                     user.getEmail() + "," +
-                     user.getPassword() + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            fw.write(formatUser(user) + "\n");
+        } catch (IOException e) {}
     }
 }

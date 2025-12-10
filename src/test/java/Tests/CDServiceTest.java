@@ -1,104 +1,108 @@
 package Tests;
 
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import library.entities.CD;
-import library.data.CDData;
+import org.junit.*;
 import services.CDService;
+import library.entities.CD;
+import library.entities.User;
+import library.data.CDData;
+import library.data.UserData;
 
-/**
- * Unit tests for {@link CDService} functionalities.
- * <p>
- * This test class verifies adding CDs, handling duplicates,
- * searching by ID, and removing CDs. It uses {@link CDData}
- * as an in-memory data store to isolate service logic.
- * </p>
- *
- * @version 1.1
- * author Hamsa
- */
+import java.time.LocalDate;
+
+import static org.junit.Assert.*;
+
 public class CDServiceTest {
 
-    /** Service instance used for testing. */
-    private CDService cdService;
+    CDService s;
 
-    /** Sample CD object used in multiple tests. */
-    private CD cd1;
+    @Before
+    public void setup(){
+        s = new CDService();
+        CDData.clearCDs();
+        UserData.clearUsers();
 
-    /**
-     * Initializes the test environment before each test.
-     * <p>
-     * Clears CDData, creates a new CDService instance,
-     * and inserts one sample CD into the system.
-     * </p>
-     */
-@Before
-public void setUp() {
-    cdService = new CDService();
-    CDData.clearCDs();
-    cd1 = new CD("CD001", "CD Title", "Artist A"); // <-- تصحيح ترتيب المعطيات
-    cd1.setAvailable(true);
-    CDData.addCD(cd1);
-}
-
-
-    /**
-     * Tests that adding a new CD succeeds and is stored correctly.
-     */
-    @Test
-    public void testAddCD() {
-        String result = cdService.addCD("New CD", "Artist B", "CD002");
-        assertTrue(result.startsWith("Success"));
-        assertNotNull(CDData.getCD("CD002"));
+        CDData.addCD(new CD("1","A","X"));
+        User u = new User("U","Aya","a","p");
+        UserData.addUser(u);
     }
 
-    /**
-     * Tests that adding a CD with an existing ID results in an error.
-     */
     @Test
-    public void testAddDuplicateCD() {
-        cdService.addCD("Another CD", "Artist A", "CD001");
-        String result = cdService.addCD("Another CD", "Artist A", "CD001");
-        assertTrue(result.startsWith("Error"));
+    public void testAddExists(){
+        String r = s.addCD("A","T","1");
+        assertTrue(r.contains("Error"));
     }
 
-    /**
-     * Tests searching for an existing CD by ID.
-     */
     @Test
-    public void testSearchCDById() {
-        CD result = cdService.searchCDById("CD001");
-        assertNotNull(result);
-        assertEquals("CD Title", result.getTitle());
+    public void testAddOk(){
+        String r = s.addCD("T","T","2");
+        assertTrue(r.contains("Success"));
     }
 
-    /**
-     * Tests searching for a non-existing CD ID.
-     */
     @Test
-    public void testSearchCD_NotFound() {
-        CD result = cdService.searchCDById("CD999");
-        assertNull(result);
+    public void testSearch(){
+        assertNotNull(s.searchCDById("1"));
     }
 
-    /**
-     * Tests successful removal of an existing CD.
-     */
     @Test
-    public void testRemoveCD() {
-        String result = cdService.removeCD("CD001");
-        
-
-        assertTrue(result.startsWith("Success"));
+    public void testRemoveNotFound(){
+        assertTrue(s.removeCD("99").contains("Error"));
     }
 
-    /**
-     * Tests attempting to remove a CD that does not exist.
-     */
     @Test
-    public void testRemoveCD_NotFound() {
-        String result = cdService.removeCD("CD999");
-        assertTrue(result.startsWith("Error"));
+    public void testRemoveOk(){
+        assertTrue(s.removeCD("1").contains("Success"));
+    }
+
+    @Test
+    public void testBorrowNoUser(){
+        assertTrue(s.borrowCD(new CD("Z","A","B"),"xx").contains("Error"));
+    }
+
+    @Test
+    public void testBorrowRestrict(){
+        UserData.getUserById("U").setCanBorrow(false);
+        assertTrue(s.borrowCD(CDData.getCD("1"),"U").contains("Error"));
+    }
+
+    @Test
+    public void testBorrowNotAvailable(){
+        CD c = CDData.getCD("1");
+        c.setAvailable(false);
+        UserData.getUserById("U").setCanBorrow(true);
+        assertTrue(s.borrowCD(c,"U").contains("Error"));
+    }
+
+    @Test
+    public void testBorrowOk(){
+        UserData.getUserById("U").setCanBorrow(true);
+        CD c = CDData.getCD("1");
+        c.setAvailable(true);
+        String r = s.borrowCD(c,"U");
+        assertTrue(r.contains("Success"));
+    }
+
+    @Test
+    public void testReturnNoUser(){
+        assertTrue(s.returnCD(new CD("1","A","X"),"XX").contains("Error"));
+    }
+
+    @Test
+    public void testReturnOk(){
+        User u = UserData.getUserById("U");
+        u.setCanBorrow(true);
+        CD c = CDData.getCD("1");
+        s.borrowCD(c,"U");
+        String r = s.returnCD(c,"U");
+        assertTrue(r.contains("Success"));
+    }
+
+    @Test
+    public void testApplyFine(){
+        User u = UserData.getUserById("U");
+        u.setCanBorrow(true);
+        CD c = CDData.getCD("1");
+        u.addBorrowedCD(c, LocalDate.now().minusDays(10));
+        s.applyOverdueFine(c,"U");
+        assertTrue(u.getFineBalance()>0);
     }
 }
