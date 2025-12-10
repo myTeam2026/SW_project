@@ -1,7 +1,7 @@
 package Tests;
 
 import org.junit.*;
-import services.CDService;
+import library.services.CDService;
 import library.entities.CD;
 import library.entities.User;
 import library.data.CDData;

@@ -7,10 +7,10 @@ import static org.junit.Assert.*;
 
 import library.data.BookData;
 import library.entities.Book;
-import services.add_book_service;
+import library.services.AddBookService;
 
 /**
- * Unit test class for {@link add_book_service}.
+ * Unit test class for {@link AddBookService}.
  * <p>
  * Tests adding books to the library, including success cases and duplicate book prevention.
  * </p>
@@ -21,17 +21,17 @@ import services.add_book_service;
 public class AddBookTest {
 
     /** The service used to add books */
-    private add_book_service bookService;
+    private AddBookService bookService;
 
     /**
      * Sets up the test environment before each test.
      * <p>
-     * Initializes the add_book_service and clears any existing books.
-     * </p>
+ Initializes the AddBookService and clears any existing books.
+ </p>
      */
     @Before
     public void setUp() {
-        bookService = new add_book_service();
+        bookService = new AddBookService();
         BookData.clearBooks();
     }
 

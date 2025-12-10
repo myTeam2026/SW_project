@@ -8,12 +8,13 @@ import java.util.List;
  * Acts as an in-memory CD database.
  * Completely clean and predictable for unit testing.
  */
-public class CDData {
+public final class CDData {
 
-    /**
-     * Internal list storing CDs.
-     */
-    private static List<CD> cds = new ArrayList<>();
+    // منع إنشاء أي كائن من هذا الكلاس
+    private CDData() {}
+
+    // Internal list storing CDs
+    private static final List<CD> cds = new ArrayList<>();
 
     /**
      * Returns all CDs.

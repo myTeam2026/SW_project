@@ -1,7 +1,7 @@
 package Tests;
 
 import org.junit.*;
-import services.EmailService;
+import library.services.EmailService;
 
 import java.lang.reflect.Constructor;
 

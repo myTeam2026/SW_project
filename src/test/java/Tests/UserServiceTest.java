@@ -1,7 +1,7 @@
 package Tests;
 
 import org.junit.*;
-import services.UserService;
+import library.services.UserService;
 import library.entities.User;
 import library.entities.Loan;
 import library.data.*;

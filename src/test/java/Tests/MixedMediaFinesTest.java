@@ -12,8 +12,8 @@ import library.data.UserData;
 import library.data.BookData;
 import library.data.CDData;
 import library.data.LoanData;
-import services.MediaReportService;
-import services.CDService;
+import library.services.MediaReportService;
+
 
 import java.time.LocalDate;
 
@@ -26,7 +26,7 @@ import java.time.LocalDate;
 public class MixedMediaFinesTest {
 
     private MediaReportService reportService;
-    private CDService cdService;
+
     private User testUser;
     private Book testBook;
     private CD testCD;
@@ -47,7 +47,7 @@ public class MixedMediaFinesTest {
         LoanData.clearLoans();
 
         reportService = new MediaReportService();
-        cdService = new CDService();
+      
 
         testUser = new User("USER001", "John Doe", "john@email.com");
         UserData.addUser(testUser);

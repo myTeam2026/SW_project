@@ -6,37 +6,45 @@ import java.util.List;
 
 public final class AdminData {
 
-    private static List<Admin> Admins = new ArrayList<>();
+    // اسم المتغير أصبح camelCase لتجنب تحذيرات Sonar
+    private static List<Admin> admins = new ArrayList<>();
 
     static {
-        Admins.add(new Admin("admin1", "pass123"));
-        Admins.add(new Admin("admin2", "adminpass"));
+        admins.add(new Admin("admin1", "pass123"));
+        admins.add(new Admin("admin2", "adminpass"));
     }
 
+    // منع إنشاء أي كائن من هذا الكلاس
     private AdminData(){}
 
+    // إرجاع قائمة الأدمنز
     public static List<Admin> buildList(){
-        return Admins;
+        return admins;
     }
 
+    // عدد الأدمنز
     public static int size(){
-        return Admins.size();
+        return admins.size();
     }
 
+    // التحقق من وجود اسم مستخدم
     public static boolean exists(String username){
         return getAdminByUsername(username) != null;
     }
 
+    // مسح جميع الأدمنز
     public static void clear(){
-        Admins.clear();
+        admins.clear();
     }
 
+    // إضافة أدمن جديد
     public static void addAdmin(Admin admin){
-        Admins.add(admin);
+        admins.add(admin);
     }
 
+    // البحث عن أدمن حسب اسم المستخدم
     public static Admin getAdminByUsername(String username) {
-        for (Admin admin : Admins) {
+        for (Admin admin : admins) {
             if (admin.getUsername().equalsIgnoreCase(username)) {
                 return admin;
             }

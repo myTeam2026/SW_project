@@ -5,8 +5,8 @@ import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import services.EmailService;
-import services.NotificationService;
+import library.services.EmailService;
+import library.services.NotificationService;
 import library.entities.Book;
 import library.entities.User;
 import library.entities.Loan;

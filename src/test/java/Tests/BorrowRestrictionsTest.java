@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 import static org.junit.Assert.*;
-import services.BorrowService;
+import library.services.BorrowService;
 import library.entities.Book;
 import library.entities.User;
 import library.entities.Loan;

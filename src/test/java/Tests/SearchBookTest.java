@@ -1,12 +1,12 @@
 package Tests;
 
+import library.services.BookSearchService;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.List;
 
-import services.*;
 import library.data.BookData;
 import library.entities.Book;
 

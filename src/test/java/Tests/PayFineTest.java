@@ -6,7 +6,7 @@ import org.junit.After;
 import static org.junit.Assert.*;
 
 import library.entities.User;
-import services.FineService;
+import library.services.FineService;
 import library.data.UserData;
 
 /**
