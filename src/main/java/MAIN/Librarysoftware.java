@@ -1,6 +1,4 @@
-
-
-
+package MAIN;
 
 import services.EmailService;
 import services.NotificationService;
