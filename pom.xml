@@ -83,19 +83,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
-<<<<<<< HEAD
-=======
+
                 <configuration>
-                <exclude>
-                **/gui.class
-                </exclude>
-                
+              
                
                     <compilerArgs>
                         <arg>--enable-preview</arg>
                     </compilerArgs>
                 </configuration>
->>>>>>> 06864ae38be91c964a8a51fa721e21ad2be95fc2
+
             </plugin>
 
             <!-- JaCoCo Plugin -->
