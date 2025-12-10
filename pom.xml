@@ -18,7 +18,18 @@
         <sonar.organization>myTeam2026</sonar.organization>
         <sonar.projectKey>myTeam2026_SW_project</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    </properties>
+  
+    <!-- SonarCloud -->
+    <sonar.projectKey>myTeam2026_SW_project</sonar.projectKey>
+    <sonar.organization>myteam2026</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+    <!-- مسار الكلاسات المترجمة -->
+    <sonar.java.binaries>target/classes</sonar.java.binaries>
+
+    <!-- مسار تقرير JaCoCo XML -->
+    <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+</properties>
 
     <dependencies>
         <!-- JUnit 4 -->
