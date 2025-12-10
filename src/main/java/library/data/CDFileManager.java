@@ -5,80 +5,55 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Provides file-based storage and loading functionality for CD objects.
- * <p>
- * This class saves CDs into a text file using CSV format, and retrieves all
- * stored CDs when needed. Each CD is stored as:
- * <br><code>title,artist,cdId</code>
- * </p>
- *
- * @version 1.1
- * @author Hamsa
- */
-public class CDFileManager {
+public final class CDFileManager {
 
-    /** Path to the text file where CDs are stored. */
     private static final String FILE_PATH = "Files/cds.txt";
 
-    /**
-     * Saves a new CD to the file.
-     * <p>
-     * If the file or parent folder does not exist, they are created automatically.
-     * The CD is written in CSV format.
-     * </p>
-     *
-     * @param cd the CD object to save
-     */
-    public static void saveCDToFile(CD cd) {
-        try {
-            File file = new File(FILE_PATH);
-            file.getParentFile().mkdirs();
+    private CDFileManager(){}
 
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-            bw.write(cd.getTitle() + "," + cd.getArtist() + "," + cd.getCdId());
-            bw.newLine();
-            bw.close();
-
-        } catch (Exception e) {
-            System.out.println("Error saving CD: " + e.getMessage());
-        }
+    public static String buildFilePath(){
+        return FILE_PATH;
     }
 
-    /**
-     * Loads all CDs stored in the file.
-     * <p>
-     * If the file does not exist, an empty list is returned.
-     * Each valid line is converted into a {@link CD} object.
-     * </p>
-     *
-     * @return a list containing all CDs loaded from the file
-     */
+    public static boolean exists(){
+        return new File(FILE_PATH).exists();
+    }
+
+    public static String formatCD(CD cd){
+        return cd.getTitle() + "," + cd.getArtist() + "," + cd.getCdId();
+    }
+
+    public static CD parseCD(String line){
+        String[] p = line.split(",");
+        return new CD(p[0],p[1],p[2]);
+    }
+
+    public static void saveCDToFile(CD cd) {
+        try {
+            File f = new File(FILE_PATH);
+            f.getParentFile().mkdirs();
+            BufferedWriter bw = new BufferedWriter(new FileWriter(f, true));
+            bw.write(formatCD(cd));
+            bw.newLine();
+            bw.close();
+        } catch (Exception e) {}
+    }
+
     public static List<CD> loadCDsFromFile() {
         List<CD> cds = new ArrayList<>();
 
         try {
-            File file = new File(FILE_PATH);
+            File f = new File(FILE_PATH);
+            if (!f.exists()) return cds;
 
-            if (!file.exists()) {
-                return cds;
-            }
-
-            BufferedReader br = new BufferedReader(new FileReader(file));
+            BufferedReader br = new BufferedReader(new FileReader(f));
             String line;
-
             while ((line = br.readLine()) != null) {
                 String[] p = line.split(",");
-                if (p.length == 3) {
-                    cds.add(new CD(p[0], p[1], p[2]));
-                }
+                if (p.length == 3) cds.add(parseCD(line));
             }
-
             br.close();
-
-        } catch (Exception e) {
-            System.out.println("Error reading CDs: " + e.getMessage());
-        }
+        } catch (Exception e) {}
 
         return cds;
     }

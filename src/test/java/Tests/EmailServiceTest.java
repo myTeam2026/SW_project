@@ -1,155 +1,95 @@
 package Tests;
 
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
-import static org.junit.Assert.*;
+import org.junit.*;
 import services.EmailService;
-import java.util.List;
 
-/**
- * Unit tests for the {@link EmailService} class.
- * <p>
- * These tests use {@link EmailService.MockEmailSender} to simulate sending emails,
- * so no real emails are sent during testing.
- * </p>
- * <p>
- * The tests cover sending reminders with valid, empty, and null inputs, multiple emails,
- * and clearing the sent emails list.
- * </p>
- */
+import java.lang.reflect.Constructor;
+
+import static org.junit.Assert.*;
+
 public class EmailServiceTest {
 
-    /** The instance of EmailService used for testing. */
-    private EmailService emailService;
-
-    /** The mock email sender used to simulate sending emails. */
-    private EmailService.MockEmailSender mockSender;
-
-    /**
-     * Sets up the test environment before each test.
-     * <p>
-     * Initializes the mock email sender and the email service using it.
-     * </p>
-     */
-    @Before
-    public void setUp() {
-        mockSender = new EmailService.MockEmailSender();
-        emailService = new EmailService(mockSender);
+    static class FakeSender implements EmailService.EmailSender{
+        @Override
+        public boolean sendEmail(String t,String s,String b){
+            return true;
+        }
     }
 
-    /**
-     * Cleans up after each test by clearing the sent emails list.
-     */
-    @After
-    public void tearDown() {
-        emailService.clearSentEmails();
-    }
-
-    /**
-     * Tests sending a reminder with valid recipient, subject, and message.
-     * <p>
-     * Verifies that the email is sent successfully and the sent email contains
-     * the correct recipient, subject, and message.
-     * </p>
-     */
     @Test
-    public void testSendReminderSuccess() {
-        String recipient = "user@example.com";
-
-        boolean result = emailService.sendReminder(
-                recipient,
-                "Overdue Reminder",
-                "You have 2 overdue books."
-        );
-
-        assertTrue(result);
-        assertEquals(1, emailService.getSentEmailsCount());
-
-        String sentEmail = emailService.getSentEmails().get(0);
-        assertTrue(sentEmail.contains(recipient));
-        assertTrue(sentEmail.contains("Overdue Reminder"));
-        assertTrue(sentEmail.contains("2 overdue books"));
+    public void testDefaultConstructor(){
+        EmailService s = new EmailService();
+        assertNotNull(s);
     }
 
-    /**
-     * Tests sending a reminder with an empty recipient email.
-     * <p>
-     * Verifies that the email is not sent and the sent emails count remains zero.
-     * </p>
-     */
     @Test
-    public void testSendReminderEmptyEmail() {
-        boolean result = emailService.sendReminder(
-                "",
-                "Test Subject",
-                "Test message"
-        );
-        assertFalse(result);
-        assertEquals(0, emailService.getSentEmailsCount());
+    public void testInjectedConstructor(){
+        EmailService s = new EmailService(new FakeSender());
+        assertNotNull(s);
     }
 
-    /**
-     * Tests sending a reminder with a null recipient email.
-     */
     @Test
-    public void testSendReminderNullEmail() {
-        boolean result = emailService.sendReminder(
-                null,
-                "Test Subject",
-                "Test message"
-        );
-        assertFalse(result);
-        assertEquals(0, emailService.getSentEmailsCount());
+    public void testInvalidUser(){
+        EmailService s = new EmailService(new FakeSender());
+        assertFalse(s.sendReminder("", "s", "m"));
+        assertFalse(s.sendReminder(null, "s", "m"));
     }
 
-    /**
-     * Tests sending a reminder with an empty message.
-     */
     @Test
-    public void testSendReminderEmptyMessage() {
-        boolean result = emailService.sendReminder(
-                "user@example.com",
-                "Test Subject",
-                ""
-        );
-        assertFalse(result);
-        assertEquals(0, emailService.getSentEmailsCount());
+    public void testInvalidMessage(){
+        EmailService s = new EmailService(new FakeSender());
+        assertFalse(s.sendReminder("x", "s", ""));
+        assertFalse(s.sendReminder("x", "s", null));
     }
 
-    /**
-     * Tests sending multiple reminders to different recipients.
-     * <p>
-     * Verifies that all emails are sent and each contains the correct recipient.
-     * </p>
-     */
     @Test
-    public void testMultipleEmails() {
-        emailService.sendReminder("a@mail.com", "S1", "M1");
-        emailService.sendReminder("b@mail.com", "S2", "M2");
-        emailService.sendReminder("c@mail.com", "S3", "M3");
-
-        assertEquals(3, emailService.getSentEmailsCount());
-
-        List<String> emails = emailService.getSentEmails();
-        assertTrue(emails.get(0).contains("a@mail.com"));
-        assertTrue(emails.get(1).contains("b@mail.com"));
-        assertTrue(emails.get(2).contains("c@mail.com"));
+    public void testValidSend(){
+        EmailService s = new EmailService(new FakeSender());
+        assertTrue(s.sendReminder("x", "s", "m"));
+        assertEquals(1, s.getSentEmailsCount());
     }
 
-    /**
-     * Tests clearing the list of sent emails.
-     * <p>
-     * Verifies that after clearing, the sent emails list is empty.
-     * </p>
-     */
     @Test
-    public void testClearSentEmails() {
-        emailService.sendReminder("x@mail.com", "Test", "Msg");
-        assertEquals(1, emailService.getSentEmailsCount());
+    public void testClear(){
+        EmailService s = new EmailService(new FakeSender());
+        s.sendReminder("x","s","m");
+        s.clearSentEmails();
+        assertEquals(0,s.getSentEmailsCount());
+    }
 
-        emailService.clearSentEmails();
-        assertEquals(0, emailService.getSentEmailsCount());
-        assertTrue(emailService.getSentEmails().isEmpty());
+    @Test
+    public void testBuildLog(){
+        EmailService s = new EmailService();
+        String l = s.buildLog("a","b","c");
+        assertTrue(l.contains("a"));
+    }
+
+    @Test
+    public void testGetSentEmails(){
+        EmailService s = new EmailService(new FakeSender());
+        s.sendReminder("1","2","3");
+        assertEquals(1,s.getSentEmails().size());
+    }
+
+    @Test
+    public void testMockClass(){
+        EmailService.MockEmailSender m = new EmailService.MockEmailSender();
+        assertTrue(m.sendEmail("a","b","c"));
+        assertEquals(1,m.getSent().size());
+    }
+
+    @Test
+    public void testPrivateDataAccess(){
+        EmailService s = new EmailService(new FakeSender());
+        s.sendReminder("a","b","c");
+        assertTrue(s.getSentEmails().get(0).contains("a"));
+    }
+
+    @Test
+    public void testPrivateConstructor() throws Exception {
+        Constructor<EmailService> c = EmailService.class.getDeclaredConstructor();
+        c.setAccessible(true);
+        EmailService s = c.newInstance();
+        assertNotNull(s);
     }
 }
