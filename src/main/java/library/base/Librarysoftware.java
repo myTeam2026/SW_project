@@ -1,4 +1,4 @@
-package library.MAIN;
+package library.base;
 
 import library.services.EmailService;
 import library.services.NotificationService;
