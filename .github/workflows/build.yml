@@ -35,7 +35,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2-
 
-      # 4️⃣ Build project, run tests, and generate JaCoCo report
+      # 4️⃣ Build project and run tests with JaCoCo
       - name: Build and Test with JaCoCo
         run: mvn clean verify jacoco:report
 
@@ -43,9 +43,4 @@ jobs:
       - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn sonar:sonar \
-          -Dsonar.projectKey=myTeam2026_SW_project \
-          -Dsonar.organization=myteam2026 \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.java.binaries=target/classes \
-          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+        run: mvn sonar:sonar -Dsonar.projectKey=myTeam2026_SW_project -Dsonar.organization=myteam2026 -Dsonar.host.url=https://sonarcloud.io -Dsonar.java.binaries=target/classes -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
