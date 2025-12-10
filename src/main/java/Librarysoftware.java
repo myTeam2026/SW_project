@@ -22,10 +22,5 @@ public final class Librarysoftware {
     }
 
     public static void main(String[] args) {
-        EmailService emailService = new EmailService(new EmailService.SmtpEmailSender());
-        boolean testSent = testEmail(emailService);
-        if (testSent) System.out.println("OK");
-        else System.out.println("FAIL");
-        NotificationService notificationService = buildNotification(emailService);
-    }
+         }
 }
